@@ -20,7 +20,8 @@ pub(crate) struct Parameters {
     cursor_in_beats: Arc<AtomicF32>,
     gl_context_valid: Arc<AtomicBool>,
     pub(crate) orchestrator: Arc<Mutex<Orchestrator>>,
-    #[persist = "editor-state"]
+    // v2 resets instances saved with the previous oversized editor dimensions.
+    #[persist = "editor-state-v2"]
     pub(crate) editor_state: Arc<EguiState>,
     #[persist = "selected-snippet"]
     pub(crate) selected_snippet: AtomicUsize,

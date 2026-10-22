@@ -5,6 +5,7 @@ use nih_plug::editor::Editor;
 use nih_plug_egui::{
     create_egui_editor,
     egui::{self, containers::ScrollArea},
+    resizable_window::ResizableWindow,
     EguiSettings,
 };
 
@@ -16,7 +17,10 @@ mod piano_roll;
 
 pub(crate) use piano_roll::Event as PianoRollEvent;
 
-pub(crate) const WINDOW_SIZE: (u32, u32) = (700, 734);
+// A compact first-open size keeps the code area and Run controls on screen in
+// common Windows plugin hosts. Longer code and console output scroll instead
+// of forcing the editor to start taller than the host window.
+pub(crate) const WINDOW_SIZE: (u32, u32) = (560, 420);
 
 pub(crate) fn create_editor(
     params: Arc<Parameters>,
@@ -34,32 +38,48 @@ pub(crate) fn create_editor(
         EguiSettings::default(),
         |_, _, _| {},
         move |egui_ctx, _setter, _queue, state| {
-            egui::TopBottomPanel::top("tabbar")
-                .show_separator_line(false)
-                .exact_height(42.0)
-                .show(egui_ctx, |ui| {
-                    tab_bar(ui, params.clone());
-                });
-
-            egui::TopBottomPanel::bottom("console")
-                .exact_height(200.0)
-                .show_separator_line(false)
-                .show(egui_ctx, |ui| bottom_panel(ui, state, &params, &pipe_out));
-
-            // per egui docs the CentralPanel should always go last
             let bg = egui::Visuals::default().faint_bg_color;
-            egui::CentralPanel::default()
-                .frame(egui::Frame::default().inner_margin(7.0).fill(bg))
-                .show(egui_ctx, |ui| {
-                    let rect = ui.available_rect_before_wrap();
+            ResizableWindow::new("kotoist-window")
+                .min_size(egui::vec2(480.0, 360.0))
+                .show(egui_ctx, &params.editor_state, |root| {
+                    egui::Frame::default()
+                        .inner_margin(7.0)
+                        .fill(bg)
+                        .show(root, |ui| {
+                            let width = ui.available_width();
+                            let height = ui.available_height();
+                            let tab_height = 42.0_f32.min(height);
+                            let console_height = 110.0_f32.min((height - tab_height).max(0.0));
+                            let editor_height = (height - tab_height - console_height).max(0.0);
 
-                    ui.scope_builder(egui::UiBuilder::new().max_rect(rect), |ui| {
-                        piano_roll.draw(ui);
-                    });
+                            ui.allocate_ui_with_layout(
+                                egui::vec2(width, tab_height),
+                                egui::Layout::left_to_right(egui::Align::Center),
+                                |ui| tab_bar(ui, params.clone()),
+                            );
 
-                    ui.scope_builder(egui::UiBuilder::new().max_rect(rect), |ui| {
-                        text_editor(egui_ctx, ui, state, &params);
-                    });
+                            ui.allocate_ui_with_layout(
+                                egui::vec2(width, editor_height),
+                                egui::Layout::top_down(egui::Align::Min),
+                                |ui| {
+                                    let rect = ui.available_rect_before_wrap();
+
+                                    ui.scope_builder(egui::UiBuilder::new().max_rect(rect), |ui| {
+                                        piano_roll.draw(ui);
+                                    });
+
+                                    ui.scope_builder(egui::UiBuilder::new().max_rect(rect), |ui| {
+                                        text_editor(egui_ctx, ui, state, &params);
+                                    });
+                                },
+                            );
+
+                            ui.allocate_ui_with_layout(
+                                egui::vec2(width, console_height),
+                                egui::Layout::top_down(egui::Align::Min),
+                                |ui| bottom_panel(ui, state, &params, &pipe_out),
+                            );
+                        });
                 });
         },
     )
@@ -119,70 +139,73 @@ fn text_editor(
     state: &mut GuiState,
     params: &Arc<Parameters>,
 ) {
-    ScrollArea::both().stick_to_bottom(true).show(ui, |ui| {
-        // we need to sync the state
-        {
-            let index = params.selected_snippet_index();
-            if let Some(snippet) = params
-                .snippets
-                .try_read()
-                .ok()
-                .as_ref()
-                .and_then(|s| s.get(index))
+    ScrollArea::both()
+        .auto_shrink([false, false])
+        .stick_to_bottom(false)
+        .show(ui, |ui| {
+            // we need to sync the state
             {
-                if state.text_buffer != snippet.code {
-                    state.text_buffer = snippet.code.clone();
+                let index = params.selected_snippet_index();
+                if let Some(snippet) = params
+                    .snippets
+                    .try_read()
+                    .ok()
+                    .as_ref()
+                    .and_then(|s| s.get(index))
+                {
+                    if state.text_buffer != snippet.code {
+                        state.text_buffer = snippet.code.clone();
+                    }
                 }
             }
-        }
 
-        let output = CodeEditor::default()
-            .id_source("code editor")
-            .with_rows(31)
-            .with_fontsize(13.0)
-            .vscroll(false)
-            .with_theme(ColorTheme::AYU_MIRAGE)
-            .with_syntax(koto_syntax())
-            .with_numlines(true)
-            .show(ui, &mut state.text_buffer);
+            let output = CodeEditor::default()
+                .id_source("code editor")
+                .with_rows(31)
+                .with_fontsize(13.0)
+                .vscroll(false)
+                .with_theme(ColorTheme::AYU_MIRAGE)
+                .with_syntax(koto_syntax())
+                .with_numlines(true)
+                .show(ui, &mut state.text_buffer);
 
-        if output.response.changed() {
-            let index = params.selected_snippet_index();
-            params.send_interpreter_msg(InterpreterMessage::SetSnippetCode(
-                index,
-                state.text_buffer.clone(),
-            ));
-        }
-
-        let selected_text = output
-            .cursor_range
-            .map(|text_cursor_range| {
-                use egui::TextBuffer as _;
-                let selected_chars = text_cursor_range.as_sorted_char_range();
-                state.text_buffer.char_range(selected_chars)
-            })
-            .unwrap_or_default();
-
-        if ui.response().interact(egui::Sense::click()).clicked() {
-            output.response.request_focus();
-        }
-
-        ctx.input_mut(|i| {
-            // Cmd-Enter - eval all/selection
-            if i.consume_shortcut(&egui::KeyboardShortcut::new(
-                egui::Modifiers::COMMAND,
-                egui::Key::Enter,
-            )) {
-                let code = if selected_text.is_empty() {
-                    &state.text_buffer
-                } else {
-                    selected_text
-                };
-
-                params.send_interpreter_msg(InterpreterMessage::EvalCode(code.to_owned()));
+            if output.response.changed() {
+                let index = params.selected_snippet_index();
+                params.send_interpreter_msg(InterpreterMessage::SetSnippetCode(
+                    index,
+                    state.text_buffer.clone(),
+                ));
             }
+
+            let selected_text = output
+                .cursor_range
+                .map(|text_cursor_range| {
+                    use egui::TextBuffer as _;
+                    let selected_chars = text_cursor_range.as_sorted_char_range();
+                    state.text_buffer.char_range(selected_chars)
+                })
+                .unwrap_or_default();
+
+            if ui.response().interact(egui::Sense::click()).clicked() {
+                output.response.request_focus();
+            }
+
+            ctx.input_mut(|i| {
+                // Cmd-Enter - eval all/selection
+                if i.consume_shortcut(&egui::KeyboardShortcut::new(
+                    egui::Modifiers::COMMAND,
+                    egui::Key::Enter,
+                )) {
+                    let code = if selected_text.is_empty() {
+                        &state.text_buffer
+                    } else {
+                        selected_text
+                    };
+
+                    params.send_interpreter_msg(InterpreterMessage::EvalCode(code.to_owned()));
+                }
+            });
         });
-    });
 }
 
 fn bottom_panel(
