@@ -49,7 +49,7 @@ impl Default for Kotoist {
 }
 
 impl Plugin for Kotoist {
-    const NAME: &'static str = "Kotoist";
+    const NAME: &'static str = "Dexter U.S. Kotoist";
     const VENDOR: &'static str = "Dexter U.S.";
     const URL: &'static str = "https://kotoist.alestsurko.by";
     const EMAIL: &'static str = "ales.tsurko@gmail.com";

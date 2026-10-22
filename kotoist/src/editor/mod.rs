@@ -249,16 +249,12 @@ fn bottom_panel(
             state.file_name = "My Script".to_owned();
             state.file_notice.clear();
         }
-        ui.with_layout(
-            egui::Layout::right_to_left(egui::Align::Center),
-            |ui| {
-                if ui.button("🚀 Run").clicked() {
-                    params.send_interpreter_msg(InterpreterMessage::EvalCode(
-                        state.text_buffer.clone(),
-                    ));
-                }
-            },
-        );
+        ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+            if ui.button("🚀 Run").clicked() {
+                params
+                    .send_interpreter_msg(InterpreterMessage::EvalCode(state.text_buffer.clone()));
+            }
+        });
     });
     ScrollArea::both().stick_to_bottom(true).show(ui, |ui| {
         let pipe = pipe_out.lock().unwrap();
@@ -311,7 +307,7 @@ fn script_files_dialog(ctx: &egui::Context, state: &mut GuiState, params: &Arc<P
         .show(ctx, |ui| {
             match script_files::directory() {
                 Ok(directory) => {
-                    ui.small(format!("Local scripts: {}", directory.display()));
+                    ui.small(format!("Plugin scripts: {}", directory.display()));
                     ui.separator();
 
                     match mode {

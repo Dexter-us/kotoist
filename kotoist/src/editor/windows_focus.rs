@@ -9,9 +9,9 @@ use winapi::shared::{
 use winapi::um::{
     commctrl::{DefSubclassProc, RemoveWindowSubclass, SetWindowSubclass},
     winuser::{
-        SetFocus, DLGC_WANTALLKEYS, DLGC_WANTARROWS, DLGC_WANTCHARS, DLGC_WANTTAB, MA_ACTIVATE,
-        WM_GETDLGCODE, WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_MOUSEACTIVATE, WM_MOUSEMOVE,
-        WM_NCDESTROY, WM_RBUTTONDOWN, WM_XBUTTONDOWN,
+        SetFocus, DLGC_WANTALLKEYS, DLGC_WANTARROWS, DLGC_WANTCHARS, DLGC_WANTTAB, WM_GETDLGCODE,
+        WM_LBUTTONDOWN, WM_LBUTTONUP, WM_MBUTTONDOWN, WM_MBUTTONUP, WM_MOUSEMOVE, WM_NCDESTROY,
+        WM_RBUTTONDOWN, WM_RBUTTONUP, WM_XBUTTONDOWN, WM_XBUTTONUP,
     },
 };
 
@@ -26,6 +26,10 @@ pub(crate) fn install(handle: &impl HasWindowHandle) -> Result<(), String> {
         RawWindowHandle::Win32(handle) => handle.hwnd.get() as HWND,
         _ => return Err("The editor did not return a Windows window handle.".into()),
     };
+    install_hwnd(hwnd)
+}
+
+fn install_hwnd(hwnd: HWND) -> Result<(), String> {
     if unsafe { SetWindowSubclass(hwnd, Some(focus_proc), SUBCLASS_ID, 0) } == 0 {
         return Err(format!(
             "Could not install the editor focus handler: {}",
@@ -44,18 +48,22 @@ unsafe extern "system" fn focus_proc(
     _reference_data: DWORD_PTR,
 ) -> LRESULT {
     match message {
-        // A child editor embedded in a plugin host can otherwise receive its
-        // first click without activating the native editor window.
-        WM_MOUSEACTIVATE => return MA_ACTIVATE as LRESULT,
-        WM_LBUTTONDOWN | WM_MBUTTONDOWN | WM_RBUTTONDOWN | WM_XBUTTONDOWN => {
-            // baseview button events use its last pointer position; forward the
-            // click's actual client coordinates first to avoid stale hit tests.
-            let _ = DefSubclassProc(hwnd, WM_MOUSEMOVE, wparam, lparam);
-            let result = DefSubclassProc(hwnd, message, wparam, lparam);
-            // Do this after default handling too: some hosts restore their
-            // parent focus while dispatching the initial mouse-down.
-            SetFocus(hwnd);
-            return result;
+        WM_LBUTTONDOWN | WM_LBUTTONUP | WM_MBUTTONDOWN | WM_MBUTTONUP | WM_RBUTTONDOWN
+        | WM_RBUTTONUP | WM_XBUTTONDOWN | WM_XBUTTONUP => {
+            if matches!(
+                message,
+                WM_LBUTTONDOWN | WM_MBUTTONDOWN | WM_RBUTTONDOWN | WM_XBUTTONDOWN
+            ) {
+                // Focus before forwarding the click. Some plugin hosts restore
+                // parent focus while processing the child window's default
+                // mouse handler, so setting focus afterward is too late.
+                SetFocus(hwnd);
+            }
+
+            // baseview button events reuse its last cursor position. Refresh it
+            // with the click's real client coordinates before sending the
+            // button event so the widget hit-test and click land together.
+            DefSubclassProc(hwnd, WM_MOUSEMOVE, wparam, lparam);
         }
         WM_GETDLGCODE => {
             return DefSubclassProc(hwnd, message, wparam, lparam)
@@ -67,4 +75,59 @@ unsafe extern "system" fn focus_proc(
         _ => {}
     }
     DefSubclassProc(hwnd, message, wparam, lparam)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::ptr::null_mut;
+    use winapi::um::winuser::{
+        CreateWindowExW, DestroyWindow, GetFocus, SendMessageW, WS_CHILD, WS_OVERLAPPEDWINDOW,
+    };
+
+    #[test]
+    fn first_click_moves_keyboard_focus_to_the_editor_child() {
+        let class: Vec<u16> = "STATIC\0".encode_utf16().collect();
+        let title: Vec<u16> = "Kotoist focus test\0".encode_utf16().collect();
+        unsafe {
+            let parent = CreateWindowExW(
+                0,
+                class.as_ptr(),
+                title.as_ptr(),
+                WS_OVERLAPPEDWINDOW,
+                0,
+                0,
+                120,
+                100,
+                null_mut(),
+                null_mut(),
+                null_mut(),
+                null_mut(),
+            );
+            assert!(!parent.is_null(), "Could not create test parent");
+
+            let child = CreateWindowExW(
+                0,
+                class.as_ptr(),
+                title.as_ptr(),
+                WS_CHILD,
+                0,
+                0,
+                100,
+                80,
+                parent,
+                null_mut(),
+                null_mut(),
+                null_mut(),
+            );
+            assert!(!child.is_null(), "Could not create test child");
+
+            install_hwnd(child).unwrap();
+            SetFocus(parent);
+            SendMessageW(child, WM_LBUTTONDOWN, 0, 0);
+            assert_eq!(GetFocus(), child);
+
+            DestroyWindow(parent);
+        }
+    }
 }

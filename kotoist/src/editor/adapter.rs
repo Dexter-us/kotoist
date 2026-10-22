@@ -58,7 +58,10 @@ impl Editor for KotoistEditor {
         };
         let parent = NativeParent(parent);
         let settings = EguiWindowSettings::new()
-            .with_title(format!("Kotoist VST3 v{}", env!("CARGO_PKG_VERSION")))
+            .with_title(format!(
+                "Dexter U.S. Kotoist v{}",
+                env!("CARGO_PKG_VERSION")
+            ))
             .with_size(PhysicalSize::new(size.0, size.1))
             // Native host DPI is already applied to the parent; use only the
             // host-reported scale as egui's logical zoom factor.

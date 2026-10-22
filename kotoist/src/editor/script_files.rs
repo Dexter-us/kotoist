@@ -3,12 +3,53 @@ use std::path::{Path, PathBuf};
 
 const MAX_SCRIPT_BYTES: u64 = 1024 * 1024;
 
+#[cfg(windows)]
 pub(crate) fn directory() -> Result<PathBuf, String> {
-    #[cfg(windows)]
-    let base = std::env::var_os("LOCALAPPDATA")
-        .map(PathBuf::from)
-        .ok_or_else(|| "Windows did not provide the LOCALAPPDATA folder.".to_owned())?;
+    use std::ffi::OsString;
+    use std::os::windows::ffi::OsStringExt;
+    use winapi::shared::minwindef::HMODULE;
+    use winapi::um::libloaderapi::{
+        GetModuleFileNameW, GetModuleHandleExW, GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
+        GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+    };
 
+    let mut module: HMODULE = std::ptr::null_mut();
+    let address = directory as *const () as *const u16;
+    let flags =
+        GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT;
+    if unsafe { GetModuleHandleExW(flags, address, &mut module) } == 0 {
+        return Err(format!(
+            "Could not locate the Kotoist plugin module: {}",
+            std::io::Error::last_os_error()
+        ));
+    }
+
+    let mut buffer = vec![0_u16; 32_768];
+    let length = unsafe { GetModuleFileNameW(module, buffer.as_mut_ptr(), buffer.len() as u32) };
+    if length == 0 || length as usize >= buffer.len() {
+        return Err(format!(
+            "Could not read the Kotoist plugin path: {}",
+            std::io::Error::last_os_error()
+        ));
+    }
+
+    let module_file = PathBuf::from(OsString::from_wide(&buffer[..length as usize]));
+    let bundle = module_file.ancestors().find(|ancestor| {
+        ancestor
+            .extension()
+            .is_some_and(|extension| extension.to_string_lossy().eq_ignore_ascii_case("vst3"))
+            && ancestor.is_dir()
+    });
+    let plugin_root = bundle
+        .map(PathBuf::from)
+        .or_else(|| module_file.parent().map(Path::to_path_buf))
+        .ok_or_else(|| "Could not find the Kotoist plugin folder.".to_owned())?;
+
+    Ok(plugin_root.join("Dexter U.S. Kotoist").join("Scripts"))
+}
+
+#[cfg(not(windows))]
+pub(crate) fn directory() -> Result<PathBuf, String> {
     #[cfg(target_os = "macos")]
     let base = std::env::var_os("HOME")
         .map(PathBuf::from)
@@ -30,16 +71,17 @@ pub(crate) fn directory() -> Result<PathBuf, String> {
     let base = std::env::current_dir()
         .map_err(|error| format!("Could not find a local data folder: {error}"))?;
 
-    Ok(base
-        .join("Dexter U.S.")
-        .join("Kotoist")
-        .join("Scripts"))
+    Ok(base.join("Dexter U.S.").join("Kotoist").join("Scripts"))
 }
 
 pub(crate) fn list() -> Result<Vec<PathBuf>, String> {
     let directory = directory()?;
     fs::create_dir_all(&directory)
-        .map_err(|error| format!("Could not create the Kotoist script folder: {error}"))?;
+        .map_err(|error| {
+            format!(
+                "Could not create the script folder inside the plugin: {error}. If Kotoist is installed under Program Files, move the .vst3 bundle to a user-writable VST3 folder."
+            )
+        })?;
 
     let mut files = fs::read_dir(&directory)
         .map_err(|error| format!("Could not read the Kotoist script folder: {error}"))?
@@ -88,10 +130,18 @@ pub(crate) fn save(name: &str, contents: &str) -> Result<PathBuf, String> {
     let name = normalize_name(name)?;
     let directory = directory()?;
     fs::create_dir_all(&directory)
-        .map_err(|error| format!("Could not create the Kotoist script folder: {error}"))?;
+        .map_err(|error| {
+            format!(
+                "Could not create the script folder inside the plugin: {error}. If Kotoist is installed under Program Files, move the .vst3 bundle to a user-writable VST3 folder."
+            )
+        })?;
 
     let path = directory.join(format!("{name}.koto"));
-    fs::write(&path, contents).map_err(|error| format!("Could not save the script: {error}"))?;
+    fs::write(&path, contents).map_err(|error| {
+        format!(
+            "Could not save the script inside the plugin: {error}. If Kotoist is installed under Program Files, move the .vst3 bundle to a user-writable VST3 folder."
+        )
+    })?;
     Ok(path)
 }
 
@@ -117,14 +167,15 @@ fn normalize_name(name: &str) -> Result<String, String> {
         return Err("Enter a file name without Windows path or reserved characters.".to_owned());
     }
 
-    let device_name = name.split('.').next().unwrap_or_default().to_ascii_uppercase();
+    let device_name = name
+        .split('.')
+        .next()
+        .unwrap_or_default()
+        .to_ascii_uppercase();
     let reserved = matches!(device_name.as_str(), "CON" | "PRN" | "AUX" | "NUL")
         || ["COM", "LPT"].iter().any(|prefix| {
             device_name.strip_prefix(prefix).is_some_and(|suffix| {
-                matches!(
-                    suffix,
-                    "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-                )
+                matches!(suffix, "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9")
             })
         });
     if reserved {
