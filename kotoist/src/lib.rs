@@ -25,6 +25,15 @@ mod orchestrator;
 mod parameters;
 mod pipe;
 
+#[cfg(feature = "standalone")]
+mod cli;
+
+/// Export a Koto script to a Standard MIDI File from the standalone CLI.
+#[cfg(feature = "standalone")]
+pub fn run_midi_cli(args: &[String]) -> Result<(), String> {
+    cli::run(args)
+}
+
 const NUM_CHANNELS: u32 = 2;
 
 /// Plugin entry-point.

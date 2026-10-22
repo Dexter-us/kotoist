@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "kotoist/**"
+      - "vendor/egui-baseview/**"
       - "xtask/**"
       - "Cargo.toml"
       - ".cargo/**"
@@ -36,6 +37,22 @@ jobs:
       - name: Build VST3 bundle
         run: cargo xtask bundle -p kotoist --release
 
+      - name: Build MIDI CLI
+        run: cargo build -p kotoist --bin kotoist --features standalone --release
+
+      - name: Test MIDI CLI and Windows focus hooks
+        run: cargo test -p kotoist --lib --features standalone
+
+      - name: Smoke-test MIDI export
+        shell: pwsh
+        run: |
+          $output = Join-Path $env:RUNNER_TEMP "kotoist-smoke.mid"
+          & "target/release/kotoist.exe" midi "kotoist/examples/midi-export-demo.koto" $output --bpm 120 --bars 1
+          if ($LASTEXITCODE -ne 0) { throw "Kotoist MIDI export smoke test failed" }
+          $bytes = [System.IO.File]::ReadAllBytes($output)
+          if ($bytes.Length -lt 50) { throw "MIDI output has no note data" }
+          if ([System.Text.Encoding]::ASCII.GetString($bytes, 0, 4) -ne "MThd") { throw "Output is not a Standard MIDI File" }
+
       - name: Package versioned VST3
         shell: pwsh
         run: |
@@ -43,6 +60,24 @@ jobs:
           if (-not $bundle) { throw "No .vst3 bundle found under target/bundled" }
           $archive = "kotoist-windows-vst3-v${{ steps.version.outputs.version }}.zip"
           Compress-Archive -Path $bundle.FullName -DestinationPath $archive -Force
+
+      - name: Package versioned MIDI CLI
+        shell: pwsh
+        run: |
+          $package = "kotoist-midi-cli"
+          New-Item -ItemType Directory -Force -Path $package | Out-Null
+          Copy-Item "target/release/kotoist.exe" "$package/kotoist.exe" -Force
+          Copy-Item "kotoist/CLI.md" "$package/README.txt" -Force
+          $archive = "kotoist-windows-midi-cli-v${{ steps.version.outputs.version }}.zip"
+          Compress-Archive -Path "$package/*" -DestinationPath $archive -Force
+
+      - name: Upload MIDI CLI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kotoist-windows-midi-cli-v${{ steps.version.outputs.version }}
+          path: kotoist-windows-midi-cli-v${{ steps.version.outputs.version }}.zip
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Upload VST3 artifact
         uses: actions/upload-artifact@v4

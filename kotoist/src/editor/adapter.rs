@@ -152,17 +152,6 @@ impl App for EditorApp {
 
     fn ui(&mut self, ui: &mut egui::Ui, frame: &mut Frame) {
         #[cfg(windows)]
-        {
-            // Mirror Glicol's workaround for embedded windows that do not gain
-            // native keyboard focus automatically on the first mouse click.
-            let clicked = ui.ctx().input(|input| input.pointer.any_pressed());
-            let window = frame.baseview_window();
-            if clicked && !window.has_focus() {
-                let _ = window.focus();
-            }
-        }
-
-        #[cfg(windows)]
         super::windows_native_resize::before_draw(frame.baseview_window());
         draw_editor_ui(
             ui,

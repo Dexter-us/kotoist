@@ -4,18 +4,34 @@ use raw_window_handle::{HasWindowHandle, RawWindowHandle};
 use winapi::shared::{
     basetsd::{DWORD_PTR, UINT_PTR},
     minwindef::{LPARAM, LRESULT, UINT, WPARAM},
-    windef::HWND,
+    windef::{HWND, RECT},
 };
 use winapi::um::{
     commctrl::{DefSubclassProc, RemoveWindowSubclass, SetWindowSubclass},
     winuser::{
-        SetFocus, DLGC_WANTALLKEYS, DLGC_WANTARROWS, DLGC_WANTCHARS, DLGC_WANTTAB, WM_GETDLGCODE,
+        GetClientRect, GetUpdateRect, GetWindowRect, IsWindow, SetFocus, ValidateRect, DLGC_WANTALLKEYS, DLGC_WANTARROWS, DLGC_WANTCHARS, DLGC_WANTTAB, WM_GETDLGCODE,
         WM_LBUTTONDOWN, WM_LBUTTONUP, WM_MBUTTONDOWN, WM_MBUTTONUP, WM_MOUSEMOVE, WM_NCDESTROY,
-        WM_RBUTTONDOWN, WM_RBUTTONUP, WM_XBUTTONDOWN, WM_XBUTTONUP,
+        WM_PAINT, WM_RBUTTONDOWN, WM_RBUTTONUP, WM_XBUTTONDOWN, WM_XBUTTONUP,
     },
 };
 
 const SUBCLASS_ID: UINT_PTR = 0x4B4F544F;
+
+unsafe fn paint_bounds(hwnd: HWND) -> Option<[i32; 6]> {
+    let mut outer: RECT = std::mem::zeroed();
+    let mut client: RECT = std::mem::zeroed();
+    if GetWindowRect(hwnd, &mut outer) == 0 || GetClientRect(hwnd, &mut client) == 0 {
+        return None;
+    }
+    Some([
+        outer.left,
+        outer.top,
+        outer.right,
+        outer.bottom,
+        client.right - client.left,
+        client.bottom - client.top,
+    ])
+}
 
 pub(crate) fn install(handle: &impl HasWindowHandle) -> Result<(), String> {
     let hwnd = match handle
@@ -48,6 +64,23 @@ unsafe extern "system" fn focus_proc(
     _reference_data: DWORD_PTR,
 ) -> LRESULT {
     match message {
+        WM_PAINT => {
+            // egui renders the full child window. Some hosts leave a stale
+            // partial update region after the GL paint, which can generate a
+            // paint storm and starve mouse and keyboard messages.
+            let mut update = std::mem::zeroed();
+            let had_damage = GetUpdateRect(hwnd, &mut update, 0) != 0;
+            let before = paint_bounds(hwnd);
+            let result = DefSubclassProc(hwnd, message, wparam, lparam);
+            if had_damage
+                && IsWindow(hwnd) != 0
+                && before.is_some()
+                && before == paint_bounds(hwnd)
+            {
+                ValidateRect(hwnd, std::ptr::null());
+            }
+            return result;
+        }
         WM_LBUTTONDOWN | WM_LBUTTONUP | WM_MBUTTONDOWN | WM_MBUTTONUP | WM_RBUTTONDOWN
         | WM_RBUTTONUP | WM_XBUTTONDOWN | WM_XBUTTONUP => {
             if matches!(
@@ -130,4 +163,71 @@ mod tests {
             DestroyWindow(parent);
         }
     }
+    unsafe extern "system" fn partial_paint(
+        hwnd: HWND,
+        message: UINT,
+        wparam: WPARAM,
+        lparam: LPARAM,
+        _id: UINT_PTR,
+        _data: DWORD_PTR,
+    ) -> LRESULT {
+        if message == WM_PAINT {
+            let mut client: RECT = std::mem::zeroed();
+            GetClientRect(hwnd, &mut client);
+            client.right = client.right.min(8);
+            ValidateRect(hwnd, &client);
+            return 0;
+        }
+        DefSubclassProc(hwnd, message, wparam, lparam)
+    }
+
+    #[test]
+    fn full_frame_paint_clears_stale_partial_damage() {
+        use winapi::um::winuser::{
+            CreateWindowExW, GetUpdateRect, InvalidateRect, SendMessageW, WS_CHILD,
+            WS_OVERLAPPEDWINDOW,
+        };
+        let class: Vec<u16> = "STATIC\0".encode_utf16().collect();
+        unsafe {
+            let parent = CreateWindowExW(
+                0,
+                class.as_ptr(),
+                class.as_ptr(),
+                WS_OVERLAPPEDWINDOW,
+                0,
+                0,
+                160,
+                120,
+                std::ptr::null_mut(),
+                std::ptr::null_mut(),
+                std::ptr::null_mut(),
+                std::ptr::null_mut(),
+            );
+            assert!(!parent.is_null());
+            let child = CreateWindowExW(
+                0,
+                class.as_ptr(),
+                class.as_ptr(),
+                WS_CHILD,
+                0,
+                0,
+                120,
+                80,
+                parent,
+                std::ptr::null_mut(),
+                std::ptr::null_mut(),
+                std::ptr::null_mut(),
+            );
+            assert!(!child.is_null());
+            assert_ne!(SetWindowSubclass(child, Some(partial_paint), SUBCLASS_ID + 1, 0), 0);
+            install_hwnd(child).unwrap();
+            InvalidateRect(child, std::ptr::null(), 0);
+            let mut update: RECT = std::mem::zeroed();
+            assert_ne!(GetUpdateRect(child, &mut update, 0), 0);
+            SendMessageW(child, WM_PAINT, 0, 0);
+            assert_eq!(GetUpdateRect(child, &mut update, 0), 0);
+            DestroyWindow(parent);
+        }
+    }
+
 }

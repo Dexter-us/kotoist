@@ -1,6 +1,6 @@
 [package]
 name = "kotoist"
-version = "0.2.4"
+version = "0.2.5"
 authors = { workspace = true }
 edition = { workspace = true }
 
@@ -10,7 +10,7 @@ module-inception = "allow"
 [dependencies]
 egui_code_editor = "=0.4.2"
 egui = "=0.36.1"
-egui-baseview = { version = "=0.8.1", default-features = false, features = ["opengl", "log", "keyboard_focus_workaround"] }
+egui-baseview = { path = "../vendor/egui-baseview", version = "=0.8.1", default-features = false, features = ["opengl", "log"] }
 baseview = "=0.4.0"
 raw-window-handle = "0.6"
 koto = { version = "0.15.1", default-features = false, features = ["arc"] }
@@ -25,6 +25,7 @@ serde_json = "1.0"
 thiserror = "1.0"
 fastrand = "2.3"
 bytemuck = "1.20.0"
+midly = { version = "=0.5.3", optional = true }
 
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3", features = ["commctrl", "winuser", "libloaderapi"] }
@@ -35,7 +36,7 @@ crate-type = ["cdylib", "lib"]
 
 [features]
 default = []
-standalone = ["nih_plug/standalone"]
+standalone = ["nih_plug/standalone", "dep:midly"]
 
 [[bin]]
 name = "kotoist"
