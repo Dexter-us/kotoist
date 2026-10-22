@@ -1,6 +1,6 @@
 [package]
 name = "kotoist"
-version = "0.2.3"
+version = "0.2.4"
 authors = { workspace = true }
 edition = { workspace = true }
 
@@ -10,7 +10,7 @@ module-inception = "allow"
 [dependencies]
 egui_code_editor = "=0.4.2"
 egui = "=0.36.1"
-egui-baseview = { version = "=0.8.1", default-features = false, features = ["opengl", "log"] }
+egui-baseview = { version = "=0.8.1", default-features = false, features = ["opengl", "log", "keyboard_focus_workaround"] }
 baseview = "=0.4.0"
 raw-window-handle = "0.6"
 koto = { version = "0.15.1", default-features = false, features = ["arc"] }
