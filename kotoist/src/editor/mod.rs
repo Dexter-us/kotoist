@@ -317,7 +317,7 @@ fn script_files_dialog(ctx: &egui::Context, state: &mut GuiState, params: &Arc<P
                     match mode {
                         ScriptDialog::Load => match script_files::list() {
                             Ok(files) => {
-                                egui::ScrollArea::vertical()
+                                ScrollArea::vertical()
                                     .max_height(220.0)
                                     .show(ui, |ui| {
                                         if files.is_empty() {

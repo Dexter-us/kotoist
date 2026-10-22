@@ -97,10 +97,10 @@ pub(crate) fn save(name: &str, contents: &str) -> Result<PathBuf, String> {
 
 fn normalize_name(name: &str) -> Result<String, String> {
     let mut name = name.trim();
-    if let Some((stem, extension)) = name.rsplit_once('.')
-        && extension.eq_ignore_ascii_case("koto")
-    {
-        name = stem;
+    if let Some((stem, extension)) = name.rsplit_once('.') {
+        if extension.eq_ignore_ascii_case("koto") {
+            name = stem;
+        }
     }
 
     if name.is_empty()
