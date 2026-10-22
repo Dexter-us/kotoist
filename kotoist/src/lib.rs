@@ -50,16 +50,15 @@ impl Default for Kotoist {
 
 impl Plugin for Kotoist {
     const NAME: &'static str = "Kotoist";
-    const VENDOR: &'static str = "Ales Tsurko";
+    const VENDOR: &'static str = "Dexter U.S.";
     const URL: &'static str = "https://kotoist.alestsurko.by";
     const EMAIL: &'static str = "ales.tsurko@gmail.com";
     const VERSION: &'static str = env!("CARGO_PKG_VERSION");
     const AUDIO_IO_LAYOUTS: &'static [AudioIOLayout] = &[AudioIOLayout {
-        main_input_channels: NonZeroU32::new(NUM_CHANNELS),
+        main_input_channels: None,
         main_output_channels: NonZeroU32::new(NUM_CHANNELS),
         ..AudioIOLayout::const_default()
     }];
-    // const AUDIO_IO_LAYOUTS: &'static [AudioIOLayout] = &[];
     const MIDI_INPUT: MidiConfig = MidiConfig::MidiCCs;
     const MIDI_OUTPUT: MidiConfig = MidiConfig::MidiCCs;
     const SAMPLE_ACCURATE_AUTOMATION: bool = true;
@@ -269,16 +268,12 @@ impl ClapPlugin for Kotoist {
         Some("Live coding using Koto programming language");
     const CLAP_MANUAL_URL: Option<&'static str> = Some(Self::URL);
     const CLAP_SUPPORT_URL: Option<&'static str> = None;
-    const CLAP_FEATURES: &'static [ClapFeature] = &[ClapFeature::NoteEffect, ClapFeature::Utility];
+    const CLAP_FEATURES: &'static [ClapFeature] = &[ClapFeature::Instrument];
 }
 
 impl Vst3Plugin for Kotoist {
     const VST3_CLASS_ID: [u8; 16] = *b"KotoistAlesCurko";
-    const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] = &[
-        Vst3SubCategory::Instrument,
-        Vst3SubCategory::Fx,
-        Vst3SubCategory::Tools,
-    ];
+    const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] = &[Vst3SubCategory::Instrument];
 }
 
 // CLAP didn't produce midi outs during testing.
