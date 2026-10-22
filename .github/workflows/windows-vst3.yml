@@ -1,0 +1,42 @@
+name: Build Windows VST3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "kotoist/**"
+      - "xtask/**"
+      - "Cargo.toml"
+      - ".cargo/**"
+      - ".github/workflows/windows-vst3.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build VST3 bundle
+        run: cargo xtask bundle -p kotoist --release
+
+      - name: Package VST3 for download
+        shell: pwsh
+        run: |
+          $bundle = Get-ChildItem -Path "target/bundled" -Directory -Filter "*.vst3" | Select-Object -First 1
+          if (-not $bundle) { throw "No .vst3 bundle found under target/bundled" }
+          Compress-Archive -Path $bundle.FullName -DestinationPath "kotoist-windows-vst3.zip" -Force
+
+      - name: Upload VST3 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kotoist-windows-vst3
+          path: kotoist-windows-vst3.zip
+          if-no-files-found: error
+          retention-days: 30
