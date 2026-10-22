@@ -13,6 +13,7 @@ mod adapter;
 mod geometry;
 mod piano_roll;
 mod resize;
+mod script_files;
 #[cfg(windows)]
 mod windows_focus;
 #[cfg(windows)]
@@ -92,6 +93,8 @@ fn draw_editor_ui(
                 |ui| bottom_panel(ui, state, params, pipe_out),
             );
         });
+
+    script_files_dialog(ui.ctx(), state, params);
 }
 
 fn tab_bar(ui: &mut egui::Ui, params: Arc<Parameters>) {
@@ -195,7 +198,14 @@ fn text_editor(
                 })
                 .unwrap_or_default();
 
-            if ui.response().interact(egui::Sense::click()).clicked() {
+            let clicked_inside_editor = ctx.input(|input| {
+                input.pointer.button_pressed(egui::PointerButton::Primary)
+                    && input
+                        .pointer
+                        .interact_pos()
+                        .is_some_and(|position| output.response.rect.contains(position))
+            });
+            if clicked_inside_editor || output.response.clicked() {
                 output.response.request_focus();
             }
 
@@ -230,10 +240,25 @@ fn bottom_panel(
             ui.small(format!("v{}", env!("CARGO_PKG_VERSION")));
             ui.add_space(6.0);
         });
-        ui.add_space(ui.available_width() - 50.0);
-        if ui.button("🚀 Run").clicked() {
-            params.send_interpreter_msg(InterpreterMessage::EvalCode(state.text_buffer.clone()));
+        if ui.button("Load").clicked() {
+            state.file_dialog = Some(ScriptDialog::Load);
+            state.file_notice.clear();
         }
+        if ui.button("Save").clicked() {
+            state.file_dialog = Some(ScriptDialog::Save);
+            state.file_name = "My Script".to_owned();
+            state.file_notice.clear();
+        }
+        ui.with_layout(
+            egui::Layout::right_to_left(egui::Align::Center),
+            |ui| {
+                if ui.button("🚀 Run").clicked() {
+                    params.send_interpreter_msg(InterpreterMessage::EvalCode(
+                        state.text_buffer.clone(),
+                    ));
+                }
+            },
+        );
     });
     ScrollArea::both().stick_to_bottom(true).show(ui, |ui| {
         let pipe = pipe_out.lock().unwrap();
@@ -257,6 +282,124 @@ fn bottom_panel(
 
         ui.allocate_space(ui.available_size());
     });
+}
+
+#[derive(Clone, Copy)]
+enum ScriptDialog {
+    Load,
+    Save,
+}
+
+fn script_files_dialog(ctx: &egui::Context, state: &mut GuiState, params: &Arc<Parameters>) {
+    let Some(mode) = state.file_dialog else {
+        return;
+    };
+
+    let title = match mode {
+        ScriptDialog::Load => "Load Koto script",
+        ScriptDialog::Save => "Save Koto script",
+    };
+    let mut open = true;
+    let mut close_after_action = false;
+
+    egui::Window::new(title)
+        .id(egui::Id::new("kotoist-script-files"))
+        .collapsible(false)
+        .resizable(false)
+        .default_width(420.0)
+        .open(&mut open)
+        .show(ctx, |ui| {
+            match script_files::directory() {
+                Ok(directory) => {
+                    ui.small(format!("Local scripts: {}", directory.display()));
+                    ui.separator();
+
+                    match mode {
+                        ScriptDialog::Load => match script_files::list() {
+                            Ok(files) => {
+                                egui::ScrollArea::vertical()
+                                    .max_height(220.0)
+                                    .show(ui, |ui| {
+                                        if files.is_empty() {
+                                            ui.label("No .koto files yet. Use Save to create one.");
+                                        }
+                                        for path in files {
+                                            let name = path
+                                                .file_name()
+                                                .map(|name| name.to_string_lossy().into_owned())
+                                                .unwrap_or_else(|| "Unnamed.koto".to_owned());
+                                            if ui.selectable_label(false, &name).clicked() {
+                                                match script_files::load(&path) {
+                                                    Ok(contents) => {
+                                                        let index = params.selected_snippet_index();
+                                                        match params.snippets.write() {
+                                                            Ok(mut snippets) => {
+                                                                if let Some(snippet) =
+                                                                    snippets.get_mut(index)
+                                                                {
+                                                                    snippet.code =
+                                                                        contents.clone();
+                                                                    state.text_buffer = contents;
+                                                                    state.file_notice =
+                                                                        format!("Loaded {name}");
+                                                                    close_after_action = true;
+                                                                } else {
+                                                                    state.file_notice =
+                                                                        "No selected snippet to load into."
+                                                                            .to_owned();
+                                                                }
+                                                            }
+                                                            Err(_) => {
+                                                                state.file_notice =
+                                                                    "Could not update the selected snippet."
+                                                                        .to_owned();
+                                                            }
+                                                        }
+                                                    }
+                                                    Err(error) => state.file_notice = error,
+                                                }
+                                            }
+                                        }
+                                    });
+                            }
+                            Err(error) => state.file_notice = error,
+                        },
+                        ScriptDialog::Save => {
+                            ui.label("File name:");
+                            ui.text_edit_singleline(&mut state.file_name);
+                            if ui.button("Save").clicked() {
+                                match script_files::save(
+                                    &state.file_name,
+                                    &state.text_buffer,
+                                ) {
+                                    Ok(path) => {
+                                        let name = path
+                                            .file_name()
+                                            .map(|name| name.to_string_lossy().into_owned())
+                                            .unwrap_or_else(|| "script.koto".to_owned());
+                                        state.file_notice = format!("Saved {name}");
+                                        close_after_action = true;
+                                    }
+                                    Err(error) => state.file_notice = error,
+                                }
+                            }
+                        }
+                    }
+                }
+                Err(error) => state.file_notice = error,
+            }
+
+            if !state.file_notice.is_empty() {
+                ui.colored_label(ui.visuals().error_fg_color, &state.file_notice);
+            }
+            if ui.button("Cancel").clicked() {
+                close_after_action = true;
+            }
+        });
+
+    if close_after_action || !open {
+        state.file_dialog = None;
+    }
 }
 
 fn koto_syntax() -> Syntax {
@@ -303,4 +446,7 @@ struct GuiState {
     // to prevent locks, we clone the whole snippet code, when the selected snippet is changed. then
     // we update the snippet in params only when this value is update
     text_buffer: String,
+    file_dialog: Option<ScriptDialog>,
+    file_name: String,
+    file_notice: String,
 }

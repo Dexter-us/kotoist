@@ -9,8 +9,9 @@ use winapi::shared::{
 use winapi::um::{
     commctrl::{DefSubclassProc, RemoveWindowSubclass, SetWindowSubclass},
     winuser::{
-        SetFocus, DLGC_WANTALLKEYS, DLGC_WANTARROWS, DLGC_WANTCHARS, DLGC_WANTTAB, WM_GETDLGCODE,
-        WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_MOUSEMOVE, WM_NCDESTROY, WM_RBUTTONDOWN, WM_XBUTTONDOWN,
+        SetFocus, DLGC_WANTALLKEYS, DLGC_WANTARROWS, DLGC_WANTCHARS, DLGC_WANTTAB, MA_ACTIVATE,
+        WM_GETDLGCODE, WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_MOUSEACTIVATE, WM_MOUSEMOVE,
+        WM_NCDESTROY, WM_RBUTTONDOWN, WM_XBUTTONDOWN,
     },
 };
 
@@ -43,11 +44,18 @@ unsafe extern "system" fn focus_proc(
     _reference_data: DWORD_PTR,
 ) -> LRESULT {
     match message {
+        // A child editor embedded in a plugin host can otherwise receive its
+        // first click without activating the native editor window.
+        WM_MOUSEACTIVATE => return MA_ACTIVATE as LRESULT,
         WM_LBUTTONDOWN | WM_MBUTTONDOWN | WM_RBUTTONDOWN | WM_XBUTTONDOWN => {
-            SetFocus(hwnd);
             // baseview button events use its last pointer position; forward the
             // click's actual client coordinates first to avoid stale hit tests.
             let _ = DefSubclassProc(hwnd, WM_MOUSEMOVE, wparam, lparam);
+            let result = DefSubclassProc(hwnd, message, wparam, lparam);
+            // Do this after default handling too: some hosts restore their
+            // parent focus while dispatching the initial mouse-down.
+            SetFocus(hwnd);
+            return result;
         }
         WM_GETDLGCODE => {
             return DefSubclassProc(hwnd, message, wparam, lparam)
