@@ -1,20 +1,26 @@
 use std::sync::{mpsc, Arc, Mutex};
 
+use egui;
+use egui::containers::ScrollArea;
 use egui_code_editor::{CodeEditor, ColorTheme, Syntax};
 use nih_plug::editor::Editor;
-use nih_plug_egui::{
-    create_egui_editor,
-    egui::{self, containers::ScrollArea},
-    resizable_window::ResizableWindow,
-    EguiSettings,
-};
 
 use self::piano_roll::PianoRoll;
 use crate::parameters::{InterpreterMessage, Parameters, Snippet};
 use crate::pipe::{Message as PipeMessage, PipeOut};
 
+mod adapter;
+mod geometry;
 mod piano_roll;
+mod resize;
+#[cfg(windows)]
+mod windows_focus;
+#[cfg(windows)]
+mod windows_geometry;
+#[cfg(windows)]
+mod windows_native_resize;
 
+pub(crate) use geometry::EditorGeometry;
 pub(crate) use piano_roll::Event as PianoRollEvent;
 
 // A compact first-open size keeps the code area and Run controls on screen in
@@ -32,57 +38,60 @@ pub(crate) fn create_editor(
         params.clone_cursor(),
         params.clone_gl_context_validity(),
     );
-    create_egui_editor(
-        params.editor_state.clone(),
-        GuiState::default(),
-        EguiSettings::default(),
-        |_, _, _| {},
-        move |egui_ctx, _setter, _queue, state| {
-            let bg = egui::Visuals::default().faint_bg_color;
-            ResizableWindow::new("kotoist-window")
-                .min_size(egui::vec2(480.0, 360.0))
-                .show(egui_ctx, &params.editor_state, |root| {
-                    egui::Frame::default()
-                        .inner_margin(7.0)
-                        .fill(bg)
-                        .show(root, |ui| {
-                            let width = ui.available_width();
-                            let height = ui.available_height();
-                            let tab_height = 42.0_f32.min(height);
-                            let console_height = 110.0_f32.min((height - tab_height).max(0.0));
-                            let editor_height = (height - tab_height - console_height).max(0.0);
+    let geometry = Arc::new(Mutex::new(EditorGeometry::new(params.editor_state.size())));
+    Some(Box::new(adapter::KotoistEditor::new(
+        params,
+        pipe_out,
+        Arc::new(Mutex::new(piano_roll)),
+        geometry,
+    )))
+}
 
-                            ui.allocate_ui_with_layout(
-                                egui::vec2(width, tab_height),
-                                egui::Layout::left_to_right(egui::Align::Center),
-                                |ui| tab_bar(ui, params.clone()),
-                            );
+fn draw_editor_ui(
+    ui: &mut egui::Ui,
+    state: &mut GuiState,
+    params: &Arc<Parameters>,
+    pipe_out: &Arc<Mutex<PipeOut>>,
+    piano_roll: &Arc<Mutex<PianoRoll>>,
+) {
+    let bg = ui.visuals().faint_bg_color;
+    egui::Frame::default()
+        .inner_margin(7.0)
+        .fill(bg)
+        .show(ui, |ui| {
+            let width = ui.available_width();
+            let height = ui.available_height();
+            let tab_height = 42.0_f32.min(height);
+            let console_height = 110.0_f32.min((height - tab_height).max(0.0));
+            let editor_height = (height - tab_height - console_height).max(0.0);
 
-                            ui.allocate_ui_with_layout(
-                                egui::vec2(width, editor_height),
-                                egui::Layout::top_down(egui::Align::Min),
-                                |ui| {
-                                    let rect = ui.available_rect_before_wrap();
+            ui.allocate_ui_with_layout(
+                egui::vec2(width, tab_height),
+                egui::Layout::left_to_right(egui::Align::Center),
+                |ui| tab_bar(ui, params.clone()),
+            );
 
-                                    ui.scope_builder(egui::UiBuilder::new().max_rect(rect), |ui| {
-                                        piano_roll.draw(ui);
-                                    });
+            ui.allocate_ui_with_layout(
+                egui::vec2(width, editor_height),
+                egui::Layout::top_down(egui::Align::Min),
+                |ui| {
+                    let rect = ui.available_rect_before_wrap();
+                    ui.scope_builder(egui::UiBuilder::new().max_rect(rect), |ui| {
+                        piano_roll.lock().unwrap().draw(ui);
+                    });
+                    ui.scope_builder(egui::UiBuilder::new().max_rect(rect), |ui| {
+                        let context = ui.ctx().clone();
+                        text_editor(&context, ui, state, params);
+                    });
+                },
+            );
 
-                                    ui.scope_builder(egui::UiBuilder::new().max_rect(rect), |ui| {
-                                        text_editor(egui_ctx, ui, state, &params);
-                                    });
-                                },
-                            );
-
-                            ui.allocate_ui_with_layout(
-                                egui::vec2(width, console_height),
-                                egui::Layout::top_down(egui::Align::Min),
-                                |ui| bottom_panel(ui, state, &params, &pipe_out),
-                            );
-                        });
-                });
-        },
-    )
+            ui.allocate_ui_with_layout(
+                egui::vec2(width, console_height),
+                egui::Layout::top_down(egui::Align::Min),
+                |ui| bottom_panel(ui, state, params, pipe_out),
+            );
+        });
 }
 
 fn tab_bar(ui: &mut egui::Ui, params: Arc<Parameters>) {
@@ -159,15 +168,15 @@ fn text_editor(
                 }
             }
 
-            let output = CodeEditor::default()
+            let syntax = koto_syntax();
+            let (output, _) = CodeEditor::default()
                 .id_source("code editor")
-                .with_rows(31)
+                .with_rows(10)
                 .with_fontsize(13.0)
-                .vscroll(false)
+                .vscroll(true)
                 .with_theme(ColorTheme::AYU_MIRAGE)
-                .with_syntax(koto_syntax())
                 .with_numlines(true)
-                .show(ui, &mut state.text_buffer);
+                .show(ui, &mut state.text_buffer, &syntax);
 
             if output.response.changed() {
                 let index = params.selected_snippet_index();
@@ -218,6 +227,7 @@ fn bottom_panel(
         ui.vertical(|ui| {
             ui.add_space(6.0);
             ui.label("Console");
+            ui.small(format!("v{}", env!("CARGO_PKG_VERSION")));
             ui.add_space(6.0);
         });
         ui.add_space(ui.available_width() - 50.0);

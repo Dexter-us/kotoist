@@ -23,20 +23,31 @@ jobs:
       - name: Install stable Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Read plugin version
+        id: version
+        shell: pwsh
+        run: |
+          $manifest = Get-Content "kotoist/Cargo.toml" -Raw
+          if ($manifest -notmatch '(?m)^version\s*=\s*"([^"]+)"') {
+            throw "Could not read the Kotoist package version"
+          }
+          "version=$($Matches[1])" >> $env:GITHUB_OUTPUT
+
       - name: Build VST3 bundle
         run: cargo xtask bundle -p kotoist --release
 
-      - name: Package VST3 for download
+      - name: Package versioned VST3
         shell: pwsh
         run: |
           $bundle = Get-ChildItem -Path "target/bundled" -Directory -Filter "*.vst3" | Select-Object -First 1
           if (-not $bundle) { throw "No .vst3 bundle found under target/bundled" }
-          Compress-Archive -Path $bundle.FullName -DestinationPath "kotoist-windows-vst3.zip" -Force
+          $archive = "kotoist-windows-vst3-v${{ steps.version.outputs.version }}.zip"
+          Compress-Archive -Path $bundle.FullName -DestinationPath $archive -Force
 
       - name: Upload VST3 artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kotoist-windows-vst3
-          path: kotoist-windows-vst3.zip
+          name: kotoist-windows-vst3-v${{ steps.version.outputs.version }}
+          path: kotoist-windows-vst3-v${{ steps.version.outputs.version }}.zip
           if-no-files-found: error
           retention-days: 30

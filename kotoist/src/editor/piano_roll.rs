@@ -4,10 +4,10 @@ use std::sync::{
     mpsc, Arc, Mutex,
 };
 
+use egui;
 use egui_glow::glow;
 use glow::HasContext as _;
 use nih_plug::prelude::AtomicF32;
-use nih_plug_egui::egui;
 
 pub(crate) struct PianoRoll {
     notes_receiver: Mutex<mpsc::Receiver<Vec<Event>>>,

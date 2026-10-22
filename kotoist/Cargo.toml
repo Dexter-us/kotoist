@@ -1,6 +1,6 @@
 [package]
 name = "kotoist"
-version = "0.2.0"
+version = "0.2.1"
 authors = { workspace = true }
 edition = { workspace = true }
 
@@ -8,19 +8,26 @@ edition = { workspace = true }
 module-inception = "allow"
 
 [dependencies]
-egui_code_editor = { git = "https://github.com/ales-tsurko/egui_code_editor.git", rev = "755026bc447607536c2835fa934101acb1662453" }
+egui_code_editor = "=0.4.2"
+egui = "=0.36.1"
+egui-baseview = { version = "=0.8.1", default-features = false, features = ["opengl", "log"] }
+baseview = "=0.4.0"
+raw-window-handle = "0.6"
 koto = { version = "0.15.1", default-features = false, features = ["arc"] }
 koto_random = { version = "0.15.1", default-features = false }
 nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "28b149ec4d62757d0b448809148a0c3ca6e09a95" }
 nih_plug_egui = { git = "https://github.com/BillyDM/egui-baseview.git", rev = "e8a43d4c4029f9380206a52777d10c0ddbbb1d66", features = [
     "rayon"
 ] }
-egui_glow = "*"
+egui_glow = "=0.36.1"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 thiserror = "1.0"
 fastrand = "2.3"
 bytemuck = "1.20.0"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["commctrl", "winuser", "libloaderapi"] }
 
 [lib]
 name = "kotoist"
