@@ -11,9 +11,7 @@ module-inception = "allow"
 egui_code_editor = { git = "https://github.com/ales-tsurko/egui_code_editor.git", rev = "755026bc447607536c2835fa934101acb1662453" }
 koto = { version = "0.15.1", default-features = false, features = ["arc"] }
 koto_random = { version = "0.15.1", default-features = false }
-nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "28b149ec4d62757d0b448809148a0c3ca6e09a95", features = [
-    "standalone",
-] }
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", rev = "28b149ec4d62757d0b448809148a0c3ca6e09a95" }
 nih_plug_egui = { git = "https://github.com/BillyDM/egui-baseview.git", rev = "e8a43d4c4029f9380206a52777d10c0ddbbb1d66", features = [
     "rayon"
 ] }
@@ -26,5 +24,13 @@ bytemuck = "1.20.0"
 
 [lib]
 name = "kotoist"
-# The `lib` artifact is needed for the standalone target
 crate-type = ["cdylib", "lib"]
+
+[features]
+default = []
+standalone = ["nih_plug/standalone"]
+
+[[bin]]
+name = "kotoist"
+path = "src/main.rs"
+required-features = ["standalone"]
