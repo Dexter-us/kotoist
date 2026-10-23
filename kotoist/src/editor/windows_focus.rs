@@ -185,7 +185,7 @@ mod tests {
     fn full_frame_paint_clears_stale_partial_damage() {
         use winapi::um::winuser::{
             CreateWindowExW, GetUpdateRect, InvalidateRect, SendMessageW, WS_CHILD,
-            WS_OVERLAPPEDWINDOW,
+            WS_OVERLAPPEDWINDOW, WS_VISIBLE,
         };
         let class: Vec<u16> = "STATIC\0".encode_utf16().collect();
         unsafe {
@@ -193,7 +193,7 @@ mod tests {
                 0,
                 class.as_ptr(),
                 class.as_ptr(),
-                WS_OVERLAPPEDWINDOW,
+                WS_OVERLAPPEDWINDOW | WS_VISIBLE,
                 0,
                 0,
                 160,
@@ -208,7 +208,7 @@ mod tests {
                 0,
                 class.as_ptr(),
                 class.as_ptr(),
-                WS_CHILD,
+                WS_CHILD | WS_VISIBLE,
                 0,
                 0,
                 120,
