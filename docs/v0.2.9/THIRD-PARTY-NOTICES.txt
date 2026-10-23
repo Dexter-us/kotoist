@@ -1,0 +1,8 @@
+Koto language documentation
+Source: https://github.com/koto-lang/koto/tree/v0.15.1/crates/cli/docs
+The Koto 0.15.1 language guide and core-library documentation in this package are adapted from the Koto project. Copyright (c) 2020 Ian Hobson. Licensed under the MIT License; the complete license text is in KOTO-MIT-LICENSE.txt.
+
+Kotoist project documentation
+Kotoist API and pattern references are based on Dexter-us/kotoist v0.2.9 documentation and source. The project license is GNU GPL version 3.0; see LICENSE.txt.
+
+The reference identifies Kotoist-specific behavior separately from the upstream Koto language and library documentation.

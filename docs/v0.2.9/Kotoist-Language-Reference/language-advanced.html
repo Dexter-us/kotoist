@@ -1,0 +1,429 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>Advanced language · Kotoist</title><style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151d31;--text:#eef3ff;--muted:#a9b7d2;--line:#31415f;--cyan:#67d9ef;--violet:#bca3ff;--green:#8ef0b3;--gold:#ffd38a;--max:1040px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at top left,#1b3156 0,transparent 45%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}a{color:var(--cyan);text-underline-offset:3px}a:hover{color:#a7f1ff}.wrap{max-width:var(--max);margin:auto;padding:28px 22px 72px}.hero{padding:42px 34px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(125deg,rgba(38,63,108,.88),rgba(25,29,55,.92));box-shadow:0 18px 55px #0005}.eyebrow{text-transform:uppercase;letter-spacing:.16em;color:var(--cyan);font-size:.78rem;font-weight:800}.hero h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;margin:.5rem 0}.hero p{max-width:760px;color:#d2def4;font-size:1.12rem}.pill{display:inline-block;margin-top:8px;border:1px solid #52688d;background:#111a2b;border-radius:999px;padding:6px 12px;color:var(--muted);font-size:.85rem}.nav{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 28px}.nav a{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#111a2b;text-decoration:none;font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card,section{border:1px solid var(--line);border-radius:18px;background:rgba(21,29,49,.92);padding:22px;margin:16px 0}.card h2,section h2{margin:.15rem 0 .8rem;font-size:1.35rem}.muted{color:var(--muted)}.callout{border-left:4px solid var(--gold);padding:12px 15px;background:#332a1c;border-radius:0 12px 12px 0;color:#ffebc8}pre{overflow:auto;padding:16px;border-radius:12px;background:#080c15;border:1px solid #28334a;color:#e4f1ff;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#c9f1ff}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{text-align:left;vertical-align:top;padding:11px 12px;border-bottom:1px solid var(--line)}th{color:var(--cyan);font-size:.9rem}.links{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.button{display:inline-block;padding:10px 15px;border-radius:10px;background:#1a6080;color:#fff;text-decoration:none;font-weight:700}.button.secondary{background:#33335c}.small{font-size:.9rem;color:var(--muted)}footer{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}@media(max-width:700px){.wrap{padding:14px 12px 45px}.hero{padding:28px 20px}.grid{grid-template-columns:1fr}.card,section{padding:18px}table{display:block;overflow-x:auto}}@media print{body{background:#fff;color:#111}.hero,.card,section{background:#fff;color:#111;border-color:#bbb;box-shadow:none}.muted,footer,.small{color:#444}a{color:#0645ad}.nav{display:none}}
+.docs-layout{display:grid;grid-template-columns:225px minmax(0,1fr);gap:18px;align-items:start;margin-top:20px}.docs-side{position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto;padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(21,29,49,.92)}.docs-side strong{display:block;margin:0 0 12px;color:var(--cyan)}.docs-side a{display:block;padding:8px 10px;margin:3px 0;border-radius:9px;color:var(--muted);text-decoration:none}.docs-side a:hover,.docs-side a.active{color:var(--text);background:#233452}.docs-main{min-width:0}.doc-hero{padding:23px 25px;margin-bottom:16px}.doc-hero h1{font-size:clamp(1.8rem,4vw,2.5rem);margin:.35rem 0}.doc-hero p{max-width:800px}.doc-body{padding:25px}.doc-body h1{font-size:1.8rem}.doc-body h2{margin-top:2rem;padding-top:.5rem;border-top:1px solid var(--line)}.doc-body h3{margin-top:1.5rem;color:var(--cyan)}.doc-body h4{color:var(--violet)}.doc-body code{overflow-wrap:anywhere}.doc-body pre{white-space:pre;overflow:auto;padding:14px 16px;background:#070b14;border:1px solid #2b3955;border-radius:12px}.doc-body pre code{white-space:pre}.doc-body table{width:100%;border-collapse:collapse;margin:1rem 0;display:table;overflow:visible}.doc-body th,.doc-body td{padding:9px 10px;border:1px solid var(--line);text-align:left;vertical-align:top}.doc-body th{background:#202d47;color:var(--cyan)}.doc-body blockquote{border-left:3px solid var(--violet);margin:1rem 0;padding:.25rem 1rem;color:var(--muted);background:#111a2a}.doc-body .source-note{padding:13px 15px;border-left:3px solid var(--gold);background:#1a2030;border-radius:8px;color:var(--muted)}.doc-body details{border:1px solid var(--line);border-radius:12px;padding:12px 15px;margin:20px 0;background:#111827}.doc-body summary{cursor:pointer;color:var(--cyan);font-weight:700}.doc-footer{margin-top:18px;padding:14px 8px;color:var(--muted);font-size:.84rem}.doc-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:14px}.doc-cards a{display:block;height:100%;color:var(--text);text-decoration:none}.doc-cards a:hover{border-color:var(--cyan)}.doc-cards h2{font-size:1.1rem;color:var(--cyan);border:0;margin:.1rem 0 .5rem}@media(max-width:800px){.docs-layout{grid-template-columns:1fr}.docs-side{position:static;max-height:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.docs-side strong{grid-column:1/-1}.docs-side a{font-size:.9rem}.doc-body{padding:18px}.doc-body table{display:block;overflow-x:auto}}</style></head><body><main class="wrap"><div class="docs-layout"><aside class="docs-side"><strong>Kotoist Language Reference<br><small>Kotoist 0.2.9 · Koto 0.15.1</small></strong><a class="" href="index.html">Reference home</a><a class="" href="language-basics.html">Language basics</a><a class="" href="language-flow.html">Control flow &amp; iterators</a><a class="active" href="language-advanced.html">Advanced language</a><a class="" href="core-library.html">Core library</a><a class="" href="kotoist-api.html">Kotoist API</a><a class="" href="patterns.html">Pattern library</a><a class="" href="command-line.html">Command-line MIDI</a><a href="../Kotoist-Getting-Started.html">Kotoist Getting Started</a></aside><div class="docs-main"><header class="hero doc-hero"><div class="eyebrow">Dexter U.S. · Kotoist Language Reference</div><h1>Advanced language</h1><p>Advanced functions, metamaps, errors, tests, and modules.</p><span class="pill">Koto 0.15.1 · Kotoist 0.2.9</span></header><article class="card doc-body"><p class="source-note"><strong>Copying examples:</strong> The upstream Koto guide uses <code>print!</code> and <code>check!</code> markers for documentation tests. Here <code>print!</code> is shown as Kotoist’s <code>print</code>; <code>check!</code> lines are comments showing expected output.</p><h2 id="advanced-functions">Advanced Functions</h2><p>Functions in Koto have some advanced features that are worth exploring.</p><h3 id="captured-variables">Captured Variables</h3><p>When a variable is accessed in a function that wasn&#39;t declared locally, then it gets _captured_ by copying it into the function.</p><pre><code class="language-koto">x = 1
+
+my_function = |n|
+  # x is assigned outside the function,
+  # so it gets captured when the function is created.
+  n + x
+
+# Reassigning x here doesn&#39;t modify the value
+# of x that was captured when my_function was created.
+x = 100
+
+print my_function 2
+# Expected output: 3</code></pre><p>This behavior is different to many other languages, where captures are often taken by _reference_ rather than by _copy_.</p><p>It&#39;s also worth noting that captured variables will have the same starting value each time the function is called.</p><pre><code class="language-koto">x = 99
+f = ||
+  # Modifying x only happens with a local copy during a function call.
+  # The value of x at the start of the call matches when the value it had when
+  # it was captured.
+  x += 1
+
+print f(), f(), f()
+# Expected output: (100, 100, 100)</code></pre><p>To modify captured values, use a container (like a map) to hold on to mutable data.</p><pre><code class="language-koto">data = {x: 99}
+
+f = ||
+  # The data map gets captured by the function,
+  # and its contained values can be modified between calls.
+  data.x += 1
+
+print f(), f(), f()
+# Expected output: (100, 101, 102)</code></pre><h3 id="optional-arguments">Optional Arguments</h3><p>When calling a function, any missing arguments will be replaced by <code>null</code>.</p><pre><code class="language-koto">f = |a, b, c|
+  print a, b, c
+
+f 1
+# Expected output: (1, null, null)
+f 1, 2
+# Expected output: (1, 2, null)
+f 1, 2, 3
+# Expected output: (1, 2, 3)</code></pre><p>Missing arguments can be replaced with default values by using <code>or</code>.</p><pre><code class="language-koto">f = |a, b, c|
+  print a or -1, b or -2, c or -3
+
+f 42
+# Expected output: (42, -2, -3)
+f 99, 100
+# Expected output: (99, 100, -3)</code></pre><p><code>or</code> will reject <code>false</code>, so if <code>false</code> would be a valid input then a direct comparison against <code>null</code> can be used instead.</p><pre><code class="language-koto">f = |a|
+  print if a == null then -1 else a
+
+f()
+# Expected output: -1
+f false
+# Expected output: false</code></pre><h3 id="variadic-functions">Variadic Functions</h3><p>A _variadic function_ can be created by appending <code>...</code> to the last argument. When the function is called any extra arguments will be collected into a tuple.</p><pre><code class="language-koto">f = |a, b, others...|
+  print &quot;a: {a}, b: {b}, others: {others}&quot;
+
+f 1, 2, 3, 4, 5
+# Expected output: a: 1, b: 2, others: (3, 4, 5)</code></pre><h3 id="argument-unpacking">Argument Unpacking</h3><p>Functions that expect containers as arguments can _unpack_ the contained elements directly in the argument declaration by using parentheses.</p><pre><code class="language-koto"># A function that sums a container with three contained values
+f = |(a, b, c)| a + b + c
+
+x = [100, 10, 1]
+print f x
+# Expected output: 111</code></pre><p>Any container that supports indexing operations (like lists and tuples) with a matching number of elements will be unpacked, otherwise an error will be thrown.</p><p>Unpacked arguments can also be nested.</p><pre><code class="language-koto"># A function that sums elements from nested containers
+f = |((a, b), (c, d, e))|
+  a + b + c + d + e
+x = ([1, 2], [3, 4, 5])
+print f x
+# Expected output: 15</code></pre><p>Ellipses can be used to unpack any number of elements at the start or end of a container.</p><pre><code class="language-koto">f = |(..., last)| last * last
+x = (1, 2, 3, 4)
+print f x
+# Expected output: 16</code></pre><p>A name can be added to ellipses to assign the unpacked elements.</p><pre><code class="language-koto">f = |(first, others...)| first * others.sum()
+x = (10, 1, 2, 3)
+print f x
+# Expected output: 60</code></pre><h3 id="ignoring-arguments">Ignoring Arguments</h3><p>The wildcard <code>_</code> can be used to ignore function arguments.</p><pre><code class="language-koto"># A function that sums the first and third elements of a container
+f = |(a, _, c)| a + c
+
+print f [100, 10, 1]
+# Expected output: 101</code></pre><p>If you would like to keep the name of the ignored value as a reminder, then <code>_</code> can be used as a prefix for an identifier. Identifiers starting with <code>_</code> can be written to, but can&#39;t be accessed.</p><pre><code class="language-koto">my_map = {foo_a: 1, bar_a: 2, foo_b: 3, bar_b: 4}
+print my_map
+  .keep |(key, _value)| key.starts_with &#39;foo&#39;
+  .to_tuple()
+# Expected output: ((&#39;foo_a&#39;, 1), (&#39;foo_b&#39;, 3))</code></pre>
+<h2 id="objects-and-metamaps">Objects and Metamaps</h2><p>Value types with custom behaviour can be defined in Koto through the concept of _objects_.</p><p>An object is any map that includes one or more _metakeys_ (keys prefixed with <code>@</code>), that are stored in the object&#39;s _metamap_. Whenever operations are performed on the object, the runtime checks its metamap for corresponding metakeys.</p><p>In the following example, addition and subtraction operators are overridden for a custom <code>Foo</code> object:</p><pre><code class="language-koto"># Declare a function that makes Foo objects
+foo = |n|
+  data: n
+
+  # Overriding the addition operator
+  @+: |other|
+    # A new Foo is made using the result
+    # of adding the two data values together
+    foo self.data + other.data
+
+  # Overriding the subtraction operator
+  @-: |other|
+    foo self.data - other.data
+
+  # Overriding the multiply-assignment operator
+  @*=: |other|
+    self.data *= other.data
+    self
+
+a = foo 10
+b = foo 20
+
+print (a + b).data
+# Expected output: 30
+print (a - b).data
+# Expected output: -10
+a *= b
+print a.data
+# Expected output: 200</code></pre><h3 id="meta-operators">Meta Operators</h3><p>All of the binary arithmetic and logic operators (<code>*</code>, <code>&lt;</code>, <code>&gt;=</code>, etc) can be implemented following this pattern.</p><p>Additionally, the following metakeys can also be defined:</p><h4 id="negate"><code>@negate</code></h4><p>The <code>@negate</code> metakey overrides the negation operator.</p><pre><code class="language-koto">foo = |n|
+  data: n
+  @negate: || foo -self.data
+
+x = -foo(100)
+print x.data
+# Expected output: -100</code></pre><h4 id="size-and-index"><code>@size</code> and <code>@index</code></h4><p>The <code>@size</code> metakey defines how the object should report its size, while the <code>@index</code> metakey defines what values should be returned when indexing is performed on the object.</p><p>If <code>@size</code> is implemented, then <code>@index</code> should also be implemented.</p><pre><code class="language-koto">foo = |data|
+  data: data
+  @size: || size self.data
+  @index: |index| self.data[index]
+
+x = foo (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+print size x
+# Expected output: 3
+print x[1]
+# Expected output: b</code></pre><p>Implementing <code>@size</code> and <code>@index</code> allows an object to participate in argument unpacking.</p><p>The <code>@index</code> implementation can support indexing by any input values that make sense for your object type, however for argument unpacking to work correctly, the runtime expects that indexing should be supported for at least single indices and ranges.</p><pre><code class="language-koto">foo = |data|
+  data: data
+  @size: || size self.data
+  @index: |index| self.data[index]
+
+x = foo (10, 20, 30, 40, 50)
+
+# Unpack the first two elements in the value passed to the function and multiply them
+multiply_first_two = |(a, b, ...)| a * b
+print multiply_first_two x
+# Expected output: 200
+
+# Inspect the first element in the object
+print match x
+  (first, others...) then &#39;first: {first}, remaining: {size others}&#39;
+# Expected output: first: 10, remaining: 4</code></pre><h4 id="index_mut"><code>@index_mut</code></h4><p>The <code>@index_mut</code> metakey defines how the object should behave when index-assignment is used.</p><p>The given value should be a function that takes an index as the first argument, and the value to be assigned as the second argument.</p><pre><code class="language-koto">foo = |data|
+  data: data
+  @index: |index| self.data[index]
+  @index_mut: |index, value| self.data[index] = value
+
+x = foo [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+x[1] = &#39;hello&#39;
+print x[1]
+# Expected output: hello</code></pre><h4 id="call"><code>@call</code></h4><p>The <code>@call</code> metakey defines how the object should behave when its called as a function.</p><pre><code class="language-koto">foo = |n|
+  data: n
+  @call: ||
+    self.data *= 2
+    self.data
+
+x = foo 2
+print x()
+# Expected output: 4
+print x()
+# Expected output: 8</code></pre><h4 id="iterator"><code>@iterator</code></h4><p>The <code>@iterator</code> metakey defines how iterators should be created when the object is used in an iterable context. When called, <code>@iterator</code> should return an iterable value that will then be used for iterator operations.</p><pre><code class="language-koto">foo = |n|
+  # Return a generator that yields the three numbers following n
+  @iterator: ||
+    yield n + 1
+    yield n + 2
+    yield n + 3
+
+print (foo 0).to_tuple()
+# Expected output: (1, 2, 3)
+
+print (foo 100).to_list()
+# Expected output: [101, 102, 103]</code></pre><p>Note that this key will be ignored if the object also implements <code>@next</code>, which implies that the object is _already_ an iterator.</p><h4 id="next"><code>@next</code></h4><p>The <code>@next</code> metakey allows for objects to behave as iterators.</p><p>Whenever the runtime needs to produce an iterator from an object, it will first check the metamap for an implementation of <code>@next</code>, before looking for <code>@iterator</code>.</p><p>The <code>@next</code> function will be called repeatedly during iteration, with the returned value being used as the iterator&#39;s output. When the returned value is <code>null</code> then the iterator will stop producing output.</p><pre><code class="language-koto">foo = |start, end|
+  start: start
+  end: end
+  @next: ||
+    if self.start &lt; self.end
+      result = self.start
+      self.start += 1
+      result
+    else
+      null
+
+print foo(10, 15).to_tuple()
+# Expected output: (10, 11, 12, 13, 14)</code></pre><h4 id="next_back"><code>@next_back</code></h4><p>The <code>@next_back</code> metakey is used by <a href="core-library.html#iterator-reversed">KOTOTOKENX1X</a> when producing a reversed iterator.</p><p>The runtime will only look for <code>@next_back</code> if <code>@next</code> is implemented.</p><pre><code class="language-koto">foo =
+  n: 0
+  @next: || self.n += 1
+  @next_back: || self.n -= 1
+
+print foo
+  .skip 3 # 0, 1, 2
+  .reversed()
+  .take 3 # 2, 1, 0
+  .to_tuple()
+# Expected output: (2, 1, 0)</code></pre><h4 id="display"><code>@display</code></h4><p>The <code>@display</code> metakey defines how the object should be represented when displaying the object as a string.</p><pre><code class="language-koto">foo = |n|
+  data: n
+  @display: || &#39;Foo({self.data})&#39;
+
+print foo 42
+# Expected output: Foo(42)
+
+x = foo -1
+print &quot;The value of x is &#39;{x}&#39;&quot;
+# Expected output: The value of x is &#39;Foo(-1)&#39;</code></pre><h4 id="type"><code>@type</code></h4><p>The <code>@type</code> metakey takes a string as a value which is used when checking the value&#39;s type, e.g. with <a href="core-library.html#koto-type">KOTOTOKENX1X</a></p><pre><code class="language-koto">foo = |n|
+  data: n
+  @type: &quot;Foo&quot;
+
+print koto.type (foo 42)
+# Expected output: Foo</code></pre><h4 id="base"><code>@base</code></h4><p>Objects can inherit properties and behavior from other values, establishing a _base value_ through the <code>@base</code> metakey. This allows objects to share common functionality while maintaining their own unique attributes.</p><p>In the following example, two kinds of animals are created that share the <code>speak</code> function from their base value.</p><pre><code class="language-koto">animal = |name|
+  name: name
+  speak: || &#39;{self.noise}! My name is {self.name}!&#39;
+
+dog = |name|
+  @base: animal name
+  noise: &#39;Woof&#39;
+
+cat = |name|
+  @base: animal name
+  noise: &#39;Meow&#39;
+
+print dog(&#39;Fido&#39;).speak()
+# Expected output: Woof! My name is Fido!
+
+print cat(&#39;Smudge&#39;).speak()
+# Expected output: Meow! My name is Smudge!</code></pre><h4 id="meta"><code>@meta</code></h4><p>The <code>@meta</code> metakey allows named metakeys to be added to the metamap. Metakeys defined with <code>@meta</code> are accessible via <code>.</code> access, similar to regular object <code>keys</code>, but they don&#39;t appear as part of the object&#39;s main data entries when treated as a regular map.</p><pre><code class="language-koto">foo = |n|
+  data: n
+  @meta hello: &quot;Hello!&quot;
+  @meta get_info: ||
+    info = match self.data
+      0 then &quot;zero&quot;
+      n if n &lt; 0 then &quot;negative&quot;
+      else &quot;positive&quot;
+    &quot;{self.data} is {info}&quot;
+
+x = foo -1
+print x.hello
+# Expected output: Hello!
+
+print x.get_info()
+# Expected output: -1 is negative
+
+print map.keys(x).to_tuple()
+# Expected output: (&#39;data&#39;)</code></pre><h3 id="sharing-metamaps">Sharing Metamaps</h3><p>Metamaps can be shared between objects by using <a href="core-library.html#map-with_meta">KOTOTOKENX0X</a>, which helps to avoid inefficient duplication when creating a lot of objects.</p><p>In the following example, behavior is overridden in a single metamap, which is then shared between object instances.</p><pre><code class="language-koto"># Create an empty map for global values
+global = {}
+
+# Define a function that makes a Foo object
+foo = |data|
+  # Make a new map that contains `data`,
+  # and then attach a shared copy of the metamap from foo_meta.
+  {data}.with_meta global.foo_meta
+
+# Define some metakeys in foo_meta
+global.foo_meta =
+  # Override the + operator
+  @+: |other| foo self.data + other.data
+
+  # Define how the object should be displayed
+  @display: || &quot;Foo({self.data})&quot;
+
+print (foo 10) + (foo 20)
+# Expected output: Foo(30)</code></pre>
+<h2 id="error-handling">Error Handling</h2><p>Errors can be _thrown_ in the Koto runtime, which then cause the runtime to stop execution.</p><p>A <code>try</code> / <code>catch</code> expression can be used to _catch_ any thrown errors, allowing execution to continue. An optional <code>finally</code> block can be used for cleanup actions that need to performed whether or not an error was caught.</p><pre><code class="language-koto">x = [1, 2, 3]
+try
+  # Accessing an invalid index will throw an error
+  print x[100]
+catch error
+  print &quot;Caught an error&quot;
+finally
+  print &quot;...and finally&quot;
+# Expected output: Caught an error
+# Expected output: ...and finally</code></pre><p><code>throw</code> can be used to explicitly throw an error when an exceptional condition has occurred.</p><p><code>throw</code> accepts strings or objects that implement <code>@display</code>.</p><pre><code class="language-koto">f = || throw &quot;!Error!&quot;
+
+try
+  f()
+catch error
+  print &quot;Caught an error: &#39;{error}&#39;&quot;
+# Expected output: Caught an error: &#39;!Error!&#39;</code></pre><h3 id="type-checks-on-catch-blocks">Type checks on <code>catch</code> blocks</h3><p>Type hints can also be used in <code>try</code> expressions to implement different error handling logic depending on the type of error that has been thrown. A series of <code>catch</code> blocks can be added to the <code>try</code> expression, each catching an error that has a particular type.</p><p>The final <code>catch</code> block needs to _not_ have a type check so that it can catch any errors that were missed by the other blocks.</p><pre><code class="language-koto">f = || throw &#39;Throwing a String&#39;
+
+try
+  f()
+catch n: Number
+  print &#39;An error occurred: {n}&#39;
+catch error: String
+  print error
+catch other
+  print &#39;Some other error occurred: {other}&#39;
+# Expected output: Throwing a String</code></pre>
+<h2 id="testing">Testing</h2><p>Koto includes a simple testing framework that help you to check that your code is behaving as you expect through automated checks.</p><h3 id="assertions">Assertions</h3><p>The core library includes a collection of _assertion_ functions in the <a href="core-library.html#core-test">KOTOTOKENX0X module</a>, which are included by default in the <a href="language-flow.html#prelude">prelude</a>.</p><pre><code class="language-koto">try
+  assert 1 + 1 == 3
+catch error
+  print &#39;An assertion failed&#39;
+# Expected output: An assertion failed
+
+try
+  assert_eq &#39;hello&#39;, &#39;goodbye&#39;
+catch error
+  print &#39;An assertion failed&#39;
+# Expected output: An assertion failed</code></pre><h3 id="organizing-tests">Organizing Tests</h3><p>Tests can be organized by collecting <code>@test</code> functions in a map.</p><p>The tests can then be run manually with <a href="core-library.html#test-run_tests">KOTOTOKENX0X</a>.</p><p>For automatic testing, see the description of exporting <code>@test</code> functions in the <a href="#modules">following section</a>.</p><pre><code class="language-koto">basic_tests =
+  @test add: || assert_eq 1 + 1, 2
+  @test subtract: || assert_eq 1 - 1, 0
+
+test.run_tests basic_tests</code></pre><p>For setup and cleanup operations shared across tests, <code>@pre_test</code> and <code>@post_test</code> metakeys can be implemented. <code>@pre_test</code> will be run before each <code>@test</code>, and <code>@post_test</code> will be run after.</p><pre><code class="language-koto">make_x = |n|
+  data: n
+  @+: |other| make_x self.data + other.data
+  @-: |other| make_x self.data - other.data
+
+x_tests =
+  @pre_test: ||
+    self.x1 = make_x 100
+    self.x2 = make_x 200
+
+  @post_test: ||
+    print &#39;Test complete&#39;
+
+  @test addition: ||
+    print &#39;Testing addition&#39;
+    assert_eq self.x1 + self.x2, make_x 300
+
+  @test subtraction: ||
+    print &#39;Testing subtraction&#39;
+    assert_eq self.x1 - self.x2, make_x -100
+
+  @test failing_test: ||
+    print &#39;About to fail&#39;
+    assert false
+
+try
+  test.run_tests x_tests
+catch _
+  print &#39;A test failed&#39;
+# Expected output: Testing addition
+# Expected output: Test complete
+# Expected output: Testing subtraction
+# Expected output: Test complete
+# Expected output: About to fail
+# Expected output: A test failed</code></pre>
+<h2 id="modules">Modules</h2><p>Koto includes a module system that helps you to organize and re-use your code when your program grows too large for a single file.</p><h3 id="import"><code>import</code></h3><p>Values from other modules can be brought into the current scope using <code>import</code>.</p><pre><code class="language-koto">from list import last
+from number import abs
+
+x = [1, 2, 3]
+print last x
+# Expected output: 3
+
+print abs -42
+# Expected output: 42</code></pre><p>Multiple values from a single module can be imported at the same time.</p><pre><code class="language-koto">from tuple import contains, first, last
+
+x = &#39;a&#39;, &#39;b&#39;, &#39;c&#39;
+print first x
+# Expected output: a
+print last x
+# Expected output: c
+print contains x, &#39;b&#39;
+# Expected output: true</code></pre><p>Imported values can be renamed using <code>as</code> for clarity or to avoid conflicts.</p><pre><code class="language-koto">from list import first as list_first
+from tuple import first as tuple_first
+print list_first [1, 2]
+# Expected output: 1
+print tuple_first (3, 2, 1)
+# Expected output: 3</code></pre><h3 id="export"><code>export</code></h3><p>A value can only be imported from a module if the module has _exported_ it.</p><p><code>export</code> is used to add values to the current module&#39;s _exports map_, making them available to be imported by other modules.</p><pre><code class="language-koto">##################
+# my_module.koto #
+##################
+
+# hello is a local variable, and isn&#39;t exported
+hello = &#39;Hello&#39;
+
+# export say_hello to make it available to other modules
+export say_hello = |name| &#39;{hello}, {name}!&#39;
+
+##################
+#   other.koto   #
+##################
+
+from my_module import say_hello
+
+say_hello &#39;Koto&#39;
+# Expected output: &#39;Hello, Koto!&#39;</code></pre><p>To add a <a href="language-flow.html#type-checks">type check</a> to an exported assignment, use a <code>let</code> expression:</p><pre><code class="language-koto">export let foo: Number = -1</code></pre><p><code>export</code> also supports map syntax, which can be convenient when exporting a lot of values:</p><pre><code class="language-koto">##################
+# my_module.koto #
+##################
+
+# Define some local values
+a, b, c = 1, 2, 3
+
+# Inline maps allow for shorthand syntax
+export { a, b, c, foo: 42 }
+
+# Map blocks can also be used with export
+export
+  bar: 99
+  baz: &#39;baz&#39;</code></pre><p>Exported values are available anywhere in the module that exported them.</p><pre><code class="language-koto">get_x = ||
+  # x hasn&#39;t been created yet. When the function is called, the runtime
+  # will check the exports map for a matching value.
+  x
+
+export x = 123
+
+print get_x()
+# Expected output: 123</code></pre><p>The exports map can be accessed and modified directly via <a href="core-library.html#koto-exports">KOTOTOKENX0X</a>.</p><pre><code class="language-koto">export a, b = 1, 2
+
+# koto.exports() returns the current module&#39;s exports map
+print exports = koto.exports()
+# Expected output: {a: 1, b: 2}
+
+# Values can be inserted directly into the exports map
+exports.insert &#39;c&#39;, 3
+print c
+# Expected output: 3</code></pre><p>Assigning a new value to a variable that was previously exported won&#39;t change the exported value. If you need to update the exported value, then use <code>export</code> (or update the exports map via <a href="core-library.html#koto-exports">KOTOTOKENX1X</a>).</p><pre><code class="language-koto">export x = 99
+
+# Reassigning a new value to x doesn&#39;t affect the previously exported value
+print x = 123
+# Expected output: 123
+
+print koto.exports().x
+# Expected output: 99</code></pre><h3 id="test-functions-and-main"><code>@test</code> functions and <code>@main</code></h3><p>A module can export <code>@test</code> functions, which by default will be automatically run after the module has been compiled and initialized.</p><p>The runtime can be configured to skip running tests, so scripts shouldn&#39;t rely on tests being run.</p><p>Additionally, a module can export a <code>@main</code> function. The <code>@main</code> function will be called after the module has been compiled and initialized, and after any exported <code>@test</code> functions have been successfully run.</p><p>The use of <code>export</code> is optional when assigning to metakeys like <code>@main</code> and <code>@test</code>.</p><pre><code class="language-koto">##################
+# my_module.koto #
+##################
+
+export say_hello = |name| &#39;Hello, {name}!&#39;
+
+# Equivalent to `export @main = ...`
+@main = ||
+  print &#39;`my_module` initialized&#39;
+
+@test hello_world = ||
+  print &#39;Testing...&#39;
+  assert_eq (say_hello &#39;World&#39;), &#39;Hello, World!&#39;
+
+##################
+#   other.koto   #
+##################
+
+from my_module import say_hello
+# Expected output: Testing...
+# Expected output: Successfully initialized `my_module`
+
+say_hello &#39;Koto&#39;
+# Expected output: &#39;Hello, Koto!&#39;</code></pre><h3 id="module-paths">Module Paths</h3><p>When looking for a module, <code>import</code> will look for a <code>.koto</code> file with a matching name, or for a folder with a matching name that contains a <code>main.koto</code> file.</p><p>E.g. When an <code>import foo</code> expression is run, then a <code>foo.koto</code> file will be looked for in the same location as the current script, and if <code>foo.koto</code> isn&#39;t found then the runtime will look for <code>foo/main.koto</code>.</p><hr></article><div class="doc-footer">Language syntax and core library pages are adapted from Koto v0.15.1 documentation. Kotoist-specific API and pattern sections follow Dexter-us/kotoist v0.2.9 sources. See included license and third-party notice files.</div></div></div></main></body></html>

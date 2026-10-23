@@ -1,0 +1,262 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>Language basics · Kotoist</title><style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151d31;--text:#eef3ff;--muted:#a9b7d2;--line:#31415f;--cyan:#67d9ef;--violet:#bca3ff;--green:#8ef0b3;--gold:#ffd38a;--max:1040px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at top left,#1b3156 0,transparent 45%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}a{color:var(--cyan);text-underline-offset:3px}a:hover{color:#a7f1ff}.wrap{max-width:var(--max);margin:auto;padding:28px 22px 72px}.hero{padding:42px 34px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(125deg,rgba(38,63,108,.88),rgba(25,29,55,.92));box-shadow:0 18px 55px #0005}.eyebrow{text-transform:uppercase;letter-spacing:.16em;color:var(--cyan);font-size:.78rem;font-weight:800}.hero h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;margin:.5rem 0}.hero p{max-width:760px;color:#d2def4;font-size:1.12rem}.pill{display:inline-block;margin-top:8px;border:1px solid #52688d;background:#111a2b;border-radius:999px;padding:6px 12px;color:var(--muted);font-size:.85rem}.nav{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 28px}.nav a{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#111a2b;text-decoration:none;font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card,section{border:1px solid var(--line);border-radius:18px;background:rgba(21,29,49,.92);padding:22px;margin:16px 0}.card h2,section h2{margin:.15rem 0 .8rem;font-size:1.35rem}.muted{color:var(--muted)}.callout{border-left:4px solid var(--gold);padding:12px 15px;background:#332a1c;border-radius:0 12px 12px 0;color:#ffebc8}pre{overflow:auto;padding:16px;border-radius:12px;background:#080c15;border:1px solid #28334a;color:#e4f1ff;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#c9f1ff}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{text-align:left;vertical-align:top;padding:11px 12px;border-bottom:1px solid var(--line)}th{color:var(--cyan);font-size:.9rem}.links{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.button{display:inline-block;padding:10px 15px;border-radius:10px;background:#1a6080;color:#fff;text-decoration:none;font-weight:700}.button.secondary{background:#33335c}.small{font-size:.9rem;color:var(--muted)}footer{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}@media(max-width:700px){.wrap{padding:14px 12px 45px}.hero{padding:28px 20px}.grid{grid-template-columns:1fr}.card,section{padding:18px}table{display:block;overflow-x:auto}}@media print{body{background:#fff;color:#111}.hero,.card,section{background:#fff;color:#111;border-color:#bbb;box-shadow:none}.muted,footer,.small{color:#444}a{color:#0645ad}.nav{display:none}}
+.docs-layout{display:grid;grid-template-columns:225px minmax(0,1fr);gap:18px;align-items:start;margin-top:20px}.docs-side{position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto;padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(21,29,49,.92)}.docs-side strong{display:block;margin:0 0 12px;color:var(--cyan)}.docs-side a{display:block;padding:8px 10px;margin:3px 0;border-radius:9px;color:var(--muted);text-decoration:none}.docs-side a:hover,.docs-side a.active{color:var(--text);background:#233452}.docs-main{min-width:0}.doc-hero{padding:23px 25px;margin-bottom:16px}.doc-hero h1{font-size:clamp(1.8rem,4vw,2.5rem);margin:.35rem 0}.doc-hero p{max-width:800px}.doc-body{padding:25px}.doc-body h1{font-size:1.8rem}.doc-body h2{margin-top:2rem;padding-top:.5rem;border-top:1px solid var(--line)}.doc-body h3{margin-top:1.5rem;color:var(--cyan)}.doc-body h4{color:var(--violet)}.doc-body code{overflow-wrap:anywhere}.doc-body pre{white-space:pre;overflow:auto;padding:14px 16px;background:#070b14;border:1px solid #2b3955;border-radius:12px}.doc-body pre code{white-space:pre}.doc-body table{width:100%;border-collapse:collapse;margin:1rem 0;display:table;overflow:visible}.doc-body th,.doc-body td{padding:9px 10px;border:1px solid var(--line);text-align:left;vertical-align:top}.doc-body th{background:#202d47;color:var(--cyan)}.doc-body blockquote{border-left:3px solid var(--violet);margin:1rem 0;padding:.25rem 1rem;color:var(--muted);background:#111a2a}.doc-body .source-note{padding:13px 15px;border-left:3px solid var(--gold);background:#1a2030;border-radius:8px;color:var(--muted)}.doc-body details{border:1px solid var(--line);border-radius:12px;padding:12px 15px;margin:20px 0;background:#111827}.doc-body summary{cursor:pointer;color:var(--cyan);font-weight:700}.doc-footer{margin-top:18px;padding:14px 8px;color:var(--muted);font-size:.84rem}.doc-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:14px}.doc-cards a{display:block;height:100%;color:var(--text);text-decoration:none}.doc-cards a:hover{border-color:var(--cyan)}.doc-cards h2{font-size:1.1rem;color:var(--cyan);border:0;margin:.1rem 0 .5rem}@media(max-width:800px){.docs-layout{grid-template-columns:1fr}.docs-side{position:static;max-height:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.docs-side strong{grid-column:1/-1}.docs-side a{font-size:.9rem}.doc-body{padding:18px}.doc-body table{display:block;overflow-x:auto}}</style></head><body><main class="wrap"><div class="docs-layout"><aside class="docs-side"><strong>Kotoist Language Reference<br><small>Kotoist 0.2.9 · Koto 0.15.1</small></strong><a class="" href="index.html">Reference home</a><a class="active" href="language-basics.html">Language basics</a><a class="" href="language-flow.html">Control flow &amp; iterators</a><a class="" href="language-advanced.html">Advanced language</a><a class="" href="core-library.html">Core library</a><a class="" href="kotoist-api.html">Kotoist API</a><a class="" href="patterns.html">Pattern library</a><a class="" href="command-line.html">Command-line MIDI</a><a href="../Kotoist-Getting-Started.html">Kotoist Getting Started</a></aside><div class="docs-main"><header class="hero doc-hero"><div class="eyebrow">Dexter U.S. · Kotoist Language Reference</div><h1>Language basics</h1><p>Values, collections, functions, and maps.</p><span class="pill">Koto 0.15.1 · Kotoist 0.2.9</span></header><article class="card doc-body"><p class="source-note"><strong>Copying examples:</strong> The upstream Koto guide uses <code>print!</code> and <code>check!</code> markers for documentation tests. Here <code>print!</code> is shown as Kotoist’s <code>print</code>; <code>check!</code> lines are comments showing expected output.</p><p>A rendered version of this document can be found <a href="https://koto.dev/docs/next/language">here</a>.</p><p>See the neighboring <a href="https://github.com/koto-lang/koto/blob/v0.15.1/crates/cli/docs/README.md">readme</a> for an explanation of the <code>print!</code> and <code>check!</code> commands used in the following example.</p><hr><h1 id="the-koto-language-guide">The Koto Language Guide</h1><h2 id="language-basics">Language Basics</h2><p>Koto programs contain a series of expressions that are evaluated by Koto&#39;s runtime.</p><p>As an example, this simple script prints a friendly greeting.</p><pre><code class="language-koto">name = &#39;World&#39;
+print &#39;Hello, {name}!&#39;</code></pre><h3 id="comments">Comments</h3><p>Single-line comments start with a <code>#</code>.</p><pre><code class="language-koto"># This is a comment, everything until the end of the line is ignored.</code></pre><p>Multi-line comments start with <code>#-</code> and end with <code>-#</code>.</p><pre><code class="language-koto">#-
+This is a
+multi-line
+comment.
+-#</code></pre><h3 id="numbers">Numbers</h3><p>Numbers and arithmetic are expressed in a familiar way.</p><pre><code class="language-koto">print 1
+# Expected output: 1
+
+print 1 + 1
+# Expected output: 2
+
+print -1 - 10
+# Expected output: -11
+
+print 3 * 4
+# Expected output: 12
+
+print 9 / 2
+# Expected output: 4.5
+
+print 12 % 5
+# Expected output: 2</code></pre><h4 id="parentheses">Parentheses</h4><p>Arithmetic operations follow the conventional order of precedence. Parentheses can be used to group expressions as needed.</p><pre><code class="language-koto"># Without parentheses, multiplication is performed before addition
+print 1 + 2 * 3 + 4
+# Expected output: 11
+# With parentheses, the additions are performed first
+print (1 + 2) * (3 + 4)
+# Expected output: 21</code></pre><h3 id="booleans">Booleans</h3><p>Booleans are declared with the <code>true</code> and <code>false</code> keywords, and combined using the <code>and</code> and <code>or</code> operators.</p><pre><code class="language-koto">print true and false
+# Expected output: false
+
+print true or false
+# Expected output: true</code></pre><p>Booleans can be negated with the <code>not</code> operator.</p><pre><code class="language-koto">print not true
+# Expected output: false
+
+print not false
+# Expected output: true</code></pre><p>Values can be compared for equality with the <code>==</code> and <code>!=</code> operators.</p><pre><code class="language-koto">print 1 + 1 == 2
+# Expected output: true
+
+print 99 != 100
+# Expected output: true</code></pre><h3 id="null">Null</h3><p>The <code>null</code> keyword is used to declare a value of type <code>Null</code>, which indicates the absence of a value.</p><pre><code class="language-koto">print null
+# Expected output: null</code></pre><h4 id="truthiness">Truthiness</h4><p>In boolean contexts (such as logical operations), <code>null</code> is treated as being equivalent to <code>false</code>. Every other value in Koto evaluates as <code>true</code>.</p><pre><code class="language-koto">print not null
+# Expected output: true
+
+print null or 42
+# Expected output: 42</code></pre><h3 id="assigning-variables">Assigning Variables</h3><p>Values are assigned to named identifiers with <code>=</code>, and can be freely reassigned. Named values like this are known as _variables_.</p><pre><code class="language-koto"># Assign the value `42` to `x`
+x = 42
+print x
+# Expected output: 42
+
+# Replace the existing value of `x`
+x = true
+print x
+# Expected output: true</code></pre><p>Compound assignment operators are also available. For example, <code>x *= y</code> is a simpler way of writing <code>x = x * y</code>.</p><pre><code class="language-koto">a = 100
+print a += 11
+# Expected output: 111
+print a
+# Expected output: 111
+
+print a *= 10
+# Expected output: 1110
+print a
+# Expected output: 1110</code></pre><h3 id="debug">Debug</h3><p>The <code>debug</code> keyword allows you to quickly display a value while working on a program.</p><p>It prints the result of an expression, prefixed with its line number and the original expression as a string.</p><pre><code class="language-koto">x = 10 + 20
+debug x / 10
+# Expected output: [2] x / 10: 3.0</code></pre><p>When using <code>debug</code>, the displayed value is also the result of the expression, which can be useful if you want to quickly get feedback during development.</p><pre><code class="language-koto">x = debug 2 + 2
+# Expected output: [1] 2 + 2: 4
+print x
+# Expected output: 4</code></pre><h3 id="semicolons">Semicolons</h3><p>Expressions are typically placed on separate lines, but if necessary they can be separated with semicolons.</p><pre><code class="language-koto">a = 1; b = 2; c = a + b
+print c
+# Expected output: 3</code></pre>
+<h2 id="lists">Lists</h2><p>Lists in Koto are created with <code>[]</code> square brackets and can contain a mix of different value types.</p><p>Access list elements by _index_ using square brackets, starting from <code>0</code>.</p><pre><code class="language-koto">x = [99, null, true]
+print x[0]
+# Expected output: 99
+print x[1]
+# Expected output: null
+
+x[2] = false
+print x[2]
+# Expected output: false</code></pre><p>Once a list has been created, its underlying data is shared between other instances of the same list. Changes to one instance of the list are reflected in the other.</p><pre><code class="language-koto"># Assign a list to x
+x = [10, 20, 30]
+
+# Assign another instance of the list to y
+y = x
+
+# Modify the list through y
+y[1] = 99
+
+# The change to y is also reflected in x
+print x
+# Expected output: [10, 99, 30]</code></pre><h3 id="joining-lists">Joining Lists</h3><p>The <code>+</code> operator allows lists to be joined together, creating a new list that contains their concatenated elements.</p><pre><code class="language-koto">a = [98, 99, 100]
+b = a + [1, 2, 3]
+print b
+# Expected output: [98, 99, 100, 1, 2, 3]</code></pre>
+<h2 id="tuples">Tuples</h2><p>Tuples in Koto are similar to lists, but are designed for sequences of values that have a fixed structure.</p><p>Unlike lists, tuples can&#39;t be resized after creation, and values that are contained in the tuple can&#39;t be replaced.</p><p>Tuples are declared with a series of expressions separated by commas.</p><pre><code class="language-koto">x = 100, true, -1
+print x
+# Expected output: (100, true, -1)</code></pre><p>Parentheses can be used for grouping to avoid ambiguity.</p><pre><code class="language-koto">print (1, 2, 3), (4, 5, 6)
+# Expected output: ((1, 2, 3), (4, 5, 6))</code></pre><p>You can access tuple elements by index using square brackets, starting from <code>0</code>.</p><pre><code class="language-koto">print x = false, 10
+# Expected output: (false, 10)
+print x[0]
+# Expected output: false
+print x[1]
+# Expected output: 10
+
+print y = true, 20
+# Expected output: (true, 20)
+print x, y
+# Expected output: ((false, 10), (true, 20))</code></pre><h3 id="joining-tuples">Joining Tuples</h3><p>The <code>+</code> operator allows tuples to be joined together, creating a new tuple containing their concatenated elements.</p><pre><code class="language-koto">a = 1, 2, 3
+b = a + (4, 5, 6)
+print b
+# Expected output: (1, 2, 3, 4, 5, 6)</code></pre><h3 id="creating-empty-tuples">Creating Empty Tuples</h3><p>An empty pair of parentheses in Koto resolves to <code>null</code>. If an empty tuple is needed then use a single <code>,</code> inside parentheses.</p><pre><code class="language-koto"># An empty pair of parentheses resolves to null
+print ()
+# Expected output: null
+
+# A comma inside parentheses creates a tuple
+print (,)
+# Expected output: ()</code></pre><h3 id="tuple-mutability">Tuple Mutability</h3><p>While tuples have a fixed structure and its contained elements can&#39;t be replaced, _mutable_ value types (like <a href="#lists">lists</a>) can be modified while they&#39;re contained in tuples.</p><pre><code class="language-koto"># A Tuple containing two lists
+x = ([1, 2, 3], [4, 5, 6])
+
+# Modify the second list in the tuple
+x[1][0] = 99
+print x
+# Expected output: ([1, 2, 3], [99, 5, 6])</code></pre>
+<h2 id="strings">Strings</h2><p>Strings in Koto contain a sequence of UTF-8 encoded characters, and can be declared using <code>&#39;</code> or <code>&quot;</code> quotes.</p><pre><code class="language-koto">print &#39;Hello, World!&#39;
+# Expected output: Hello, World!
+
+print &quot;Welcome to Koto 👋&quot;
+# Expected output: Welcome to Koto 👋</code></pre><p>Strings can start on one line and finish on another.</p><pre><code class="language-koto">print &#39;This is a string
+that spans
+several lines.&#39;
+# Expected output: This is a string
+# Expected output: that spans
+# Expected output: several lines.</code></pre><p>Strings can be joined together with the <code>+</code> operator.</p><pre><code class="language-koto">print &#39;a&#39; + &#39;Bc&#39; + &#39;Def&#39;
+# Expected output: aBcDef</code></pre><h3 id="string-interpolation">String Interpolation</h3><p>Variables can be easily included in a string by surrounding them with <code>{}</code> curly braces.</p><pre><code class="language-koto">xyz = 123
+print &#39;The value of xyz is {xyz}&#39;
+# Expected output: The value of xyz is 123</code></pre><p>Including variables in a string this way is known as _string interpolation_.</p><p>Simple expressions can also be interpolated using the same syntax.</p><pre><code class="language-koto">print &#39;2 plus 3 is {2 + 3}.&#39;
+# Expected output: 2 plus 3 is 5.</code></pre><h3 id="string-escape-codes">String Escape Codes</h3><p>Strings can contain the following escape codes to define special characters, all of which start with a <code>\</code>.</p><ul><li><code>\n</code>: Newline</li><li><code>\r</code>: Carriage Return</li><li><code>\t</code>: Tab</li><li><code>\&#39;</code>: Single quote</li><li><code>\&quot;</code>: Double quote</li><li><code>\\</code>: Backslash</li><li><code>\{</code>: Interpolation start</li><li><code>\u{NNNNNN}</code>: Unicode character</li><li>Up to 6 hexadecimal digits can be included within the <code>{}</code> braces.</li></ul><p>The maximum value is <code>\u{10ffff}</code>.</p><ul><li><code>\xNN</code>: ASCII character</li><li>Exactly 2 hexadecimal digits follow the <code>\x</code>.</li></ul><pre><code class="language-koto">print &#39;\{\&#39;\&quot;}&#39;
+# Expected output: {&#39;&quot;}
+print &#39;Hi \u{1F44B}&#39;
+# Expected output: Hi 👋</code></pre><h3 id="continuing-a-long-line">Continuing a Long Line</h3><p>The end of a line can be escaped with a <code>\</code>, which will skip the newline and any leading whitespace on the next line.</p><pre><code class="language-koto">foo = &quot;This string \
+       doesn&#39;t contain \
+       newlines.&quot;
+print foo
+# Expected output: This string doesn&#39;t contain newlines.</code></pre><h3 id="single-or-double-quotes">Single or Double Quotes</h3><p>Both single <code>&#39;</code> and double <code>&quot;</code> quotes are valid for defining strings in Koto and can be used interchangeably.</p><p>A practical reason to choose one over the other is that the alternate quote type can be used in a string without needing to use escape characters.</p><pre><code class="language-koto">print &#39;This string has to escape its \&#39;single quotes\&#39;.&#39;
+# Expected output: This string has to escape its &#39;single quotes&#39;.
+
+print &quot;This string contains unescaped &#39;single quotes&#39;.&quot;
+# Expected output: This string contains unescaped &#39;single quotes&#39;.</code></pre><h3 id="string-indexing">String Indexing</h3><p>Individual _bytes_ of a string can be accessed via indexing with <code>[]</code> braces.</p><pre><code class="language-koto">print &#39;abcdef&#39;[3]
+# Expected output: d
+print &#39;xyz&#39;[1..]
+# Expected output: yz</code></pre><p>Care must be taken when using indexing with strings that could contain non-ASCII data. If the indexed bytes would produce invalid UTF-8 data then an error will be thrown. To access Unicode characters see <code>string.chars</code>.</p><h3 id="raw-strings">Raw Strings</h3><p>When a string contains a lot of special characters, it can be preferable to use a _raw string_.</p><p>Raw strings ignore escape characters and interpolated expressions, providing the raw contents of the string between its _delimiters_.</p><p>Raw strings use single or double quotes as the delimiter, prefixed with an <code>r</code>.</p><pre><code class="language-koto">print r&#39;This string contains special characters: {foo}\n\t.&#39;
+# Expected output: This string contains special characters: {foo}\n\t.</code></pre><p>For more complex string contents, the delimiter can be extended using up to 255 <code>#</code> characters after the <code>r</code> prefix,</p><pre><code class="language-koto">print r#&#39;This string contains &quot;both&quot; &#39;quote&#39; types.&#39;#
+# Expected output: This string contains &quot;both&quot; &#39;quote&#39; types.
+
+print r##&#39;This string also includes a &#39;#&#39; symbol.&#39;##
+# Expected output: This string also includes a &#39;#&#39; symbol.</code></pre>
+<h2 id="functions">Functions</h2><p>Functions in Koto are created using a pair of vertical bars (<code>||</code>), with the function&#39;s _arguments_ listed between the bars. The _body_ of the function follows the vertical bars.</p><pre><code class="language-koto">hi = || &#39;Hello!&#39;
+add = |x, y| x + y</code></pre><p>Functions are _called_ with arguments contained in <code>()</code> parentheses. The body of the function is evaluated and the result is returned to the caller.</p><pre><code class="language-koto">hi = || &#39;Hello!&#39;
+print hi()
+# Expected output: Hello!
+
+add = |x, y| x + y
+print add(50, 5)
+# Expected output: 55</code></pre><p>A function&#39;s body can be an indented block, where the last expression in the body is evaluated as the function&#39;s result.</p><pre><code class="language-koto">f = |x, y, z|
+  x *= 100
+  y *= 10
+  x + y + z
+print f(2, 3, 4)
+# Expected output: 234</code></pre><h3 id="optional-call-parentheses">Optional Call Parentheses</h3><p>The parentheses for arguments when calling a function are optional and can be omitted in simple expressions.</p><pre><code class="language-koto">square = |x| x * x
+print square 8
+# Expected output: 64
+
+add = |x, y| x + y
+print add 2, 3
+# Expected output: 5
+
+# Equivalent to square(add(2, 3))
+print square add 2, 3
+# Expected output: 25</code></pre><p>Something to watch out for is that whitespace is important in Koto, and because of optional parentheses, <code>f(1, 2)</code> is _not the same_ as <code>f (1, 2)</code>. The former is parsed as a call to <code>f</code> with two arguments, whereas the latter is a call to <code>f</code> with a tuple as the single argument.</p><h3 id="return">Return</h3><p>When the function should be exited early, the <code>return</code> keyword can be used.</p><pre><code class="language-koto">f = |n|
+  return 42
+  # This expression won&#39;t be reached
+  n * n
+print f -1
+# Expected output: 42</code></pre><p>If a value isn&#39;t provided to <code>return</code>, then the returned value is <code>null</code>.</p><pre><code class="language-koto">f = |n|
+  return
+  n * n
+print f 123
+# Expected output: null</code></pre><h3 id="function-piping">Function Piping</h3><p>The arrow operator (<code>-&gt;</code>) can be used to pass the result of one function to another, working from left to right. This is known as _function piping_, and can aid readability when working with a long chain of function calls.</p><pre><code class="language-koto">add = |x, y| x + y
+multiply = |x, y| x * y
+square = |x| x * x
+
+# Chained function calls can be a bit hard to follow for the reader.
+print x = multiply 2, square add 1, 3
+# Expected output: 32
+
+# Parentheses don&#39;t help all that much...
+print x = multiply(2, square(add(1, 3)))
+# Expected output: 32
+
+# Piping allows for a left-to-right flow of results.
+print x = add(1, 3) -&gt; square -&gt; multiply 2
+# Expected output: 32
+
+# Call chains can also be broken across lines.
+print x = add 1, 3
+  -&gt; square
+  -&gt; multiply 2
+# Expected output: 32</code></pre>
+<h2 id="maps">Maps</h2><p>_Maps_ in Koto are containers that contain a series of _entries_ with _keys_ that correspond to associated _values_.</p><p>The <code>.</code> dot operator returns the value associated with a particular key.</p><p>Maps can be created using _inline syntax_ with <code>{}</code> braces:</p><pre><code class="language-koto">m = {apples: 42, oranges: 99, lemons: 63}
+
+# Get the value associated with the `oranges` key
+print m.oranges
+# Expected output: 99</code></pre><p>...Or using _block syntax_ with indented entries:</p><pre><code class="language-koto">m =
+  apples: 42
+  oranges: 99
+  lemons: 63
+print m.apples
+# Expected output: 42</code></pre><p>Once a map has been created, its underlying data is shared between other instances of the same map. Changes to one instance are reflected in the other.</p><pre><code class="language-koto"># Create a map and assign it to `a`.
+a = {foo: 99}
+print a.foo
+# Expected output: 99
+
+# Assign a new instance of the map to `z`.
+z = a
+
+# Modifying the data via `z` is reflected in `a`.
+z.foo = &#39;Hi!&#39;
+print a.foo
+# Expected output: Hi!</code></pre><h3 id="entry-order">Entry Order</h3><p>A map&#39;s entries are maintained in a consistent order, representing the sequence in which its entries were added.</p><p>You can access map entries by index using square brackets, starting from <code>0</code>.</p><p>The entry is returned as a tuple containing the key and its associated value.</p><pre><code class="language-koto">m = {apples: 42, oranges: 99, lemons: 63}
+print m[1]
+# Expected output: (&#39;oranges&#39;, 99)</code></pre><p>Entries can also be replaced by assigning a key/value tuple to the entry&#39;s index.</p><pre><code class="language-koto">m = {apples: 42, oranges: 99, lemons: 63}
+m[1] = (&#39;pears&#39;, 123)
+print m
+# Expected output: {apples: 42, pears: 123, lemons: 63}</code></pre><h3 id="shorthand-values">Shorthand Values</h3><p>Koto supports a shorthand notation when creating maps with inline syntax. If a value isn&#39;t provided for a key, then Koto will look for a value in scope that matches the key&#39;s name, and if one is found then it will be used as that entry&#39;s value.</p><pre><code class="language-koto">hi, bye = &#39;hi!&#39;, &#39;bye!&#39;
+print m = {hi, x: 42, bye}
+# Expected output: {hi: &#39;hi!&#39;, x: 42, bye: &#39;bye!&#39;}</code></pre><h3 id="maps-and-self">Maps and Self</h3><p>Maps can store any type of value, including functions, which provides a convenient way to group functions together.</p><pre><code class="language-koto">m =
+  hello: |name| &#39;Hello, {name}!&#39;
+  bye: |name| &#39;Bye, {name}!&#39;
+
+print m.hello &#39;World&#39;
+# Expected output: Hello, World!
+print m.bye &#39;Friend&#39;
+# Expected output: Bye, Friend!</code></pre><p><code>self</code> is a special identifier that refers to the instance of the container in which the function is contained.</p><p>In maps, <code>self</code> allows functions to access and modify data from the map, enabling object-like behaviour.</p><pre><code class="language-koto">m =
+  name: &#39;World&#39;
+  say_hello: || &#39;Hello, {self.name}!&#39;
+
+print m.say_hello()
+# Expected output: Hello, World!
+
+m.name = &#39;Friend&#39;
+print m.say_hello()
+# Expected output: Hello, Friend!</code></pre><h3 id="joining-maps">Joining Maps</h3><p>The <code>+</code> operator allows maps to be joined together, creating a new map that combines their entries.</p><pre><code class="language-koto">a = {red: 100, blue: 150}
+b = {green: 200, blue: 99}
+c = a + b
+print c
+# Expected output: {red: 100, blue: 99, green: 200}</code></pre><h3 id="quoted-map-keys">Quoted Map Keys</h3><p>Map keys are usually defined and accessed without quotes, but they are stored in the map as strings. Quotes can be used if a key needs to be defined that would be otherwise be disallowed by Koto syntax rules (e.g. a keyword, or using characters that aren&#39;t allowed in an identifier). Quoted keys also allow dynamic keys to be generated by using string interpolation.</p><pre><code class="language-koto">x = 99
+m =
+  &#39;true&#39;: 42
+  &#39;key{x}&#39;: x
+print m.&#39;true&#39;
+# Expected output: 42
+print m.key99
+# Expected output: 99</code></pre><h3 id="map-key-types">Map Key Types</h3><p>Map keys are typically strings, but any _immutable_ value can be used as a map key by using the <code>map.insert</code> and <code>map.get</code> functions.</p><p>The immutable value types in Koto are <a href="#strings">strings</a>, <a href="#numbers">numbers</a>, <a href="#booleans">booleans</a>, <a href="language-flow.html#ranges">ranges</a>, and <a href="#null">KOTOTOKENX0X</a>.</p><p>A <a href="#tuples">tuple</a> is also considered to be immutable when its contained elements are also immutable.</p></article><div class="doc-footer">Language syntax and core library pages are adapted from Koto v0.15.1 documentation. Kotoist-specific API and pattern sections follow Dexter-us/kotoist v0.2.9 sources. See included license and third-party notice files.</div></div></div></main></body></html>

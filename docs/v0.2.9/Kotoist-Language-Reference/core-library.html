@@ -1,0 +1,1015 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>Koto core library · Kotoist</title><style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151d31;--text:#eef3ff;--muted:#a9b7d2;--line:#31415f;--cyan:#67d9ef;--violet:#bca3ff;--green:#8ef0b3;--gold:#ffd38a;--max:1040px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at top left,#1b3156 0,transparent 45%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}a{color:var(--cyan);text-underline-offset:3px}a:hover{color:#a7f1ff}.wrap{max-width:var(--max);margin:auto;padding:28px 22px 72px}.hero{padding:42px 34px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(125deg,rgba(38,63,108,.88),rgba(25,29,55,.92));box-shadow:0 18px 55px #0005}.eyebrow{text-transform:uppercase;letter-spacing:.16em;color:var(--cyan);font-size:.78rem;font-weight:800}.hero h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;margin:.5rem 0}.hero p{max-width:760px;color:#d2def4;font-size:1.12rem}.pill{display:inline-block;margin-top:8px;border:1px solid #52688d;background:#111a2b;border-radius:999px;padding:6px 12px;color:var(--muted);font-size:.85rem}.nav{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 28px}.nav a{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#111a2b;text-decoration:none;font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card,section{border:1px solid var(--line);border-radius:18px;background:rgba(21,29,49,.92);padding:22px;margin:16px 0}.card h2,section h2{margin:.15rem 0 .8rem;font-size:1.35rem}.muted{color:var(--muted)}.callout{border-left:4px solid var(--gold);padding:12px 15px;background:#332a1c;border-radius:0 12px 12px 0;color:#ffebc8}pre{overflow:auto;padding:16px;border-radius:12px;background:#080c15;border:1px solid #28334a;color:#e4f1ff;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#c9f1ff}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{text-align:left;vertical-align:top;padding:11px 12px;border-bottom:1px solid var(--line)}th{color:var(--cyan);font-size:.9rem}.links{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.button{display:inline-block;padding:10px 15px;border-radius:10px;background:#1a6080;color:#fff;text-decoration:none;font-weight:700}.button.secondary{background:#33335c}.small{font-size:.9rem;color:var(--muted)}footer{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}@media(max-width:700px){.wrap{padding:14px 12px 45px}.hero{padding:28px 20px}.grid{grid-template-columns:1fr}.card,section{padding:18px}table{display:block;overflow-x:auto}}@media print{body{background:#fff;color:#111}.hero,.card,section{background:#fff;color:#111;border-color:#bbb;box-shadow:none}.muted,footer,.small{color:#444}a{color:#0645ad}.nav{display:none}}
+.docs-layout{display:grid;grid-template-columns:225px minmax(0,1fr);gap:18px;align-items:start;margin-top:20px}.docs-side{position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto;padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(21,29,49,.92)}.docs-side strong{display:block;margin:0 0 12px;color:var(--cyan)}.docs-side a{display:block;padding:8px 10px;margin:3px 0;border-radius:9px;color:var(--muted);text-decoration:none}.docs-side a:hover,.docs-side a.active{color:var(--text);background:#233452}.docs-main{min-width:0}.doc-hero{padding:23px 25px;margin-bottom:16px}.doc-hero h1{font-size:clamp(1.8rem,4vw,2.5rem);margin:.35rem 0}.doc-hero p{max-width:800px}.doc-body{padding:25px}.doc-body h1{font-size:1.8rem}.doc-body h2{margin-top:2rem;padding-top:.5rem;border-top:1px solid var(--line)}.doc-body h3{margin-top:1.5rem;color:var(--cyan)}.doc-body h4{color:var(--violet)}.doc-body code{overflow-wrap:anywhere}.doc-body pre{white-space:pre;overflow:auto;padding:14px 16px;background:#070b14;border:1px solid #2b3955;border-radius:12px}.doc-body pre code{white-space:pre}.doc-body table{width:100%;border-collapse:collapse;margin:1rem 0;display:table;overflow:visible}.doc-body th,.doc-body td{padding:9px 10px;border:1px solid var(--line);text-align:left;vertical-align:top}.doc-body th{background:#202d47;color:var(--cyan)}.doc-body blockquote{border-left:3px solid var(--violet);margin:1rem 0;padding:.25rem 1rem;color:var(--muted);background:#111a2a}.doc-body .source-note{padding:13px 15px;border-left:3px solid var(--gold);background:#1a2030;border-radius:8px;color:var(--muted)}.doc-body details{border:1px solid var(--line);border-radius:12px;padding:12px 15px;margin:20px 0;background:#111827}.doc-body summary{cursor:pointer;color:var(--cyan);font-weight:700}.doc-footer{margin-top:18px;padding:14px 8px;color:var(--muted);font-size:.84rem}.doc-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:14px}.doc-cards a{display:block;height:100%;color:var(--text);text-decoration:none}.doc-cards a:hover{border-color:var(--cyan)}.doc-cards h2{font-size:1.1rem;color:var(--cyan);border:0;margin:.1rem 0 .5rem}@media(max-width:800px){.docs-layout{grid-template-columns:1fr}.docs-side{position:static;max-height:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.docs-side strong{grid-column:1/-1}.docs-side a{font-size:.9rem}.doc-body{padding:18px}.doc-body table{display:block;overflow-x:auto}}</style></head><body><main class="wrap"><div class="docs-layout"><aside class="docs-side"><strong>Kotoist Language Reference<br><small>Kotoist 0.2.9 · Koto 0.15.1</small></strong><a class="" href="index.html">Reference home</a><a class="" href="language-basics.html">Language basics</a><a class="" href="language-flow.html">Control flow &amp; iterators</a><a class="" href="language-advanced.html">Advanced language</a><a class="active" href="core-library.html">Core library</a><a class="" href="kotoist-api.html">Kotoist API</a><a class="" href="patterns.html">Pattern library</a><a class="" href="command-line.html">Command-line MIDI</a><a href="../Kotoist-Getting-Started.html">Kotoist Getting Started</a></aside><div class="docs-main"><header class="hero doc-hero"><div class="eyebrow">Dexter U.S. · Kotoist Language Reference</div><h1>Koto core library</h1><p>Core values and modules documented for Koto 0.15.1.</p><span class="pill">Koto 0.15.1 · Kotoist 0.2.9</span></header><div><p class="source-note">Complete Koto v0.15.1 core-library documentation is included. Optional JSON, TOML, YAML, and regex packages are not presented as built-in features unless registered by Kotoist. Kotoist’s bundled <code>random</code> module and host API are documented separately.</p><section class="card doc-body" id="core-koto"><h2>koto</h2><p>A collection of utilities for working with the Koto runtime.</p><h2 id="koto-args">args</h2><pre><code class="language-kototype">Tuple</code></pre><p>Provides access to the arguments that were passed into the script when running the <code>koto</code> CLI application.</p><p>If no arguments were provided then the list is empty.</p><h3 id="koto-example">Example</h3><pre><code class="language-koto"># Assuming that the script was run with `koto script.koto -- 1 2 &quot;hello&quot;`
+size koto.args
+# 3
+koto.args.first()
+# 1
+koto.args.last()
+# hello</code></pre><h2 id="koto-copy">copy</h2><pre><code class="language-kototype">|value: Any| -&gt; Any</code></pre><p>Makes a copy of the provided value.</p><h3 id="koto-shared-mutable-data">Shared mutable data</h3><p>For values that have shared mutable data (i.e., <code>List</code>, <code>Map</code>), unique copies of the data will be made. Note that this only applies to the first level of data, so nested containers will still share their data with their counterparts in the original data. To make a copy where any nested containers are also unique, use <a href="#koto-deep-copy">KOTOTOKENX2X</a>.</p><h3 id="koto-iterator-copies">Iterator copies</h3><p>Copied iterators share the same underlying data as the original, but have a unique iteration position, which is part of an iterator&#39;s shared state by default.</p><p>If the iterator is a generator, some effort will be made to make the generator&#39;s copy produce the same output as the original. However, this isn&#39;t guaranteed to be successful. Specifically, the value stack of the copied virtual machine will be scanned for iterators, and each iterator will have a copy made. Iterators that may be used in other ways by the generator (such as being stored in containers or function captures) won&#39;t be copied and will still have shared state.</p><h3 id="koto-examples">Examples</h3><pre><code class="language-koto"># Copying a map
+x = {foo: -1, bar: 99}
+y = x
+y.foo = 42
+print x.foo
+# Expected output: 42
+
+z = koto.copy x
+z.bar = -1
+print x.bar # x.bar remains unmodified due to the copy
+# Expected output: 99</code></pre><pre><code class="language-koto"># Copying a list
+
+x = (1..=10).iter()
+y = x # y shares the same iteration position as x.
+z = koto.copy x # z shares the same iteration data (the range 1..=10),
+                # but has a unique iteration position.
+
+print x.next().get()
+# Expected output: 1
+print x.next().get()
+# Expected output: 2
+print y.next().get() # y shares x&#39;s iteration position.
+# Expected output: 3
+print z.next().get() # z isn&#39;t impacted by the advancing of x and y.
+# Expected output: 1</code></pre><h3 id="koto-see-also">See also</h3><ul><li><a href="#koto-deep-copy">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="koto-deep-copy"></a><h2 id="koto-deep_copy">deep_copy</h2><pre><code class="language-kototype">|value: Any| -&gt; Any</code></pre><p>Makes a unique _deep_ copy of the value&#39;s data.</p><h3 id="koto-shared-mutable-data-1">Shared mutable data</h3><p>This makes a unique copy of the value&#39;s data, and then recursively makes deep copies of any nested containers in the value.</p><p>If only the first level of data needs to be made unique, then use <a href="#koto-copy">KOTOTOKENX0X</a>.</p><h3 id="koto-example-1">Example</h3><pre><code class="language-koto">x = [[1, 2], [3, [4, 5]]]
+y = koto.deep_copy x
+y[1][1] = 99
+print x # a deep copy has been made, so x is unaffected by the assignment to y
+# Expected output: [[1, 2], [3, [4, 5]]]</code></pre><h3 id="koto-see-also-1">See also</h3><ul><li><a href="#koto-copy">KOTOTOKENX0X</a></li></ul><h2 id="koto-exports">exports</h2><pre><code class="language-kototype">|| -&gt; Map</code></pre><p>Returns the current module&#39;s <code>export</code> map.</p><p>Although typically module items are exported with <code>export</code> expressions, it can be useful to export items programatically.</p><h3 id="koto-example-2">Example</h3><pre><code class="language-koto">export a, b, c = 1, 2, 3
+print koto.exports()
+# Expected output: {a: 1, b: 2, c: 3}
+
+koto.exports().remove &#39;b&#39;
+print koto.exports()
+# Expected output: {a: 1, c: 3}</code></pre><h2 id="koto-hash">hash</h2><pre><code class="language-kototype">|value: Any| -&gt; Number?</code></pre><p>Returns the value&#39;s hash as an integer, or <code>null</code> if the value is not hashable.</p><h3 id="koto-example-3">Example</h3><pre><code class="language-koto">from koto import hash
+
+print (hash &#39;hi&#39;) == (hash &#39;bye&#39;)
+# Expected output: false
+
+# Lists aren&#39;t hashable
+print hash [1, 2] 
+# Expected output: null
+
+# Tuples are hashable if they only contain hashable values 
+print (hash (1, 2)) == null
+# Expected output: false</code></pre><h2 id="koto-load">load</h2><pre><code class="language-kototype">|script: String| -&gt; Chunk</code></pre><p>Compiles the provided Koto <code>script</code> and returns a compiled <code>Chunk</code>.</p><p>Any compilation errors get thrown.</p><h3 id="koto-example-4">Example</h3><pre><code class="language-koto">chunk = koto.load &#39;1 + 2&#39;
+print koto.run chunk
+# Expected output: 3</code></pre><h3 id="koto-see-also-2">See also</h3><ul><li><a href="#koto-run">KOTOTOKENX0X</a></li></ul><h2 id="koto-run">run</h2><pre><code class="language-kototype">|script: String| -&gt; Any</code></pre><p>Compiles and runs the provided Koto <code>script</code>, and returns the resulting value.</p><p>Any compilation or runtime errors get thrown.</p><pre><code class="language-kototype">|Chunk| -&gt; Any</code></pre><p>Runs the compiled <code>Chunk</code>, and returns the resulting value.</p><p>Any runtime errors encountered during execution get thrown.</p><h3 id="koto-example-5">Example</h3><pre><code class="language-koto">print koto.run &#39;[1, 2, 3, 4].sum()&#39;
+# Expected output: 10</code></pre><h3 id="koto-see-also-3">See also</h3><ul><li><a href="#koto-load">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="koto-script-dir"></a><h2 id="koto-script_dir">script_dir</h2><pre><code class="language-kototype">|| -&gt; String?</code></pre><p>Returns the path of the directory containing the current script, if available.</p><a class="anchor-alias" id="koto-script-path"></a><h2 id="koto-script_path">script_path</h2><pre><code class="language-kototype">|| -&gt; String?</code></pre><p>Returns the path of the file containing the current script, if available.</p><h2 id="koto-size">size</h2><pre><code class="language-kototype">|value: Any| -&gt; Number</code></pre><p>Returns the _size_ of a value.</p><p>The size of a value is typically defined as the number of elements in a container, with some notable exceptions:</p><ul><li>For strings, the size is the number of bytes in the string data.</li><li>For ranges, the size is the number of integers in the range. </li><li>For non-inclusive ranges, this is equivalent to </li></ul><p><code>range.end() - range.start()</code>.</p><ul><li>For inclusive ranges, this is equivalent to </li></ul><p><code>range.end() + 1 - range.start()</code>.</p><ul><li>If the range is unbounded then an error will be thrown.</li><li>An error will be thrown if the value doesn&#39;t have a defined size.</li></ul><h3 id="koto-example-6">Example</h3><pre><code class="language-koto">from koto import size
+
+print (size [1, 2, 3]), (size (,))
+# Expected output: (3, 0)
+
+print (size &#39;hello&#39;), (size &#39;héllø&#39;), (size &#39;&#39;)
+# Expected output: (5, 7, 0)
+
+print (size 10..20), (size 10..=20), (size 20..0)
+# Expected output: (10, 11, 20)</code></pre><h2 id="koto-type">type</h2><pre><code class="language-kototype">|value: Any| -&gt; String</code></pre><p>Returns the type of the input value as a String.</p><h3 id="koto-example-7">Example</h3><pre><code class="language-koto">print koto.type true
+# Expected output: Bool
+
+x = 42
+print koto.type x
+# Expected output: Number
+
+foo =
+  @type: &quot;Foo&quot;
+print koto.type foo
+# Expected output: Foo</code></pre></section><section class="card doc-body" id="core-iterator"><h2>iterator</h2><h2 id="iterator-all">all</h2><pre><code class="language-kototype">|Iterable, test: |Any| -&gt; Bool| -&gt; Bool</code></pre><p>Checks the Iterable&#39;s values against a test function.</p><p>The test function should return <code>true</code> if the value passes the test, otherwise it should return <code>false</code>.</p><p><code>all</code> will return <code>true</code> if _all_ values pass the test, otherwise it will return <code>false</code>.</p><p><code>all</code> stops running as soon as it finds a value that fails the test.</p><h3 id="iterator-example">Example</h3><pre><code class="language-koto">print (1..9).all |x| x &gt; 0
+# Expected output: true
+
+print (&#39;&#39;, &#39;&#39;, &#39;foo&#39;).all string.is_empty
+# Expected output: false
+
+print [10, 20, 30]
+  .each |x| x / 10
+  .all |x| x &lt; 10
+# Expected output: true</code></pre><h3 id="iterator-see-also">See Also</h3><ul><li><a href="#iterator-any">KOTOTOKENX0X</a></li></ul><h2 id="iterator-any">any</h2><pre><code class="language-kototype">|Iterable, test: |Any| -&gt; Bool| -&gt; Bool</code></pre><p>Checks the Iterable&#39;s values against a test function.</p><p>The test function should return <code>true</code> if the value passes the test, otherwise it should return <code>false</code>.</p><p><code>any</code> will return <code>true</code> if _any_ of the values pass the test, otherwise it will return <code>false</code>.</p><p><code>any</code> stops running as soon as it finds a passing test.</p><h3 id="iterator-example-1">Example</h3><pre><code class="language-koto">print (1..9).any |x| x == 5
+# Expected output: true
+
+print (&#39;&#39;, &#39;&#39;, &#39;foo&#39;).any string.is_empty
+# Expected output: true
+
+print [10, 20, 30]
+  .each |x| x / 10
+  .any |x| x == 2
+# Expected output: true</code></pre><h3 id="iterator-see-also-1">See Also</h3><ul><li><a href="#iterator-all">KOTOTOKENX0X</a></li></ul><h2 id="iterator-chain">chain</h2><pre><code class="language-kototype">|first: Iterable, second: Iterable| -&gt; Iterator</code></pre><p><code>chain</code> returns an iterator that iterates over the output of the first iterator, followed by the output of the second iterator.</p><h3 id="iterator-example-2">Example</h3><pre><code class="language-koto">print [1, 2]
+  .chain &#39;abc&#39;
+  .to_tuple()
+# Expected output: (1, 2, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;)</code></pre><h2 id="iterator-chunks">chunks</h2><pre><code class="language-kototype">|Iterable, size: Number| -&gt; Iterator</code></pre><p>Returns an iterator that splits up the input data into chunks of size <code>N</code>, where each chunk is provided as a Tuple. The final chunk may have fewer than <code>N</code> elements.</p><h3 id="iterator-example-3">Example</h3><pre><code class="language-koto">print 1..=10
+  .chunks 3
+  .to_list()
+# Expected output: [(1, 2, 3), (4, 5, 6), (7, 8, 9), (10)]</code></pre><h2 id="iterator-consume">consume</h2><pre><code class="language-kototype">|Iterable| -&gt; Null</code></pre><p>Consumes the output of the iterator.</p><pre><code class="language-kototype">|Iterable, |Any| -&gt; Any| -&gt; Null</code></pre><p>Consumes the output of the iterator, calling the provided function with each iterator output value.</p><h3 id="iterator-example-4">Example</h3><pre><code class="language-koto">result = []
+1..=10
+  .keep |n| n % 2 == 0
+  .each |n| result.push n
+  .consume()
+print result
+# Expected output: [2, 4, 6, 8, 10]
+
+# Alternatively, calling consume with a function is equivalent to having an
+# `each` / `consume` chain
+result = []
+1..=10
+  .keep |n| n % 2 == 1
+  .consume |n| result.push n
+print result
+# Expected output: [1, 3, 5, 7, 9]</code></pre><h2 id="iterator-count">count</h2><pre><code class="language-kototype">|Iterable| -&gt; Number</code></pre><p>Counts the number of items yielded from the iterator.</p><h3 id="iterator-example-5">Example</h3><pre><code class="language-koto">print (5..15).count()
+# Expected output: 10
+
+print 0..100
+  .keep |x| x % 2 == 0
+  .count()
+# Expected output: 50</code></pre><h2 id="iterator-cycle">cycle</h2><pre><code class="language-kototype">|Iterable| -&gt; Iterator</code></pre><p>Takes an Iterable and returns a new iterator that endlessly repeats the iterable&#39;s output.</p><p>The iterable&#39;s output gets cached, which may result in a large amount of memory being used if the cycle has a long length.</p><h3 id="iterator-example-6">Example</h3><pre><code class="language-koto">print (1, 2, 3)
+  .cycle()
+  .take 10
+  .to_list()
+# Expected output: [1, 2, 3, 1, 2, 3, 1, 2, 3, 1]</code></pre><h2 id="iterator-each">each</h2><pre><code class="language-kototype">|Iterable, function: |Any| -&gt; Any| -&gt; Iterator</code></pre><p>Creates a new iterator that yields the result of calling the provided <code>function</code> with each value from the input iterator.</p><h3 id="iterator-example-7">Example</h3><pre><code class="language-koto">print (2, 3, 4)
+  .each |x| x * 2
+  .to_list()
+# Expected output: [4, 6, 8]</code></pre><h2 id="iterator-enumerate">enumerate</h2><pre><code class="language-kototype">|Iterable| -&gt; Iterator</code></pre><p>Creates an iterator that yields each value along with an associated index.</p><h3 id="iterator-example-8">Example</h3><pre><code class="language-koto">print (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;).enumerate().to_list()
+# Expected output: [(0, &#39;a&#39;), (1, &#39;b&#39;), (2, &#39;c&#39;)]</code></pre><h2 id="iterator-find">find</h2><pre><code class="language-kototype">|Iterable, test: |Any| -&gt; Bool| -&gt; Any?</code></pre><p>Returns the first value in the iterable that passes the test function.</p><p>The function is called for each value in the iterator, and should return either <code>true</code> if the value is a match, or <code>false</code> if it&#39;s not.</p><p>The first matching value will cause iteration to stop.</p><p>If no match is found then <code>null</code> is returned.</p><h3 id="iterator-example-9">Example</h3><pre><code class="language-koto">print (10..20).find |x| x &gt; 14 and x &lt; 16
+# Expected output: 15
+
+print (10..20).find |x| x &gt; 100
+# Expected output: null</code></pre><h2 id="iterator-flatten">flatten</h2><pre><code class="language-kototype">|Iterable| -&gt; Iterator</code></pre><p>Returns the output of the input iterator, with any nested iterable values flattened out.</p><p>Note that only one level of flattening is performed, so any double-nested containers will still be present in the output.</p><h3 id="iterator-example-10">Example</h3><pre><code class="language-koto">print [(2, 4), [6, 8, (10, 12)]]
+  .flatten()
+  .to_list()
+# Expected output: [2, 4, 6, 8, (10, 12)]</code></pre><h3 id="iterator-see-also-2">See Also</h3><ul><li><a href="#iterator-find">KOTOTOKENX0X</a></li></ul><h2 id="iterator-fold">fold</h2><pre><code class="language-kototype">|
+  input: Iterable, 
+  initial_value: Any, 
+  accumulator: |accumulated: Any, next: Any| -&gt; Any
+| -&gt; Any</code></pre><p>Returns the result of &#39;folding&#39; the iterator&#39;s values into an accumulator function.</p><p>The function takes the accumulated value and the next iterator value, and then returns the result of folding the value into the accumulator.</p><p>The first argument is an initial accumulated value that gets passed to the function along with the first value from the iterator.</p><p>The result is then the final accumulated value.</p><p>This operation is also known in other languages as <code>reduce</code>, <code>accumulate</code>, <code>inject</code>, <code>fold left</code>, along with other names.</p><h3 id="iterator-example-11">Example</h3><pre><code class="language-koto">print (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+  .fold [], |result, x| 
+    result.push x
+    result.push &#39;-&#39;
+# Expected output: [&#39;a&#39;, &#39;-&#39;, &#39;b&#39;, &#39;-&#39;, &#39;c&#39;, &#39;-&#39;]</code></pre><h3 id="iterator-see-also-3">See Also</h3><ul><li><a href="#iterator-product">KOTOTOKENX0X</a></li><li><a href="#iterator-sum">KOTOTOKENX0X</a></li></ul><h2 id="iterator-generate">generate</h2><pre><code class="language-kototype">|generator: || -&gt; Any| -&gt; Iterator</code></pre><p>Creates an iterator that yields the result of repeatedly calling the <code>generator</code> function.</p><p>_Warning_: This version of <code>generate</code> will iterate endlessly, so consider using an adaptor like <a href="#iterator-take">KOTOTOKENX1X</a> to produce an iterator that has an end.</p><pre><code class="language-kototype">|n: Number, generator: || -&gt; Any| -&gt; Any</code></pre><p>Creates an iterator that yields the result of calling the <code>generator</code> function <code>n</code> times.</p><h3 id="iterator-example-12">Example</h3><pre><code class="language-koto">from iterator import generate
+
+state = {x: 0}
+f = || state.x += 1
+
+print generate(f)
+  .take(5)
+  .to_list()
+# Expected output: [1, 2, 3, 4, 5]
+
+print generate(3, f).to_tuple()
+# Expected output: (6, 7, 8)</code></pre><h3 id="iterator-see-also-4">See Also</h3><ul><li><a href="#iterator-repeat">KOTOTOKENX0X</a></li></ul><h2 id="iterator-intersperse">intersperse</h2><pre><code class="language-kototype">|Iterable, value: Any| -&gt; Iterator</code></pre><p>Returns an iterator that yields a copy of the provided value between each adjacent pair of output values.</p><pre><code class="language-kototype">|Iterable, generator: || -&gt; Any| -&gt; Iterator</code></pre><p>Returns an iterator that yields the result of calling the provided function between each adjacent pair of output values.</p><h3 id="iterator-example-13">Example</h3><pre><code class="language-koto">print (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;).intersperse(&#39;-&#39;).to_string()
+# Expected output: a-b-c
+
+separators = (1, 2, 3).iter()
+print (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+  .intersperse || separators.next().get()
+  .to_tuple(),
+# Expected output: (&#39;a&#39;, 1, &#39;b&#39;, 2, &#39;c&#39;)</code></pre><h2 id="iterator-iter">iter</h2><pre><code class="language-kototype">|Iterable| -&gt; Iterator</code></pre><p>Returns an iterator that yields the provided iterable&#39;s values.</p><p>Iterable values will be automatically accepted by most iterator operations, so it&#39;s usually not necessary to call <code>.iter()</code>, however it can be usefult sometimes to make a standalone iterator for manual iteration.</p><p>Note that calling <code>.iter</code> with an <code>Iterator</code> will return the iterator without modification. If a copy of the iterator is needed then see <code>koto.copy</code> and <code>koto.deep_copy</code>.</p><h3 id="iterator-example-14">Example</h3><pre><code class="language-koto">i = (1..10).iter()
+i.skip 5
+print i.next().get()
+# Expected output: 6</code></pre><h3 id="iterator-see-also-5">See Also</h3><ul><li><a href="core-library.html#koto-copy">KOTOTOKENX0X</a></li><li><a href="core-library.html#koto-deep_copy">KOTOTOKENX0X</a></li></ul><h2 id="iterator-keep">keep</h2><pre><code class="language-kototype">|Iterable, test: |Any| -&gt; Bool| -&gt; Iterator</code></pre><p>Returns an iterator that keeps only the values that pass a test function.</p><p>The function is called for each value in the iterator, and should return either <code>true</code> if the value should be kept in the iterator output, or <code>false</code> if it should be discarded.</p><h3 id="iterator-example-15">Example</h3><pre><code class="language-koto">print 0..10
+  .keep |x| x % 2 == 0
+  .to_tuple()
+# Expected output: (0, 2, 4, 6, 8)</code></pre><h2 id="iterator-last">last</h2><pre><code class="language-kototype">|Iterable| -&gt; Any?</code></pre><p>Consumes the iterator, returning the last yielded value.</p><h3 id="iterator-example-16">Example</h3><pre><code class="language-koto">print (1..100).take(5).last()
+# Expected output: 5
+
+print (0..0).last()
+# Expected output: null</code></pre><h2 id="iterator-max">max</h2><pre><code class="language-kototype">|Iterable| -&gt; Any</code></pre><p>Returns the maximum value found in the iterable.</p><pre><code class="language-kototype">|Iterable, key: |Any| -&gt; Any| -&gt; Any</code></pre><p>Returns the maximum value found in the iterable, based on first calling a &#39;key&#39; function with the value, and then using the resulting keys for the comparisons.</p><p>A <code>&lt;</code> &#39;less than&#39; comparison is performed between each value and the maximum found so far, until all values in the iterator have been compared.</p><h3 id="iterator-example-17">Example</h3><pre><code class="language-koto">print (8, -3, 99, -1).max()
+# Expected output: 99</code></pre><h3 id="iterator-see-also-6">See Also</h3><ul><li><a href="#iterator-min">KOTOTOKENX0X</a></li><li><a href="#iterator-min-max">KOTOTOKENX0X</a></li></ul><h2 id="iterator-min">min</h2><pre><code class="language-kototype">|Iterable| -&gt; Any</code></pre><p>Returns the minimum value found in the iterable.</p><pre><code class="language-kototype">|Iterable, key: |Any| -&gt; Any| -&gt; Any</code></pre><p>Returns the minimum value found in the iterable, based on first calling a &#39;key&#39; function with the value, and then using the resulting keys for the comparisons.</p><p>A <code>&lt;</code> &#39;less than&#39; comparison is performed between each value and the minimum found so far, until all values in the iterator have been compared.</p><h3 id="iterator-example-18">Example</h3><pre><code class="language-koto">print (8, -3, 99, -1).min()
+# Expected output: -3</code></pre><h3 id="iterator-see-also-7">See Also</h3><ul><li><a href="#iterator-max">KOTOTOKENX0X</a></li><li><a href="#iterator-min-max">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="iterator-min-max"></a><h2 id="iterator-min_max">min_max</h2><pre><code class="language-kototype">|Iterable| -&gt; (Any, Any)</code></pre><p>Returns the minimum and maximum values found in the iterable.</p><pre><code class="language-kototype">|Iterable, key: |Any| -&gt; Any| -&gt; Any</code></pre><p>Returns the minimum and maximum values found in the iterable, based on first calling a &#39;key&#39; function with the value, and then using the resulting keys for the comparisons.</p><p>A <code>&lt;</code> &#39;less than&#39; comparison is performed between each value and both the minimum and maximum found so far, until all values in the iterator have been compared.</p><h3 id="iterator-example-19">Example</h3><pre><code class="language-koto">print (8, -3, 99, -1).min_max()
+# Expected output: (-3, 99)</code></pre><h3 id="iterator-see-also-8">See Also</h3><ul><li><a href="#iterator-max">KOTOTOKENX0X</a></li><li><a href="#iterator-min">KOTOTOKENX0X</a></li></ul><h2 id="iterator-next">next</h2><pre><code class="language-kototype">|Iterable| -&gt; IteratorOutput?</code></pre><p>Returns the next value from the iterator wrapped in an <a href="#iterator-iteratoroutput">KOTOTOKENX0X</a>, or <code>null</code> if the iterator has been exhausted.</p><h3 id="iterator-example-20">Example</h3><pre><code class="language-koto">x = (1, null, &#39;x&#39;).iter()
+print x.next()
+# Expected output: IteratorOutput(1)
+print x.next()
+# Expected output: IteratorOutput(null)
+print x.next()
+# Expected output: IteratorOutput(x)
+print x.next()
+# Expected output: null
+
+# Call .get() to access the value from an IteratorOutput
+print &#39;abc&#39;.next().get()
+# Expected output: a</code></pre><h3 id="iterator-see-also-9">See Also</h3><ul><li><a href="#iterator-next-back">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="iterator-next-back"></a><h2 id="iterator-next_back">next_back</h2><pre><code class="language-kototype">|Iterable| -&gt; IteratorOutput?</code></pre><p>Returns the next value from the end of the iterator wrapped in an <a href="#iterator-iteratoroutput">KOTOTOKENX0X</a>, or <code>null</code> if the iterator has been exhausted.</p><p>This only works with iterators that have a defined end, so attempting to call <code>next_back</code> on endless iterators like <a href="#iterator-generate">KOTOTOKENX1X</a> will result in an error.</p><h3 id="iterator-example-21">Example</h3><pre><code class="language-koto">x = (1..=5).iter()
+print x.next_back()
+# Expected output: IteratorOutput(5)
+print x.next_back()
+# Expected output: IteratorOutput(4)
+
+# calls to next and next_back can be mixed together
+print x.next()
+# Expected output: IteratorOutput(1)
+print x.next_back()
+# Expected output: IteratorOutput(3)
+print x.next_back()
+# Expected output: IteratorOutput(2)
+
+# 1 has already been produced by the iterator, so it&#39;s now exhausted
+print x.next_back()
+# Expected output: null</code></pre><h3 id="iterator-see-also-10">See Also</h3><ul><li><a href="#iterator-next">KOTOTOKENX0X</a></li><li><a href="#iterator-reversed">KOTOTOKENX0X</a></li></ul><h2 id="iterator-once">once</h2><pre><code class="language-kototype">|Any| -&gt; Iterator</code></pre><p>Returns an iterator that yields the given value a single time.</p><h3 id="iterator-example-22">Example</h3><pre><code class="language-koto">print iterator.once(99)
+  .chain(&#39;abc&#39;)
+  .to_tuple()
+# Expected output: (99, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;)</code></pre><h3 id="iterator-see-also-11">See Also</h3><ul><li><a href="#iterator-generate">KOTOTOKENX0X</a></li><li><a href="#iterator-repeat">KOTOTOKENX0X</a></li></ul><h2 id="iterator-peekable">peekable</h2><pre><code class="language-kototype">|Iterable| -&gt; Peekable</code></pre><p>Wraps the given iterable value in a peekable iterator.</p><h3 id="iterator-peekable-peek">Peekable.peek</h3><p>Returns the next value from the iterator without advancing it. The peeked value is cached until the iterator is advanced.</p><h4 id="iterator-example-23">Example</h4><pre><code class="language-koto">x = &#39;abc&#39;.peekable()
+print x.peek()
+# Expected output: IteratorOutput(a)
+print x.peek()
+# Expected output: IteratorOutput(a)
+print x.next()
+# Expected output: IteratorOutput(a)
+print x.peek()
+# Expected output: IteratorOutput(b)
+print x.next(), x.next()
+# Expected output: (IteratorOutput(b), IteratorOutput(c))
+print x.peek()
+# Expected output: null</code></pre><h4 id="iterator-see-also-12">See Also</h4><ul><li><a href="#iterator-next">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="iterator-peekable-peek-back"></a><h3 id="iterator-peekable-peek_back">Peekable.peek_back</h3><p>Returns the next value from the end of the iterator without advancing it. The peeked value is cached until the iterator is advanced.</p><h4 id="iterator-example-24">Example</h4><pre><code class="language-koto">x = &#39;abc&#39;.peekable()
+print x.peek_back()
+# Expected output: IteratorOutput(c)
+print x.next_back()
+# Expected output: IteratorOutput(c)
+print x.peek()
+# Expected output: IteratorOutput(a)
+print x.peek_back()
+# Expected output: IteratorOutput(b)
+print x.next_back(), x.next_back()
+# Expected output: (IteratorOutput(b), IteratorOutput(a))
+print x.peek_back()
+# Expected output: null</code></pre><h4 id="iterator-see-also-13">See Also</h4><ul><li><a href="#iterator-next-back">KOTOTOKENX0X</a></li></ul><h2 id="iterator-position">position</h2><pre><code class="language-kototype">|Iterable, test: |Any| -&gt; Bool| -&gt; Any</code></pre><p>Returns the position of the first value in the iterable that passes the test function.</p><p>The function is called for each value in the iterator, and should return either <code>true</code> if the value is a match, or <code>false</code> if it&#39;s not.</p><p>The first matching value will cause iteration to stop, and the number of steps taken to reach the matched value is returned as the result.</p><p>If no match is found then <code>null</code> is returned.</p><h3 id="iterator-example-25">Example</h3><pre><code class="language-koto">print (10..20).position |x| x == 15
+# Expected output: 5
+
+print (10..20).position |x| x == 99
+# Expected output: null</code></pre><h3 id="iterator-see-also-14">See Also</h3><ul><li><a href="#iterator-find">KOTOTOKENX0X</a></li></ul><h2 id="iterator-product">product</h2><pre><code class="language-kototype">|Iterable| -&gt; Any</code></pre><p>Returns the result of multiplying each value in the iterable together, using <code>1</code> as the initial value.</p><h3 id="iterator-example-26">Example</h3><pre><code class="language-koto"># Find the product of a sequence of numbers
+print (2, 3, 4).product()
+# Expected output: 24
+
+my_type = |n|
+  n: n
+  @*: |other| my_type self.n * other.n
+  @display: || &#39;my_type({self.n})&#39;
+
+# Find the sum of a sequence of my_type values
+print (my_type(2), my_type(3)).product my_type(10)
+# Expected output: my_type(60)</code></pre><h3 id="iterator-see-also-15">See also</h3><ul><li><a href="#iterator-fold">KOTOTOKENX0X</a></li><li><a href="#iterator-sum">KOTOTOKENX0X</a></li></ul><h2 id="iterator-repeat">repeat</h2><pre><code class="language-kototype">|value: Any| -&gt; Iterator</code></pre><p>Creates an iterator that endlessly yields the provided <code>value</code>.</p><p>_Warning_: This version of <code>repeat</code> will iterate endlessly, so consider using an adaptor like <a href="#iterator-take">KOTOTOKENX1X</a> to produce an iterator with an end.</p><pre><code class="language-kototype">|value: Any, n: Number| -&gt; Iterator</code></pre><p>Creates an iterator that yields <code>n</code> repeats of the provided <code>value</code>.</p><h3 id="iterator-example-27">Example</h3><pre><code class="language-koto">from iterator import repeat
+
+print repeat(42).take(5).to_list()
+# Expected output: [42, 42, 42, 42, 42]
+
+print repeat(&#39;x&#39;, 3).to_tuple()
+# Expected output: (&#39;x&#39;, &#39;x&#39;, &#39;x&#39;)</code></pre><h3 id="iterator-see-also-16">See Also</h3><ul><li><a href="#iterator-generate">KOTOTOKENX0X</a></li><li><a href="#iterator-once">KOTOTOKENX0X</a></li></ul><h2 id="iterator-reversed">reversed</h2><pre><code class="language-kototype">|Iterator| -&gt; Iterator</code></pre><p>Reverses the order of the iterator&#39;s output.</p><p>This only works with iterators that have a defined end, so attempting to reverse endless iterators like <a href="#iterator-generate">KOTOTOKENX0X</a> will result in an error.</p><h3 id="iterator-example-28">Example</h3><pre><code class="language-koto">print &#39;Héllö&#39;.reversed().to_tuple()
+# Expected output: (&#39;ö&#39;, &#39;l&#39;, &#39;l&#39;, &#39;é&#39;, &#39;H&#39;)
+
+print (1..=10).reversed().skip(5).to_tuple()
+# Expected output: (5, 4, 3, 2, 1)</code></pre><h2 id="iterator-skip">skip</h2><pre><code class="language-kototype">|Iterable, steps: Number| -&gt; Iterator</code></pre><p>Skips over a number of steps in the iterator.</p><h3 id="iterator-example-29">Example</h3><pre><code class="language-koto">print (100..200).skip(50).next().get()
+# Expected output: 150</code></pre><h3 id="iterator-see-also-17">See also</h3><ul><li><a href="#iterator-step">KOTOTOKENX0X</a></li><li><a href="#iterator-take">KOTOTOKENX0X</a></li></ul><h2 id="iterator-step">step</h2><pre><code class="language-kototype">|Iterable, step_size: Number| -&gt; Iterator</code></pre><p>Steps over the iterable&#39;s output by the provided step size.</p><h3 id="iterator-example-30">Example</h3><pre><code class="language-koto">print (0..10).step(3).to_tuple()
+# Expected output: (0, 3, 6, 9)
+
+print &#39;Héllö&#39;.step(2).to_string()
+# Expected output: Hlö</code></pre><h3 id="iterator-see-also-18">See also</h3><ul><li><a href="#iterator-skip">KOTOTOKENX0X</a></li></ul><h2 id="iterator-sum">sum</h2><pre><code class="language-kototype">|Iterable| -&gt; Any</code></pre><p>Returns the result of adding each value in the iterable together, using <code>0</code> as the initial value.</p><pre><code class="language-kototype">|Iterable, initial_value: Any| -&gt; Any</code></pre><p>Returns the result of adding each value in the iterable together, using the provided initial value as the start of the operation.</p><h3 id="iterator-example-31">Example</h3><pre><code class="language-koto"># Find the sum of a sequence of numbers
+print (2, 3, 4).sum()
+# Expected output: 9
+
+my_type = |n|
+  n: n
+  @+: |other| my_type self.n + other.n
+  @display: || &#39;my_type({self.n})&#39;
+
+# Find the sum of a sequence of my_type values
+print (my_type(1), my_type(2)).sum my_type(100)
+# Expected output: my_type(103)</code></pre><h3 id="iterator-see-also-19">See also</h3><ul><li><a href="#iterator-fold">KOTOTOKENX0X</a></li><li><a href="#iterator-product">KOTOTOKENX0X</a></li></ul><h2 id="iterator-take">take</h2><pre><code class="language-kototype">|Iterable, count: Number| -&gt; Iterator</code></pre><p>Creates an iterator that yields a number of values from the input before finishing.</p><pre><code class="language-kototype">|Iterable, test: |Any| -&gt; Bool| -&gt; Iterator</code></pre><p>Creates an iterator that yields values from the input while they pass a test function.</p><p>The test function should return <code>true</code> if the iterator should continue to yield values, and <code>false</code> if the iterator should stop yielding values.</p><h3 id="iterator-example-32">Example</h3><pre><code class="language-koto">print (100..200).take(3).to_tuple()
+# Expected output: (100, 101, 102)
+
+print &#39;hey!&#39;.take(|c| c != &#39;!&#39;).to_string()
+# Expected output: hey</code></pre><h3 id="iterator-see-also-20">See also</h3><ul><li><a href="#iterator-skip">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="iterator-to-list"></a><h2 id="iterator-to_list">to_list</h2><pre><code class="language-kototype">|Iterable| -&gt; List</code></pre><p>Consumes all values coming from the iterator and places them in a list.</p><h3 id="iterator-example-33">Example</h3><pre><code class="language-koto">print (&#39;a&#39;, 42, (-1, -2)).to_list()
+# Expected output: [&#39;a&#39;, 42, (-1, -2)]</code></pre><h3 id="iterator-see-also-21">See also</h3><ul><li><a href="#iterator-to-map">KOTOTOKENX0X</a></li><li><a href="#iterator-to-string">KOTOTOKENX0X</a></li><li><a href="#iterator-to-tuple">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="iterator-to-map"></a><h2 id="iterator-to_map">to_map</h2><pre><code class="language-kototype">|Iterable| -&gt; Map</code></pre><p>Consumes all values coming from the iterator and places them in a map.</p><p>If a value is a tuple, then the first element in the tuple will be inserted as the key for the map entry, and the second element will be inserted as the value.</p><p>If the value is anything other than a tuple, then it will be inserted as the map key, with <code>null</code> as the entry&#39;s value.</p><h3 id="iterator-example-34">Example</h3><pre><code class="language-koto">print (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;).to_map()
+# Expected output: {a: null, b: null, c: null}
+
+print (&#39;a&#39;, &#39;bbb&#39;, &#39;cc&#39;)
+  .each |x| x, size x
+  .to_map()
+# Expected output: {a: 1, bbb: 3, cc: 2}</code></pre><h3 id="iterator-see-also-22">See also</h3><ul><li><a href="#iterator-to-list">KOTOTOKENX0X</a></li><li><a href="#iterator-to-string">KOTOTOKENX0X</a></li><li><a href="#iterator-to-tuple">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="iterator-to-string"></a><h2 id="iterator-to_string">to_string</h2><pre><code class="language-kototype">|Iterable| -&gt; String</code></pre><p>Consumes all values coming from the iterator and produces a string containing the formatted values.</p><h3 id="iterator-example-35">Example</h3><pre><code class="language-koto">print (&#39;x&#39;, &#39;y&#39;, &#39;z&#39;).to_string()
+# Expected output: xyz
+
+print (1, 2, 3).intersperse(&#39;-&#39;).to_string()
+# Expected output: 1-2-3</code></pre><h3 id="iterator-see-also-23">See also</h3><ul><li><a href="#iterator-to-list">KOTOTOKENX0X</a></li><li><a href="#iterator-to-map">KOTOTOKENX0X</a></li><li><a href="#iterator-to-tuple">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="iterator-to-tuple"></a><h2 id="iterator-to_tuple">to_tuple</h2><pre><code class="language-kototype">|Iterable| -&gt; Tuple</code></pre><p>Consumes all values coming from the iterator and places them in a tuple.</p><h3 id="iterator-example-36">Example</h3><pre><code class="language-koto">print (&#39;a&#39;, 42, (-1, -2)).to_tuple()
+# Expected output: (&#39;a&#39;, 42, (-1, -2))</code></pre><h3 id="iterator-see-also-24">See also</h3><ul><li><a href="#iterator-to-list">KOTOTOKENX0X</a></li><li><a href="#iterator-to-map">KOTOTOKENX0X</a></li><li><a href="#iterator-to-string">KOTOTOKENX0X</a></li></ul><h2 id="iterator-windows">windows</h2><pre><code class="language-kototype">|Iterable, size: Number| -&gt; Iterator</code></pre><p>Returns an iterator that splits up the input data into overlapping windows of the specified <code>size</code>, where each window is provided as a Tuple.</p><p>If the input has fewer elements than the window size, then no windows will be produced.</p><h3 id="iterator-example-37">Example</h3><pre><code class="language-koto">print 1..=5
+  .windows 3
+  .to_list(),
+# Expected output: [(1, 2, 3), (2, 3, 4), (3, 4, 5)]</code></pre><h2 id="iterator-zip">zip</h2><pre><code class="language-kototype">|first: Iterable, second: Iterable| -&gt; Iterator</code></pre><p>Combines the values in two iterables into an iterator that yields corresponding pairs of values, one at a time from each input iterable.</p><h3 id="iterator-example-38">Example</h3><pre><code class="language-koto">print (1, 2, 3)
+  .zip (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+  .to_list()
+# Expected output: [(1, &#39;a&#39;), (2, &#39;b&#39;), (3, &#39;c&#39;)]</code></pre><h2 id="iterator-iteratoroutput">IteratorOutput</h2><p>A wrapper for a single item of iterator output.</p><p>This exists to allow functions like <a href="#iterator-next">KOTOTOKENX0X</a> to return <code>null</code> to indicate that the iterator has been exhausted, while also allowing <code>null</code> to appear in the iterator&#39;s output.</p><h2 id="iterator-iteratoroutput-get">IteratorOutput.get</h2><pre><code class="language-kototype">|IteratorOutput| -&gt; Any</code></pre><p>Returns the wrapped iterator output value.</p><h3 id="iterator-example-39">Example</h3><pre><code class="language-koto">print x = &#39;abc&#39;.next()
+# Expected output: IteratorOutput(a)
+print x.get()
+# Expected output: a</code></pre></section><section class="card doc-body" id="core-list"><h2>list</h2><h2 id="list-clear">clear</h2><pre><code class="language-kototype">|List| -&gt; List</code></pre><p>Clears the list by removing all of its elements, and returns the cleared list.</p><h3 id="list-example">Example</h3><pre><code class="language-koto">x = [1, 2, 3]
+print x.clear()
+# Expected output: []</code></pre><h2 id="list-contains">contains</h2><pre><code class="language-kototype">|List, value: Any| -&gt; Bool</code></pre><p>Returns <code>true</code> if the list contains an element that matches the input <code>value</code>.</p><p>Matching is performed with the <code>==</code> equality operator.</p><h3 id="list-example-1">Example</h3><pre><code class="language-koto">print [1, &#39;hello&#39;, (99, -1)].contains &#39;hello&#39;
+# Expected output: true</code></pre><h2 id="list-extend">extend</h2><pre><code class="language-kototype">|List, new_elements: Iterable| -&gt; List</code></pre><p>Extends the list with the output of the iterator, and returns the list.</p><h3 id="list-example-2">Example</h3><pre><code class="language-koto">x = [1, 2, 3]
+print x.extend &#39;abc&#39;
+# Expected output: [1, 2, 3, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+print x.last()
+# Expected output: c
+print x.extend [10, 20, 30]
+# Expected output: [1, 2, 3, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, 10, 20, 30]
+print x.last()
+# Expected output: 30</code></pre><h3 id="list-see-also">See also</h3><ul><li><a href="#list-push">KOTOTOKENX0X</a></li></ul><h2 id="list-fill">fill</h2><pre><code class="language-kototype">|List, value: Any| -&gt; List</code></pre><p>Fills the list with copies of the provided value, and returns the list.</p><h3 id="list-example-3">Example</h3><pre><code class="language-koto">x = [1, 2, 3]
+print x.fill 99
+# Expected output: [99, 99, 99]
+print x
+# Expected output: [99, 99, 99]</code></pre><h2 id="list-first">first</h2><pre><code class="language-kototype">|List| -&gt; Any?</code></pre><p>Returns the first value in the list, or <code>null</code> if the list is empty.</p><h3 id="list-example-4">Example</h3><pre><code class="language-koto">print [99, -1, 42].first()
+# Expected output: 99
+
+print [].first()
+# Expected output: null</code></pre><h3 id="list-see-also-1">See also</h3><ul><li><a href="#list-get">KOTOTOKENX0X</a></li><li><a href="#list-last">KOTOTOKENX0X</a></li></ul><h2 id="list-get">get</h2><pre><code class="language-kototype">|List, index: Number| -&gt; Any?</code></pre><pre><code class="language-kototype">|List, index: Number, default: Any| -&gt; Any?</code></pre><p>Gets the element at the given <code>index</code> in the list.</p><p>If the list doesn&#39;t contain a value at that position then the provided <code>default</code> value is returned. If no default value is provided then <code>null</code> is returned.</p><h3 id="list-example-5">Example</h3><pre><code class="language-koto">x = [99, -1, 42]
+
+print x.get 1
+# Expected output: -1
+
+print x.get -1
+# Expected output: null
+
+print x.get 5, 123
+# Expected output: 123</code></pre><h3 id="list-see-also-2">See also</h3><ul><li><a href="#list-first">KOTOTOKENX0X</a></li><li><a href="#list-last">KOTOTOKENX0X</a></li></ul><h2 id="list-insert">insert</h2><pre><code class="language-kototype">|List, position: Number, value: Any| -&gt; List</code></pre><p>Inserts the value into the list at the given index position, and returns the list.</p><p>Elements in the list at or after the given position will be shifted to make space for the new value.</p><p>An error is thrown if <code>position</code> is negative or greater than the size of the list.</p><h3 id="list-example-6">Example</h3><pre><code class="language-koto">x = [99, -1, 42]
+print x.insert 2, &#39;hello&#39;
+# Expected output: [99, -1, &#39;hello&#39;, 42]
+print x
+# Expected output: [99, -1, &#39;hello&#39;, 42]</code></pre><h3 id="list-see-also-3">See also</h3><ul><li><a href="#list-remove">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="list-is-empty"></a><h2 id="list-is_empty">is_empty</h2><pre><code class="language-kototype">|List| -&gt; Bool</code></pre><p>Returns <code>true</code> if the list has a size of zero, and <code>false</code> otherwise.</p><h3 id="list-example-7">Example</h3><pre><code class="language-koto">print [].is_empty()
+# Expected output: true
+
+print [1, 2, 3].is_empty()
+# Expected output: false</code></pre><h2 id="list-last">last</h2><pre><code class="language-kototype">|List| -&gt; Any?</code></pre><p>Returns the last value in the list, or <code>null</code> if the list is empty.</p><h3 id="list-example-8">Example</h3><pre><code class="language-koto">print [99, -1, 42].last()
+# Expected output: 42
+
+print [].last()
+# Expected output: null</code></pre><h3 id="list-see-also-4">See also</h3><ul><li><a href="#list-first">KOTOTOKENX0X</a></li><li><a href="#list-get">KOTOTOKENX0X</a></li></ul><h2 id="list-pop">pop</h2><pre><code class="language-kototype">|List| -&gt; Any?</code></pre><p>Removes the last value from the list and returns it.</p><p>If the list is empty then <code>null</code> is returned.</p><h3 id="list-example-9">Example</h3><pre><code class="language-koto">x = [99, -1, 42]
+print x.pop()
+# Expected output: 42
+
+print x
+# Expected output: [99, -1]
+
+print [].pop()
+# Expected output: null</code></pre><h3 id="list-see-also-5">See also</h3><ul><li><a href="#list-push">KOTOTOKENX0X</a></li></ul><h2 id="list-push">push</h2><pre><code class="language-kototype">|List, value: Any| -&gt; List</code></pre><p>Adds the <code>value</code> to the end of the list, and returns the list.</p><h3 id="list-example-10">Example</h3><pre><code class="language-koto">x = [99, -1]
+print x.push &#39;hello&#39;
+# Expected output: [99, -1, &#39;hello&#39;]
+print x
+# Expected output: [99, -1, &#39;hello&#39;]</code></pre><h3 id="list-see-also-6">See also</h3><ul><li><a href="#list-pop">KOTOTOKENX0X</a></li></ul><h2 id="list-remove">remove</h2><pre><code class="language-kototype">|List, position: Number| -&gt; Any</code></pre><p>Removes the value at the given position from the list, and returns the removed value.</p><p>An error is thrown if the position isn&#39;t a valid index in the list.</p><h3 id="list-example-11">Example</h3><pre><code class="language-koto">[99, -1, 42].remove 1
+# [99, 42]</code></pre><h3 id="list-see-also-7">See also</h3><ul><li><a href="#list-insert">KOTOTOKENX0X</a></li></ul><h2 id="list-resize">resize</h2><pre><code class="language-kototype">|List, new_size: Number| -&gt; List</code></pre><pre><code class="language-kototype">|List, new_size: Number, default: Any| -&gt; List</code></pre><p>Grows or shrinks the list to the specified size, and returns the list. If the new size is larger, then copies of the <code>default</code> value (or <code>null</code> if no value is provided) are used to fill the new space.</p><h3 id="list-example-12">Example</h3><pre><code class="language-koto">x = [1, 2]
+print x.resize 4, &#39;x&#39;
+# Expected output: [1, 2, &#39;x&#39;, &#39;x&#39;]
+
+print x.resize 3
+# Expected output: [1, 2, &#39;x&#39;]
+
+print x.resize 4
+# Expected output: [1, 2, &#39;x&#39;, null]</code></pre><a class="anchor-alias" id="list-resize-with"></a><h2 id="list-resize_with">resize_with</h2><pre><code class="language-kototype">|List, new_size: Number, generator: || -&gt; Any| -&gt; List</code></pre><p>Grows or shrinks the list to the specified size, and returns the list. If the new size is larger, then the provided function will be called repeatedly to fill the remaining space, with the result of the function being added to the end of the list.</p><h3 id="list-example-13">Example</h3><pre><code class="language-koto">new_entries = (5, 6, 7, 8).iter()
+x = [1, 2]
+print x.resize_with 4, || new_entries.next().get()
+# Expected output: [1, 2, 5, 6]
+
+print x.resize_with 2, || new_entries.next().get()
+# Expected output: [1, 2]</code></pre><h2 id="list-retain">retain</h2><pre><code class="language-kototype">|List, test: Any| -&gt; List</code></pre><p>Retains matching values in the list (discarding values that don&#39;t match), and returns the list.</p><p>If <code>test</code> is a function, then the function will be called with each of the list&#39;s values, and if the function returns <code>true</code> then the value will be retained, otherwise if the function returns <code>false</code> then the value will be discarded.</p><p>If the test value is not a function, then the list&#39;s values will be compared using the <code>==</code> equality operator, and then retained if they match.</p><h3 id="list-example-14">Example</h3><pre><code class="language-koto">x = (1..10).to_list()
+print x.retain |n| n &lt; 5
+# Expected output: [1, 2, 3, 4]
+print x
+# Expected output: [1, 2, 3, 4]
+
+x = [1, 3, 8, 3, 9, -1]
+print x.retain 3
+# Expected output: [3, 3]
+print x
+# Expected output: [3, 3]</code></pre><h2 id="list-reverse">reverse</h2><pre><code class="language-kototype">|List| -&gt; List</code></pre><p>Reverses the order of the list&#39;s contents, and returns the list.</p><h3 id="list-example-15">Example</h3><pre><code class="language-koto">x = [&#39;hello&#39;, -1, 99, &#39;world&#39;]
+print x.reverse()
+# Expected output: [&#39;world&#39;, 99, -1, &#39;hello&#39;]
+print x
+# Expected output: [&#39;world&#39;, 99, -1, &#39;hello&#39;]</code></pre><h2 id="list-sort">sort</h2><pre><code class="language-kototype">|List| -&gt; List</code></pre><p>Sorts the list in place, and returns the list.</p><pre><code class="language-kototype">|List, key: |Any| -&gt; Any| -&gt; List</code></pre><p>Sorts the list in place, based on the output of calling a <code>key</code> function for each of the list&#39;s elements, and returns the list.</p><p>The key function&#39;s result is cached, so it&#39;s only called once per element.</p><h3 id="list-example-16">Example</h3><pre><code class="language-koto">x = [1, -1, 99, 42]
+print x.sort()
+# Expected output: [-1, 1, 42, 99]
+print x
+# Expected output: [-1, 1, 42, 99]
+
+x = [&#39;bb&#39;, &#39;ccc&#39;, &#39;a&#39;]
+print x.sort size
+# Expected output: [&#39;a&#39;, &#39;bb&#39;, &#39;ccc&#39;]
+print x
+# Expected output: [&#39;a&#39;, &#39;bb&#39;, &#39;ccc&#39;]
+
+x = [2, 1, 3]
+# Sort in reverse order by using a key function
+print x.sort |n| -n
+# Expected output: [3, 2, 1]
+print x
+# Expected output: [3, 2, 1]</code></pre><h2 id="list-swap">swap</h2><pre><code class="language-kototype">|first: List, second: List| -&gt; Null</code></pre><p>Swaps the contents of the two input lists.</p><h3 id="list-example-17">Example</h3><pre><code class="language-koto">x = [1, 2, 3]
+y = [7, 8, 9]
+x.swap y
+
+print x
+# Expected output: [7, 8, 9]
+
+print y
+# Expected output: [1, 2, 3]</code></pre><a class="anchor-alias" id="list-to-tuple"></a><h2 id="list-to_tuple">to_tuple</h2><pre><code class="language-kototype">|List| -&gt; Tuple</code></pre><p>Returns a copy of the list data as a tuple.</p><h3 id="list-example-18">Example</h3><pre><code class="language-koto">print [1, 2, 3].to_tuple()
+# Expected output: (1, 2, 3)</code></pre><h2 id="list-transform">transform</h2><pre><code class="language-kototype">|List, transformer: |Any| -&gt; Any| -&gt; List</code></pre><p>Transforms the list data in place by replacing each value with the result of calling the provided <code>transformer</code> function, and then returns the list.</p><h3 id="list-example-19">Example</h3><pre><code class="language-koto">x = [&#39;aaa&#39;, &#39;bb&#39;, &#39;c&#39;]
+print x.transform size
+# Expected output: [3, 2, 1]
+print x
+# Expected output: [3, 2, 1]
+
+print x.transform |n| &#39;{n}!&#39;
+# Expected output: [&#39;3!&#39;, &#39;2!&#39;, &#39;1!&#39;]
+print x
+# Expected output: [&#39;3!&#39;, &#39;2!&#39;, &#39;1!&#39;]</code></pre></section><section class="card doc-body" id="core-map"><h2>map</h2><h2 id="map-clear">clear</h2><pre><code class="language-kototype">|Map| -&gt; Map</code></pre><p>Clears the map by removing all of its elements, and returns the map.</p><h3 id="map-example">Example</h3><pre><code class="language-koto">x = {x: -1, y: 42}
+print x.clear()
+# Expected output: {}
+print x
+# Expected output: {}</code></pre><a class="anchor-alias" id="map-contains-key"></a><h2 id="map-contains_key">contains_key</h2><pre><code class="language-kototype">|Map, key: Any| -&gt; Bool</code></pre><p>Returns <code>true</code> if the map contains a value with the given key, and <code>false</code> otherwise.</p><h2 id="map-extend">extend</h2><pre><code class="language-kototype">|Map, new_entries: Iterable| -&gt; Map</code></pre><p>Extends the map with the output of the iterator, and returns the map.</p><h3 id="map-example-1">Example</h3><pre><code class="language-koto">x = {foo: 42, bar: 99}
+print x.extend {baz: 123}
+# Expected output: {foo: 42, bar: 99, baz: 123}
+print x.baz 
+# Expected output: 123
+
+x = {}
+print x.extend &#39;abc&#39;.each |c| c, &#39;{c}!&#39;
+# Expected output: {a: &#39;a!&#39;, b: &#39;b!&#39;, c: &#39;c!&#39;}
+print x.c
+# Expected output: c!</code></pre><h3 id="map-see-also">See also</h3><ul><li><a href="#map-insert">KOTOTOKENX0X</a></li></ul><h2 id="map-get">get</h2><pre><code class="language-kototype">|Map, key: Any| -&gt; Any</code></pre><pre><code class="language-kototype">|Map, key: Any, default: Any| -&gt; Any</code></pre><p>Returns the value corresponding to the given key, or the provided default value if the map doesn&#39;t contain the key.</p><p>If no default value is provided then <code>null</code> is returned.</p><h3 id="map-example-2">Example</h3><pre><code class="language-koto">x = {hello: -1}
+print x.get &#39;hello&#39;
+# Expected output: -1
+
+print x.get &#39;goodbye&#39;
+# Expected output: null
+
+print x.get &#39;goodbye&#39;, &#39;byeeee&#39;
+# Expected output: byeeee
+
+x.insert 99, &#39;xyz&#39;
+print x.get 99
+# Expected output: xyz</code></pre><h3 id="map-see-also-1">See also</h3><ul><li><a href="#map-get_index">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="map-get-index"></a><h2 id="map-get_index">get_index</h2><pre><code class="language-kototype">|Map, index: Number| -&gt; Tuple</code></pre><pre><code class="language-kototype">|Map, index: Number, default: Any| -&gt; Tuple</code></pre><p>Returns the entry at the given index as a key/value tuple, or the provided default value if the map doesn&#39;t contain an entry at that index.</p><p>If no default value is provided then <code>null</code> is returned.</p><h3 id="map-example-3">Example</h3><pre><code class="language-koto">x = {foo: -1, bar: -2}
+print x.get_index 1
+# Expected output: (&#39;bar&#39;, -2)
+
+print x.get_index -99
+# Expected output: null
+
+print x.get_index 99, &#39;xyz&#39;
+# Expected output: xyz</code></pre><h3 id="map-see-also-2">See also</h3><ul><li><a href="#map-get">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="map-get-meta"></a><h2 id="map-get_meta">get_meta</h2><pre><code class="language-kototype">|Map| -&gt; Map</code></pre><p>Returns a Map that contains the input&#39;s Meta Map, and no data.</p><h3 id="map-example-4">Example</h3><pre><code class="language-koto">my_map =
+  data: 42
+  @type: &#39;My Map&#39;
+
+meta = map.get_meta my_map
+
+print map.keys(my_map).count()
+# Expected output: 1
+print map.keys(meta).count()
+# Expected output: 0
+
+print koto.type meta
+# Expected output: My Map</code></pre><h3 id="map-see-also-3">See also</h3><ul><li><a href="#map-with_meta">KOTOTOKENX0X</a></li></ul><h2 id="map-insert">insert</h2><pre><code class="language-kototype">|Map, key: Any, value: Any| -&gt; Any</code></pre><p>Inserts an entry into the map with the given key and value.</p><pre><code class="language-kototype">|Map, key: Any| -&gt; Any</code></pre><p>Inserts an entry into the map with the given key, and <code>null</code> as its value.</p><p>If the key already existed in the map, then the old value is returned. If the key didn&#39;t already exist, then <code>null</code> is returned.</p><p>See the <a href="../Kotoist-Language-Reference/language-basics.html#map-key-types">language guide</a> for a description of the types of values that can be used as map keys.</p><h3 id="map-example-5">Example</h3><pre><code class="language-koto">x = {hello: -1}
+
+print x.insert &#39;hello&#39;, 99 # -1 already exists at `hello`, so it&#39;s returned here
+# Expected output: -1
+
+print x.hello # hello is now 99
+# Expected output: 99
+
+print x.insert &#39;goodbye&#39;, 123 # No existing value at `goodbye`, so null is returned
+# Expected output: null
+
+print x.goodbye
+# Expected output: 123
+
+print x.insert 123, &#39;hi!&#39; # Numbers can be used as map keys 
+# Expected output: null
+
+print x.get 123
+# Expected output: hi!
+
+print x.insert (&#39;a&#39;, &#39;b&#39;), -1 # Tuples can be used as map keys 
+# Expected output: null
+
+print x.get (&#39;a&#39;, &#39;b&#39;)
+# Expected output: -1</code></pre><h3 id="map-see-also-4">See also</h3><ul><li><a href="#map-get">KOTOTOKENX0X</a></li><li><a href="#map-remove">KOTOTOKENX0X</a></li><li><a href="#map-update">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="map-is-empty"></a><h2 id="map-is_empty">is_empty</h2><pre><code class="language-kototype">|Map| -&gt; Bool</code></pre><p>Returns <code>true</code> if the map contains no entries, otherwise <code>false</code>.</p><h3 id="map-example-6">Example</h3><pre><code class="language-koto">print {}.is_empty()
+# Expected output: true
+
+print {hello: -1}.is_empty()
+# Expected output: false</code></pre><h2 id="map-keys">keys</h2><pre><code class="language-kototype">|Map| -&gt; Iterator</code></pre><p>Returns an iterator that iterates in order over the map&#39;s keys.</p><h3 id="map-example-7">Example</h3><pre><code class="language-koto">m =
+  hello: -1
+  goodbye: 99
+
+x = m.keys()
+
+print x.next().get()
+# Expected output: hello
+
+print x.next().get()
+# Expected output: goodbye
+
+print x.next()
+# Expected output: null</code></pre><h3 id="map-see-also-5">See also</h3><ul><li><a href="#map-values">KOTOTOKENX0X</a></li></ul><h2 id="map-remove">remove</h2><pre><code class="language-kototype">|Map, key: Any| -&gt; Any</code></pre><p>Removes the entry that matches the given key.</p><p>If the entry existed then its value is returned, otherwise <code>null</code> is returned.</p><h3 id="map-example-8">Example</h3><pre><code class="language-koto">x =
+  hello: -1
+  goodbye: 99
+
+print x.remove &#39;hello&#39;
+# Expected output: -1
+
+print x.remove &#39;xyz&#39;
+# Expected output: null
+
+print x.remove &#39;goodbye&#39;
+# Expected output: 99
+
+print x.is_empty()
+# Expected output: true</code></pre><h3 id="map-see-also-6">See also</h3><ul><li><a href="#map-insert">KOTOTOKENX0X</a></li></ul><h2 id="map-sort">sort</h2><pre><code class="language-kototype">|Map| -&gt; Map</code></pre><p>Sorts the map&#39;s entries in place by key, and then returns the map.</p><pre><code class="language-kototype">|
+  Map, 
+  sort_key: |key: Any, value: Any| -&gt; Any
+| -&gt; Null</code></pre><p>Sorts the map&#39;s entries in place based on the output of calling a &#39;sort&#39; function for each entry, and then returns the map.</p><p>The entry&#39;s key and value are passed into the <code>sort_key</code> function as separate arguments.</p><p>The function&#39;s result is cached, so it only gets called once per entry.</p><h3 id="map-example-9">Example</h3><pre><code class="language-koto">x =
+  hello: 123
+  bye: -1
+  tschüss: 99
+
+# Sort the map by key
+print x.sort() 
+# Expected output: {bye: -1, hello: 123, tschüss: 99}
+
+# Sort the map by value
+print x.sort |_, value| value 
+# Expected output: {bye: -1, tschüss: 99, hello: 123}
+
+# Sort the map by reversed key length
+print x.sort |key, _| -(size key)
+# Expected output: {tschüss: 99, hello: 123, bye: -1}</code></pre><h2 id="map-update">update</h2><pre><code class="language-kototype">|Map, key: Any, updater: |Any| -&gt; Any| -&gt; Any</code></pre><p>Updates the value associated with a given <code>key</code> by calling the <code>updater</code> function.</p><p>If an entry exists with the given <code>key</code>, then <code>updater</code> will be called with the existing entry&#39;s value, and the result of the function will replace the existing value.</p><p>If no entry exists with the given <code>key</code>, then <code>updater</code> will be called with <code>null</code>, and the result will be inserted into the map as a new entry.</p><p>The return value is the result of calling the <code>updater</code> function.</p><pre><code class="language-kototype">|Map, key: Any, default: Any, updater: |Any| -&gt; Any| -&gt; Any</code></pre><p>This variant of <code>update</code> takes a <code>default</code> value that is provided to the <code>updater</code> function if no entry exists with the given <code>key</code>.</p><h3 id="map-example-10">Example</h3><pre><code class="language-koto">x =
+  hello: -1
+  goodbye: 99
+
+print x.update &#39;hello&#39;, |n| n * 2
+# Expected output: -2
+print x.hello
+# Expected output: -2
+
+print x.update &#39;tschüss&#39;, 10, |n| n * 10
+# Expected output: 100
+print x.tschüss
+# Expected output: 100</code></pre><h3 id="map-see-also-7">See also</h3><ul><li><a href="#map-insert">KOTOTOKENX0X</a></li></ul><h2 id="map-values">values</h2><pre><code class="language-kototype">|Map| -&gt; Iterator</code></pre><p>Returns an iterator that iterates in order over the map&#39;s values.</p><h3 id="map-example-11">Example</h3><pre><code class="language-koto">m =
+  hello: -1
+  goodbye: 99
+
+x = m.values()
+
+print x.next().get()
+# Expected output: -1
+
+print x.next().get()
+# Expected output: 99
+
+print x.next()
+# Expected output: null</code></pre><h3 id="map-see-also-8">See also</h3><ul><li><a href="#map-keys">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="map-with-meta"></a><h2 id="map-with_meta">with_meta</h2><pre><code class="language-kototype">|data: Map, meta: Map| -&gt; Map</code></pre><p>Returns a new Map that contains the data from the first argument, along with the Meta Map from the second argument.</p><h3 id="map-example-12">Example</h3><pre><code class="language-koto">my_meta =
+  @type: &#39;MyMeta&#39;
+
+x = {foo: 42}.with_meta my_meta
+
+print koto.type x
+# Expected output: MyMeta</code></pre><h3 id="map-see-also-9">See also</h3><ul><li><a href="#map-get-meta">KOTOTOKENX0X</a></li></ul></section><section class="card doc-body" id="core-number"><h2>number</h2><h2 id="number-abs">abs</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the absolute value of the number.</p><h3 id="number-example">Example</h3><pre><code class="language-koto">print -1.abs()
+# Expected output: 1
+
+print 1.abs()
+# Expected output: 1</code></pre><h2 id="number-acos">acos</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the arc cosine of the number. <code>acos</code> is the inverse function of <code>cos</code>.</p><h3 id="number-example-1">Example</h3><pre><code class="language-koto">from number import pi
+
+assert_near 0.acos(), pi / 2
+assert_eq 1.acos(), 0</code></pre><h2 id="number-acosh">acosh</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the inverse hyperbolic cosine of the number.</p><h3 id="number-example-2">Example</h3><pre><code class="language-koto">assert 0.acosh().is_nan()
+assert_eq 1.acosh(), 0
+assert_near 2.acosh(), 1.3169578969248166</code></pre><h2 id="number-and">and</h2><pre><code class="language-kototype">|Number, Number| -&gt; Number</code></pre><p>Returns the bitwise combination of the binary representations of two numbers, where a <code>1</code> in both of the inputs produces a <code>1</code> in the corresponding output position.</p><h3 id="number-note">Note</h3><p>If either input is a float then its integer part will be used.</p><h3 id="number-example-3">Example</h3><pre><code class="language-koto">print 0b1010.and 0b1100
+# 0b1000
+# Expected output: 8</code></pre><h2 id="number-asin">asin</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the arc sine of the number. <code>asin</code> is the inverse function of <code>sin</code>.</p><h3 id="number-example-4">Example</h3><pre><code class="language-koto">from number import pi
+
+assert_eq 0.asin(), 0
+assert_near 1.asin(), pi / 2</code></pre><h2 id="number-asinh">asinh</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the inverse hyperbolic sine of the number.</p><h3 id="number-example-5">Example</h3><pre><code class="language-koto">assert_eq 0.asinh(), 0
+assert_near 1.asinh(), 0.8813735870195429</code></pre><h2 id="number-atan">atan</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the arc tangent of the number. <code>atan</code> is the inverse function of <code>tan</code>.</p><h3 id="number-example-6">Example</h3><pre><code class="language-koto">from number import pi
+
+assert_eq 0.atan(), 0
+assert_near 1.atan(), pi / 4</code></pre><h2 id="number-atanh">atanh</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the inverse hyperbolic tangent of the number.</p><h3 id="number-example-7">Example</h3><pre><code class="language-koto">print -1.atanh()
+# Expected output: -inf
+
+print 0.atanh()
+# Expected output: 0.0
+
+print 1.atanh()
+# Expected output: inf</code></pre><h2 id="number-atan2">atan2</h2><pre><code class="language-kototype">|Number, Number| -&gt; Number</code></pre><p>Returns the arc tangent of <code>y</code> and <code>x</code> in radians, using the signs of <code>y</code> and <code>x</code> to determine the correct quadrant.</p><h3 id="number-example-8">Example</h3><pre><code class="language-koto">from number import pi
+
+x, y = 1, 1
+
+assert_near y.atan2(x), pi / 4
+assert_near y.atan2(-x), pi - pi / 4</code></pre><h2 id="number-ceil">ceil</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the integer that&#39;s greater than or equal to the input.</p><h3 id="number-example-9">Example</h3><pre><code class="language-koto">print 0.5.ceil()
+# Expected output: 1
+
+print 2.ceil()
+# Expected output: 2
+
+print -0.5.ceil()
+# Expected output: 0</code></pre><h3 id="number-see-also">See Also</h3><ul><li><a href="#number-floor">KOTOTOKENX0X</a></li><li><a href="#number-round">KOTOTOKENX0X</a></li><li><a href="#number-to-int">KOTOTOKENX0X</a></li></ul><h2 id="number-clamp">clamp</h2><pre><code class="language-kototype">|input: Number, min: Number, max: Number| -&gt; Number</code></pre><p>Returns the <code>input</code> number restricted to the range defined by <code>min</code> and <code>max</code>.</p><h3 id="number-example-10">Example</h3><pre><code class="language-koto">print 0.clamp 1, 2
+# Expected output: 1
+
+print 1.5.clamp 1, 2
+# Expected output: 1.5
+
+print 3.0.clamp 1, 2
+# Expected output: 2</code></pre><h2 id="number-cos">cos</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the cosine of the number.</p><h3 id="number-example-11">Example</h3><pre><code class="language-koto">print 0.cos()
+# Expected output: 1.0
+
+print number.pi.cos()
+# Expected output: -1.0</code></pre><h2 id="number-cosh">cosh</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the hyperbolic cosine of the number.</p><h3 id="number-example-12">Example</h3><pre><code class="language-koto">assert_eq 0.cosh(), 1
+assert_near 1.cosh(), 1.5430806348152437</code></pre><h2 id="number-degrees">degrees</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Converts radians into degrees.</p><h3 id="number-example-13">Example</h3><pre><code class="language-koto">from number import pi, tau
+
+print pi.degrees()
+# Expected output: 180.0
+
+print tau.degrees()
+# Expected output: 360.0</code></pre><h2 id="number-e">e</h2><pre><code class="language-kototype">Number</code></pre><p>Provides the <code>e</code> constant.</p><h2 id="number-exp">exp</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the result of applying the exponential function, equivalent to calling <code>e.pow x</code>.</p><h3 id="number-example-14">Example</h3><pre><code class="language-koto">assert_eq 0.exp(), 1
+assert_eq 1.exp(), number.e</code></pre><h2 id="number-exp2">exp2</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the result of applying the base-2 exponential function, equivalent to calling <code>2.pow x</code>.</p><h3 id="number-example-15">Example</h3><pre><code class="language-koto">print 1.exp2()
+# Expected output: 2.0
+
+print 3.exp2()
+# Expected output: 8.0</code></pre><a class="anchor-alias" id="number-flip-bits"></a><h2 id="number-flip_bits">flip_bits</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the input with its bits &#39;flipped&#39;, i.e. <code>1</code> =&gt; <code>0</code>, and <code>0</code> =&gt; <code>1</code>.</p><h3 id="number-example-16">Example</h3><pre><code class="language-koto">print 1.flip_bits()
+# Expected output: -2</code></pre><h2 id="number-floor">floor</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the integer that&#39;s less than or equal to the input.</p><h3 id="number-example-17">Example</h3><pre><code class="language-koto">print 0.5.floor()
+# Expected output: 0
+
+print 2.floor()
+# Expected output: 2
+
+print -0.5.floor()
+# Expected output: -1</code></pre><h3 id="number-see-also-1">See Also</h3><ul><li><a href="#number-ceil">KOTOTOKENX0X</a></li><li><a href="#number-round">KOTOTOKENX0X</a></li><li><a href="#number-to-int">KOTOTOKENX0X</a></li></ul><h2 id="number-infinity">infinity</h2><pre><code class="language-kototype">Number</code></pre><p>Provides the <code>∞</code> constant.</p><a class="anchor-alias" id="number-is-nan"></a><h2 id="number-is_nan">is_nan</h2><pre><code class="language-kototype">|Number| -&gt; Bool</code></pre><p>Returns true if the number is <code>NaN</code>.</p><h3 id="number-example-18">Example</h3><pre><code class="language-koto">print 1.is_nan()
+# Expected output: false
+
+print (0 / 0).is_nan()
+# Expected output: true</code></pre><h2 id="number-lerp">lerp</h2><pre><code class="language-kototype">|a: Number, b: Number, t: Number| -&gt; Number</code></pre><p>Linearly interpolates between <code>a</code> and <code>b</code> using the interpolation factor <code>t</code>.</p><p>The range (<code>a</code> -&gt; <code>b</code>) corresponds to the value range of (<code>0</code> -&gt; <code>1</code>) for <code>t</code>.</p><p>e.g.</p><ul><li>At <code>t</code> == <code>0</code>, the result is equal to <code>a</code>.</li><li>At <code>t</code> == <code>1</code>, the result is equal to <code>b</code>.</li><li>At other values of <code>t</code>, the result is a proportional mix of <code>a</code> and <code>b</code>.</li><li>Values for <code>t</code> outside of (<code>0</code> -&gt; <code>1</code>) will extrapolate from the (<code>a</code> -&gt; <code>b</code>)</li></ul><p>range.</p><h3 id="number-example-19">Example</h3><pre><code class="language-koto">a, b = 1, 2
+
+print a.lerp b, 0
+# Expected output: 1
+print a.lerp b, 0.5
+# Expected output: 1.5
+print a.lerp b, 1
+# Expected output: 2
+
+print a.lerp b, -0.5
+# Expected output: 0.5
+print a.lerp b, 1.5
+# Expected output: 2.5</code></pre><h2 id="number-ln">ln</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the natural logarithm of the number.</p><h3 id="number-example-20">Example</h3><pre><code class="language-koto">print 1.ln()
+# Expected output: 0.0
+
+print number.e.ln()
+# Expected output: 1.0</code></pre><h2 id="number-log2">log2</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the base-2 logarithm of the number.</p><h3 id="number-example-21">Example</h3><pre><code class="language-koto">print 2.log2()
+# Expected output: 1.0
+
+print 4.log2()
+# Expected output: 2.0</code></pre><h2 id="number-log10">log10</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the base-10 logarithm of the number.</p><h3 id="number-example-22">Example</h3><pre><code class="language-koto">print 10.log10()
+# Expected output: 1.0
+
+print 100.log10()
+# Expected output: 2.0</code></pre><h2 id="number-max">max</h2><pre><code class="language-kototype">|Number, Number| -&gt; Number</code></pre><p>Returns the larger of the two numbers.</p><h3 id="number-example-23">Example</h3><pre><code class="language-koto">print 1.max 2
+# Expected output: 2
+
+print 4.5.max 3
+# Expected output: 4.5</code></pre><h2 id="number-min">min</h2><pre><code class="language-kototype">|Number, Number| -&gt; Number</code></pre><p>Returns the smaller of the two numbers.</p><h3 id="number-example-24">Example</h3><pre><code class="language-koto">print 1.min 2
+# Expected output: 1
+
+print 4.5.min 3
+# Expected output: 3</code></pre><h2 id="number-nan">nan</h2><pre><code class="language-kototype">Number</code></pre><p>Provides the <code>NaN</code> (Not a Number) constant.</p><a class="anchor-alias" id="number-negative-infinity"></a><h2 id="number-negative_infinity">negative_infinity</h2><pre><code class="language-kototype">Number</code></pre><p>Provides the <code>-∞</code> constant.</p><h2 id="number-or">or</h2><pre><code class="language-kototype">|Number, Number| -&gt; Number</code></pre><p>Returns the bitwise combination of the binary representations of two numbers, where a <code>1</code> in either of the inputs produces a <code>1</code> in the corresponding output position.</p><h3 id="number-note-1">Note</h3><p>If either input is a float then its integer part will be used.</p><h3 id="number-example-25">Example</h3><pre><code class="language-koto">print 0b1010.or 0b1100
+# 0b1110
+# Expected output: 14</code></pre><h2 id="number-pi">pi</h2><pre><code class="language-kototype">Number</code></pre><p>Provides the <code>π</code> constant.</p><a class="anchor-alias" id="number-pi-2"></a><h2 id="number-pi_2">pi_2</h2><pre><code class="language-kototype">Number</code></pre><p>Provides the <code>π</code> constant divided by <code>2</code>.</p><a class="anchor-alias" id="number-pi-4"></a><h2 id="number-pi_4">pi_4</h2><pre><code class="language-kototype">Number</code></pre><p>Provides the <code>π</code> constant divided by <code>4</code>.</p><h2 id="number-pow">pow</h2><pre><code class="language-kototype">|Number, Number| -&gt; Number</code></pre><p>Returns the result of raising the first number to the power of the second.</p><h3 id="number-example-26">Example</h3><pre><code class="language-koto">print 2.pow 3
+# Expected output: 8</code></pre><h2 id="number-radians">radians</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Converts degrees into radians.</p><h3 id="number-example-27">Example</h3><pre><code class="language-koto">from number import pi
+
+assert_near 90.radians(), pi / 2
+assert_near 360.radians(), pi * 2</code></pre><h2 id="number-recip">recip</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the reciprocal of the number, i.e. <code>1 / x</code>.</p><h3 id="number-example-28">Example</h3><pre><code class="language-koto">print 2.recip()
+# Expected output: 0.5</code></pre><h2 id="number-round">round</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the nearest integer to the input number. Half-way values round away from zero.</p><h3 id="number-example-29">Example</h3><pre><code class="language-koto">print 0.5.round()
+# Expected output: 1
+
+print 2.round()
+# Expected output: 2
+
+print -0.5.round()
+# Expected output: -1</code></pre><h3 id="number-see-also-2">See Also</h3><ul><li><a href="#number-ceil">KOTOTOKENX0X</a></li><li><a href="#number-floor">KOTOTOKENX0X</a></li><li><a href="#number-to_int">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="number-shift-left"></a><h2 id="number-shift_left">shift_left</h2><pre><code class="language-kototype">|Number, shift_amount: Number| -&gt; Number</code></pre><p>Returns the result of shifting the bits of the first number to the left by the amount specified by the second number.</p><h3 id="number-note-2">Note</h3><p>If either input is a float then its integer part will be used.</p><h3 id="number-note-3">Note</h3><p>The shift amount must be greater than or equal to <code>0</code>.</p><h3 id="number-example-30">Example</h3><pre><code class="language-koto">print 0b1010.shift_left 2
+# 0b101000
+# Expected output: 40</code></pre><a class="anchor-alias" id="number-shift-right"></a><h2 id="number-shift_right">shift_right</h2><pre><code class="language-kototype">|Number, shift_amount: Number| -&gt; Number</code></pre><p>Returns the result of shifting the bits of the first number to the right by the amount specified by the second number.</p><h3 id="number-note-4">Note</h3><p>If either input is a float then its integer part will be used.</p><h3 id="number-note-5">Note</h3><p>The shift amount must be greater than or equal to <code>0</code>.</p><h3 id="number-example-31">Example</h3><pre><code class="language-koto">print 0b1010.shift_right 2
+# 0b0010
+# Expected output: 2</code></pre><h2 id="number-sin">sin</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the sine of the number.</p><h3 id="number-example-32">Example</h3><pre><code class="language-koto">from number import pi
+
+print (pi * 0.5).sin()
+# Expected output: 1.0
+
+print (pi * 1.5).sin()
+# Expected output: -1.0</code></pre><h2 id="number-sinh">sinh</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the hyperbolic sine of the number.</p><h3 id="number-example-33">Example</h3><pre><code class="language-koto">assert_eq 0.sinh(), 0
+assert_near 1.sinh(), 1.1752011936438014</code></pre><h2 id="number-sqrt">sqrt</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the square root of the number.</p><h3 id="number-example-34">Example</h3><pre><code class="language-koto">print 64.sqrt()
+# Expected output: 8.0</code></pre><h2 id="number-tan">tan</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the tangent of the number.</p><h3 id="number-example-35">Example</h3><pre><code class="language-koto">assert_eq 0.tan(), 0
+assert_near 1.tan(), 1.557407724654902</code></pre><h2 id="number-tanh">tanh</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the hyperbolic tangent of the number.</p><h3 id="number-example-36">Example</h3><pre><code class="language-koto">assert_near 1.tanh(), 1.sinh() / 1.cosh()</code></pre><h2 id="number-tau">tau</h2><pre><code class="language-kototype">Number</code></pre><p>Provides the <code>τ</code> constant, equivalent to <code>2π</code>.</p><a class="anchor-alias" id="number-to-int"></a><h2 id="number-to_int">to_int</h2><pre><code class="language-kototype">|Number| -&gt; Number</code></pre><p>Returns the integer part of the input number.</p><p>This is often called <code>trunc</code> in other languages.</p><h3 id="number-example-37">Example</h3><pre><code class="language-koto">print 2.9.to_int()
+# Expected output: 2
+
+print 1.5.to_int()
+# Expected output: 1
+
+print -0.5.to_int()
+# Expected output: 0
+
+print -1.9.to_int()
+# Expected output: -1</code></pre><h3 id="number-see-also-3">See Also</h3><ul><li><a href="#number-ceil">KOTOTOKENX0X</a></li><li><a href="#number-floor">KOTOTOKENX0X</a></li><li><a href="#number-round">KOTOTOKENX0X</a></li></ul><h2 id="number-xor">xor</h2><pre><code class="language-kototype">|Number, Number| -&gt; Number</code></pre><p>Returns the bitwise combination of the binary representations of two numbers, where a <code>1</code> in one (and only one) of the input positions produces a <code>1</code> in the corresponding output position.</p><h3 id="number-note-6">Note</h3><p>If either input is a float then its integer part will be used.</p><h3 id="number-example-38">Example</h3><pre><code class="language-koto">print 0b1010.xor 0b1100
+# 0b0110
+# Expected output: 6</code></pre></section><section class="card doc-body" id="core-range"><h2>range</h2><h2 id="range-contains">contains</h2><pre><code class="language-kototype">|Range, Number| -&gt; Bool</code></pre><p>Returns true if the provided number is within the range, and false otherwise.</p><pre><code class="language-kototype">|Range, Range| -&gt; Bool</code></pre><p>Returns true if the provided range is entirely contained within the range, and false otherwise.</p><h3 id="range-example">Example</h3><pre><code class="language-koto">print (10..20).contains 15
+# Expected output: true
+
+print (200..=100).contains 100
+# Expected output: true
+
+x = 1..10
+print x.contains -1
+# Expected output: false
+
+print (10..20).contains 14..18
+# Expected output: true
+
+print (100..200).contains 50..250
+# Expected output: false</code></pre><h2 id="range-end">end</h2><pre><code class="language-kototype">|Range| -&gt; Number</code></pre><p>Returns the <code>end</code> value of the range.</p><h3 id="range-example-1">Example</h3><pre><code class="language-koto">print (50..100).end()
+# Expected output: 100
+
+print (10..0).end()
+# Expected output: 0</code></pre><h3 id="range-see-also">See also</h3><ul><li><a href="#range-start">start</a></li></ul><h2 id="range-expanded">expanded</h2><pre><code class="language-kototype">|Range, amount: Number| -&gt; Range</code></pre><p>Returns a copy of the input range which has been &#39;expanded&#39; in both directions by the provided <code>amount</code>.</p><p>For an ascending range this will mean that <code>start</code> will decrease by the provided amount, while <code>end</code> will increase.</p><p>Negative amounts will cause the range to shrink rather than grow.</p><h3 id="range-example-2">Example</h3><pre><code class="language-koto">print (10..20).expanded 5
+# Expected output: 5..25
+
+print (10..20).expanded -2
+# Expected output: 12..18
+
+print (5..-5).expanded 5
+# Expected output: 10..-10
+
+print (5..-5).expanded -5
+# Expected output: 0..0
+
+print (5..-5).expanded -10
+# Expected output: -5..5</code></pre><h2 id="range-intersection">intersection</h2><pre><code class="language-kototype">|Range, Range| -&gt; Range?</code></pre><p>Returns a range representing the intersecting region of the two input ranges.</p><p>If there is no intersecting region then <code>null</code> is returned.</p><h3 id="range-example-3">Example</h3><pre><code class="language-koto">print (10..20).intersection 5..15
+# Expected output: 10..15
+
+print (100..200).intersection 250..=150
+# Expected output: 150..200
+
+print (0..10).intersection 90..99
+# Expected output: null</code></pre><a class="anchor-alias" id="range-is-inclusive"></a><h2 id="range-is_inclusive">is_inclusive</h2><pre><code class="language-kototype">|Range| -&gt; Bool</code></pre><p>Returns true if the range has a defined end which is inclusive.</p><h3 id="range-example-4">Example</h3><pre><code class="language-koto">print (10..20).is_inclusive()
+# Expected output: false
+
+print (1..=10).is_inclusive()
+# Expected output: true
+
+print (100..).is_inclusive()
+# Expected output: false</code></pre><h2 id="range-start">start</h2><pre><code class="language-kototype">|Range| -&gt; Number</code></pre><p>Returns the <code>start</code> value of the range.</p><h3 id="range-example-5">Example</h3><pre><code class="language-koto">print (50..100).start()
+# Expected output: 50
+
+print (10..0).start()
+# Expected output: 10</code></pre><h3 id="range-see-also-1">See also</h3><ul><li><a href="#range-end">end</a></li></ul><h2 id="range-union">union</h2><pre><code class="language-kototype">|Range, Number| -&gt; Range</code></pre><p>Returns the union of the range and a provided number.</p><p>If the number falls outside of the range then the resulting range will be expanded to include the number.</p><pre><code class="language-kototype">|Range, Range| -&gt; Range</code></pre><p>Returns the union of two ranges.</p><p>The resulting range will encompass all values that are contained in the two ranges, and any values that lie between them.</p><h3 id="range-example-6">Example</h3><pre><code class="language-koto">print (0..10).union 5
+# Expected output: 0..10
+
+print (0..10).union 99
+# Expected output: 0..100
+
+a = 10..20
+b = 40..50
+print a.union b
+# Expected output: 10..50</code></pre></section><section class="card doc-body" id="core-string"><h2>string</h2><h2 id="string-bytes">bytes</h2><pre><code class="language-kototype">|String| -&gt; Iterator</code></pre><p>Returns an iterator that yields a series of integers representing the bytes contained in the string data.</p><h3 id="string-example">Example</h3><pre><code class="language-koto">print &#39;Hëy!&#39;.bytes().to_tuple()
+# Expected output: (72, 195, 171, 121, 33)</code></pre><h3 id="string-see-also">See Also</h3><ul><li><a href="#string-from_bytes">KOTOTOKENX0X</a></li></ul><h2 id="string-chars">chars</h2><pre><code class="language-kototype">|String| -&gt; Iterator</code></pre><p>Returns an iterator that yields the string&#39;s characters as strings.</p><p>A &#39;character&#39; in Koto is defined as being a <a href="https://www.unicode.org/glossary/#grapheme_cluster">unicode grapheme cluster</a>.</p><h3 id="string-note">Note</h3><p>Note that this is the default iteration behaviour for a string, so calling <code>&#39;hello&#39;.chars()</code> is equivalent to calling <code>iterator.iter(&#39;hello&#39;)</code>.</p><h3 id="string-example-1">Example</h3><pre><code class="language-koto">print &#39;Héllø! 👋&#39;.chars().to_tuple()
+# Expected output: (&#39;H&#39;, &#39;é&#39;, &#39;l&#39;, &#39;l&#39;, &#39;ø&#39;, &#39;!&#39;, &#39; &#39;, &#39;👋&#39;)</code></pre><h3 id="string-see-also-1">See Also</h3><ul><li><a href="#string-char_indices">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="string-char-indices"></a><h2 id="string-char_indices">char_indices</h2><pre><code class="language-kototype">|String| -&gt; Iterator</code></pre><p>Returns an iterator that yields the indices of each <a href="https://www.unicode.org/glossary/#grapheme_cluster">grapheme cluster</a> in the string.</p><p>Each cluster is represented as a range, which can then be used to extract the cluster from the string via indexing.</p><h3 id="string-example-2">Example</h3><pre><code class="language-koto">s = &#39;Hi 👋&#39;
+
+print indices = s.char_indices().to_tuple()
+# Expected output: (0..1, 1..2, 2..3, 3..7)
+
+print s[indices[3]]
+# Expected output: 👋</code></pre><h3 id="string-see-also-2">See Also</h3><ul><li><a href="#string-chars">KOTOTOKENX0X</a></li></ul><h2 id="string-contains">contains</h2><pre><code class="language-kototype">|String, String| -&gt; Bool</code></pre><p>Returns <code>true</code> if the second provided string is a sub-string of the first.</p><h3 id="string-example-3">Example</h3><pre><code class="language-koto">print &#39;xyz&#39;.contains &#39;abc&#39;
+# Expected output: false
+
+print &#39;xyz&#39;.contains &#39;yz&#39;
+# Expected output: true
+
+print &#39;xyz&#39;.contains &#39;xyz&#39;
+# Expected output: true
+
+print &#39;xyz&#39;.contains &#39;&#39;
+# Expected output: true</code></pre><a class="anchor-alias" id="string-ends-with"></a><h2 id="string-ends_with">ends_with</h2><pre><code class="language-kototype">|String, String| -&gt; Bool</code></pre><p>Returns <code>true</code> if the first string ends with the second string.</p><h3 id="string-example-4">Example</h3><pre><code class="language-koto">print &#39;abcdef&#39;.ends_with &#39;def&#39;
+# Expected output: true
+
+print &#39;xyz&#39;.ends_with &#39;abc&#39;
+# Expected output: false</code></pre><h2 id="string-escape">escape</h2><pre><code class="language-kototype">|String| -&gt; String</code></pre><p>Returns the string with characters replaced with escape codes.</p><p>For example, newlines get replaced with <code>\n</code>, tabs get replaced with <code>\t</code>.</p><h3 id="string-example-5">Example</h3><pre><code class="language-koto">print &#39;👋&#39;.escape()
+# Expected output: \u{1f44b}</code></pre><a class="anchor-alias" id="string-is-empty"></a><h2 id="string-is_empty">is_empty</h2><pre><code class="language-kototype">|String| -&gt; Bool</code></pre><p>Returns <code>true</code> if the string contains no characters.</p><h3 id="string-example-6">Example</h3><pre><code class="language-koto">print &#39;abcdef&#39;.is_empty()
+# Expected output: false
+
+print &#39;&#39;.is_empty()
+# Expected output: true</code></pre><a class="anchor-alias" id="string-from-bytes"></a><h2 id="string-from_bytes">from_bytes</h2><pre><code class="language-kototype">|Iterable| -&gt; String</code></pre><p>Returns a string containing the bytes that are produced by the input iterable. The iterable output must contain only Numbers in the <code>0..=255</code> range. The resulting sequence of bytes must contain UTF-8 data.</p><h3 id="string-example-7">Example</h3><pre><code class="language-koto">print string.from_bytes (72, 195, 171, 121, 33)
+# Expected output: Hëy!</code></pre><h3 id="string-see-also-3">See Also</h3><ul><li><a href="#string-bytes">KOTOTOKENX0X</a></li></ul><h2 id="string-lines">lines</h2><pre><code class="language-kototype">|String| -&gt; Iterator</code></pre><p>Returns an iterator that yields the lines contained in the input string.</p><h3 id="string-note-1">Note</h3><p>Lines end with either <code>\r\n</code> or <code>\n</code>.</p><h3 id="string-example-8">Example</h3><pre><code class="language-koto">print &#39;foo\nbar\nbaz&#39;.lines().to_tuple()
+# Expected output: (&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;)
+
+print &#39;\n\n\n&#39;.lines().to_tuple()
+# Expected output: (&#39;&#39;, &#39;&#39;, &#39;&#39;)</code></pre><h2 id="string-repeat">repeat</h2><pre><code class="language-kototype">|String, n: Number| -&gt; String</code></pre><p>Creates a new string by repeating the input <code>n</code> times.</p><h3 id="string-example-9">Example</h3><pre><code class="language-koto">print &#39;abc&#39;.repeat 3
+# Expected output: abcabcabc</code></pre><h2 id="string-replace">replace</h2><pre><code class="language-kototype">|String, match: String, replacement: String| -&gt; String</code></pre><p>Returns a copy of the input string with all occurrences of the <code>match</code> string replaced with a <code>replacement</code> string.</p><h3 id="string-example-10">Example</h3><pre><code class="language-koto">print &#39;10101&#39;.replace &#39;0&#39;, &#39;x&#39;
+# Expected output: 1x1x1</code></pre><h2 id="string-split">split</h2><pre><code class="language-kototype">|String, match: String| -&gt; Iterator</code></pre><p>Returns an iterator that yields strings resulting from splitting the first string wherever the <code>match</code> string is encountered.</p><pre><code class="language-kototype">|String, match: |String| -&gt; Bool| -&gt; Iterator</code></pre><p>Returns an iterator that yields strings resulting from splitting the input string based on the result of calling a <code>match</code> function.</p><p>The <code>match</code> function will be called for each grapheme in the input string, and splits will occur when the function returns true.</p><h3 id="string-example-11">Example</h3><pre><code class="language-koto">print &#39;a,b,c&#39;.split(&#39;,&#39;).to_tuple()
+# Expected output: (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+
+print &#39;O_O&#39;.split(&#39;O&#39;).to_tuple()
+# Expected output: (&#39;&#39;, &#39;_&#39;, &#39;&#39;)
+
+print &#39;x!y?z&#39;.split(|c| c == &#39;!&#39; or c == &#39;?&#39;).to_tuple()
+# Expected output: (&#39;x&#39;, &#39;y&#39;, &#39;z&#39;)</code></pre><a class="anchor-alias" id="string-starts-with"></a><h2 id="string-starts_with">starts_with</h2><pre><code class="language-kototype">|String, match: String| -&gt; Bool</code></pre><p>Returns <code>true</code> if the first string starts with the <code>match</code> string.</p><h3 id="string-example-12">Example</h3><pre><code class="language-koto">print &#39;abcdef&#39;.starts_with &#39;abc&#39;
+# Expected output: true
+
+print &#39;xyz&#39;.starts_with &#39;abc&#39;
+# Expected output: false</code></pre><a class="anchor-alias" id="string-to-lowercase"></a><h2 id="string-to_lowercase">to_lowercase</h2><pre><code class="language-kototype">|String| -&gt; String</code></pre><p>Returns a lowercase version of the input string.</p><h3 id="string-example-13">Example</h3><pre><code class="language-koto">print &#39;HÉLLÖ&#39;.to_lowercase()
+# Expected output: héllö
+
+print &#39;O_o&#39;.to_lowercase()
+# Expected output: o_o</code></pre><a class="anchor-alias" id="string-to-number"></a><h2 id="string-to_number">to_number</h2><pre><code class="language-kototype">|String| -&gt; Number?</code></pre><p>Returns the string converted into a number.</p><ul><li><code>0x</code>, <code>0o</code>, and <code>0b</code> prefixes will cause the parsing to treat the input as</li></ul><p>containing a hexadecimal, octal, or binary number respectively.</p><ul><li>Otherwise the number is assumed to be base 10, and the presence of a decimal</li></ul><p>point will produce a float instead of an integer.</p><p>If a number can&#39;t be produced then <code>null</code> is returned.</p><pre><code class="language-kototype">|String, base: Number| -&gt; Number?</code></pre><p>Returns the string converted into a number given the specified <code>base</code>.</p><p>The base must be an integer in the range <code>2..=36</code>, otherwise an error will be thrown.</p><p>If the string contains non-numerical digits then <code>null</code> is returned.</p><h3 id="string-example-14">Example</h3><pre><code class="language-koto">print &#39;123&#39;.to_number()
+# Expected output: 123
+
+print &#39;-8.9&#39;.to_number()
+# Expected output: -8.9
+
+print &#39;0x7f&#39;.to_number()
+# Expected output: 127
+
+print &#39;0b10101&#39;.to_number()
+# Expected output: 21
+
+print &#39;2N9C&#39;.to_number(36)
+# Expected output: 123456</code></pre><a class="anchor-alias" id="string-to-uppercase"></a><h2 id="string-to_uppercase">to_uppercase</h2><pre><code class="language-kototype">|String| -&gt; String</code></pre><p>Returns an uppercase version of the input string.</p><h3 id="string-example-15">Example</h3><pre><code class="language-koto">print &#39;héllö&#39;.to_uppercase()
+# Expected output: HÉLLÖ
+
+print &#39;O_o&#39;.to_uppercase()
+# Expected output: O_O</code></pre><h2 id="string-trim">trim</h2><pre><code class="language-kototype">|String| -&gt; String</code></pre><p>Returns the string with whitespace at the start and end of the string trimmed.</p><h3 id="string-example-16">Example</h3><pre><code class="language-koto">print &#39;   x    &#39;.trim()
+# Expected output: x
+
+print &#39;     !&#39;.trim()
+# Expected output: !</code></pre></section><section class="card doc-body" id="core-tuple"><h2>tuple</h2><h2 id="tuple-contains">contains</h2><pre><code class="language-kototype">|Tuple, value: Any| -&gt; Bool</code></pre><p>Returns <code>true</code> if the tuple contains a value that matches the input value.</p><p>Matching is performed with the <code>==</code> equality operator.</p><h3 id="tuple-example">Example</h3><pre><code class="language-koto">print (1, &quot;hello&quot;, [99, -1]).contains &quot;hello&quot;
+# Expected output: true
+
+print (&quot;goodbye&quot;, 123).contains &quot;hello&quot;
+# Expected output: false</code></pre><h2 id="tuple-first">first</h2><pre><code class="language-kototype">|Tuple| -&gt; Any?</code></pre><p>Returns the first value in the tuple, or <code>null</code> if the tuple is empty.</p><h3 id="tuple-example-1">Example</h3><pre><code class="language-koto">x = 99, -1, 42
+print x.first()
+# Expected output: 99
+
+print (,).first()
+# Expected output: null</code></pre><h2 id="tuple-get">get</h2><pre><code class="language-kototype">|Tuple, index: Number| -&gt; Any?</code></pre><pre><code class="language-kototype">|Tuple, index: Number, default: Any| -&gt; Any?</code></pre><p>Gets the Nth value in the tuple. If the tuple doesn&#39;t contain a value at that position then the provided <code>default</code> value is returned. If no default value is provided then <code>null</code> is returned.</p><h3 id="tuple-example-2">Example</h3><pre><code class="language-koto">x = 99, -1, 42
+
+print x.get 1
+# Expected output: -1
+
+print x.get -1
+# Expected output: null
+
+print x.get 5, &quot;abc&quot;
+# Expected output: abc</code></pre><a class="anchor-alias" id="tuple-is-empty"></a><h2 id="tuple-is_empty">is_empty</h2><pre><code class="language-kototype">|Tuple| -&gt; Bool</code></pre><p>Returns <code>true</code> if the tuple has a size of zero, and <code>false</code> otherwise.</p><h3 id="tuple-example-3">Example</h3><pre><code class="language-koto">print (,).is_empty()
+# Expected output: true
+
+print (1, 2, 3).is_empty()
+# Expected output: false</code></pre><h2 id="tuple-last">last</h2><pre><code class="language-kototype">|Tuple| -&gt; Any?</code></pre><p>Returns the last value in the tuple, or <code>null</code> if the tuple is empty.</p><h3 id="tuple-example-4">Example</h3><pre><code class="language-koto">x = 99, -1, 42
+print x.last()
+# Expected output: 42
+
+print (,).last()
+# Expected output: null</code></pre><a class="anchor-alias" id="tuple-sort-copy"></a><h2 id="tuple-sort_copy">sort_copy</h2><pre><code class="language-kototype">|Tuple| -&gt; Tuple</code></pre><p>Returns a sorted copy of the tuple.</p><pre><code class="language-kototype">|List, key: |Any| -&gt; Any| -&gt; List</code></pre><p>Returns a sorted copy of the tuple, based on the output of calling a <code>key</code> function for each of the tuple&#39;s elements.</p><p>The key function&#39;s result is cached, so it&#39;s only called once per value.</p><h3 id="tuple-example-5">Example</h3><pre><code class="language-koto">x = (1, -1, 99, 42)
+y = x.sort_copy()
+print y
+# Expected output: (-1, 1, 42, 99)
+
+print x # x remains untouched
+# Expected output: (1, -1, 99, 42)
+
+# Sort in reverse order by using a key function
+print x.sort_copy |n| -n
+# Expected output: (99, 42, 1, -1)</code></pre><a class="anchor-alias" id="tuple-to-list"></a><h2 id="tuple-to_list">to_list</h2><pre><code class="language-kototype">|Tuple| -&gt; List</code></pre><p>Returns a copy of the tuple&#39;s data as a list.</p><h3 id="tuple-example-6">Example</h3><pre><code class="language-koto">print (1, 2, 3).to_list()
+# Expected output: [1, 2, 3]</code></pre></section><section class="card doc-body" id="core-io"><h2>io</h2><p>A collection of utilities for working with the local filesystem.</p><h2 id="io-create">create</h2><pre><code class="language-kototype">|path: String| -&gt; File</code></pre><p>Returns an empty <a href="#io-file">KOTOTOKENX0X</a> at the provided path. If the file already exists it will be truncated.</p><h3 id="io-errors">Errors</h3><p>A runtime error will be thrown if the file can&#39;t be created.</p><h3 id="io-example">Example</h3><pre><code class="language-koto">f = io.create &quot;foo.temp&quot;
+f.write_line &quot;Hello&quot;
+f.read_to_string()
+# Hello</code></pre><a class="anchor-alias" id="io-current-dir"></a><h2 id="io-current_dir">current_dir</h2><pre><code class="language-kototype">|| -&gt; String?</code></pre><p>Returns the current working directory as a String, or <code>null</code> if the current directory can&#39;t be retrieved.</p><h2 id="io-exists">exists</h2><pre><code class="language-kototype">|path: String| -&gt; Bool</code></pre><p>Returns true if a file exists at the provided path.</p><h3 id="io-example-1">Example</h3><pre><code class="language-koto">path = &quot;foo.temp&quot;
+io.exists path
+# false
+
+io.create path
+io.exists path
+# true</code></pre><a class="anchor-alias" id="io-extend-path"></a><h2 id="io-extend_path">extend_path</h2><pre><code class="language-kototype">|path: String, nodes: Any...| -&gt; String</code></pre><p>Takes an initial path as a string, and extends it with the provided nodes, inserting a platform-appropriate separator between each node.</p><h3 id="io-example-2">Example</h3><pre><code class="language-koto"># On Windows
+io.extend_path &quot;.&quot;, &quot;foo&quot;, &quot;bar&quot;, &quot;baz.txt&quot;
+# .\foo\bar\baz.txt
+
+# On Linux
+io.extend_path &quot;.&quot;, &quot;foo&quot;, &quot;bar&quot;, &quot;baz.txt&quot;
+# ./foo/bar/baz.txt</code></pre><h2 id="io-open">open</h2><pre><code class="language-kototype">|path: String| -&gt; File</code></pre><p>Opens the file at the given path, and returns a corresponding <a href="#io-file">KOTOTOKENX0X</a>.</p><h3 id="io-errors-1">Errors</h3><p>An error is thrown if a file can&#39;t be opened at the given path.</p><h3 id="io-example-3">Example</h3><pre><code class="language-koto">f = io.open &quot;path/to/existing.file&quot;
+f.exists()
+# true</code></pre><h2 id="io-print">print</h2><pre><code class="language-kototype">|Any| -&gt; Null</code></pre><p>Prints a single value to the active output.</p><pre><code class="language-kototype">|Any, Any...| -&gt; Null</code></pre><p>Prints a series of values to the active output as a tuple.</p><h3 id="io-note">Note</h3><ul><li>To print formatted strings, see <a href="language-flow.html#string-formatting">KOTOTOKENX0X</a>.</li><li>The output for <code>print</code> depends on the configuration of the runtime.</li></ul><p>The default output is <code>stdout</code>.</p><a class="anchor-alias" id="io-read-to-string"></a><h2 id="io-read_to_string">read_to_string</h2><pre><code class="language-kototype">|path: String| -&gt; String</code></pre><p>Returns a string containing the contents of the file at the given path.</p><h3 id="io-errors-2">Errors</h3><p>Errors are thrown:</p><ul><li>if the file doesn&#39;t contain valid UTF-8 data.</li><li>if a file can&#39;t be opened at the given path.</li></ul><h3 id="io-example-4">Example</h3><pre><code class="language-koto">f = io.create &quot;foo.temp&quot;
+f.write_line &quot;Hello!&quot;
+io.read_to_string &quot;foo.temp&quot;
+# Hello!</code></pre><a class="anchor-alias" id="io-remove-file"></a><h2 id="io-remove_file">remove_file</h2><pre><code class="language-kototype">|path: String| -&gt; Null</code></pre><p>Removes the file at the given path.</p><h3 id="io-errors-3">Errors</h3><ul><li>An error is thrown if a file can&#39;t be removed at the given path.</li></ul><h3 id="io-example-5">Example</h3><pre><code class="language-koto">path = &quot;foo.temp&quot;
+io.create path
+io.exists path
+# true
+
+io.remove_file path
+io.exists path
+# false</code></pre><h2 id="io-stderr">stderr</h2><pre><code class="language-kototype">|| -&gt; File</code></pre><p>Returns the standard error output of the current process as a <a href="#io-file">KOTOTOKENX0X</a>.</p><h3 id="io-example-6">Example</h3><pre><code class="language-koto">io.stderr().write_line &quot;An error occurred!&quot;</code></pre><h3 id="io-see-also">See Also</h3><ul><li><a href="#io-stdin">KOTOTOKENX0X</a></li><li><a href="#io-stdout">KOTOTOKENX0X</a></li></ul><h2 id="io-stdin">stdin</h2><pre><code class="language-kototype">|| -&gt; File</code></pre><p>Returns the standard input of the current process as a <a href="#io-file">KOTOTOKENX0X</a>.</p><h3 id="io-example-7">Example</h3><pre><code class="language-koto">io.stdin().read_to_string()
+# &quot;...&quot;</code></pre><h3 id="io-see-also-1">See Also</h3><ul><li><a href="#io-stderr">KOTOTOKENX0X</a></li><li><a href="#io-stdout">KOTOTOKENX0X</a></li></ul><h2 id="io-stdout">stdout</h2><pre><code class="language-kototype">|| -&gt; File</code></pre><p>Returns the standard output of the current process as a <a href="#io-file">KOTOTOKENX0X</a>.</p><h3 id="io-example-8">Example</h3><pre><code class="language-koto">io.stdout().write_line &quot;Hello, World!&quot;</code></pre><h3 id="io-see-also-2">See Also</h3><ul><li><a href="#io-stderr">KOTOTOKENX0X</a></li><li><a href="#io-stdin">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="io-temp-dir"></a><h2 id="io-temp_dir">temp_dir</h2><pre><code class="language-kototype">|| -&gt; String</code></pre><p>Returns the path to a temporary directory.</p><h3 id="io-note-1">Note</h3><p>This defers to Rust&#39;s <code>std::env::temp_dir</code>, for details see <a href="https://doc.rust-lang.org/std/env/fn.temp_dir.html">its documentation</a>.</p><h2 id="io-file">File</h2><p>An object that represents a file handle.</p><h2 id="io-file-flush">File.flush</h2><pre><code class="language-kototype">|File| -&gt; Null</code></pre><p>Ensures that any buffered changes to the file have been written.</p><h3 id="io-see-also-3">See Also</h3><ul><li><a href="#io-file-write">KOTOTOKENX0X</a></li><li><a href="#io-file-write-line">KOTOTOKENX0X</a></li></ul><a class="anchor-alias" id="io-file-is-terminal"></a><h2 id="io-file-is_terminal">File.is_terminal</h2><pre><code class="language-kototype">|File| -&gt; Bool</code></pre><p>Returns <code>true</code> if the file refers to a terminal/tty.</p><h3 id="io-example-9">Example</h3><pre><code class="language-koto">next_line = if io.stdin().is_terminal()
+  print &#39;Please provide some input&#39;
+  io.stdin().read_line()
+else 
+  io.stdin().read_line()</code></pre><h2 id="io-file-path">File.path</h2><pre><code class="language-kototype">|File| -&gt; String</code></pre><p>Returns the file&#39;s path.</p><a class="anchor-alias" id="io-file-read-line"></a><h2 id="io-file-read_line">File.read_line</h2><pre><code class="language-kototype">|File| -&gt; String?</code></pre><p>Reads a line of output from the file as a string, not including the newline.</p><p>When the end of the file is reached, <code>null</code> will be returned.</p><h3 id="io-errors-4">Errors</h3><p>An error is thrown if the line doesn&#39;t contain valid UTF-8 data.</p><a class="anchor-alias" id="io-file-read-to-string"></a><h2 id="io-file-read_to_string">File.read_to_string</h2><pre><code class="language-kototype">|File| -&gt; String</code></pre><p>Reads the file&#39;s contents to a string.</p><h3 id="io-errors-5">Errors</h3><p>An error is thrown if the file doesn&#39;t contain valid UTF-8 data.</p><h2 id="io-file-seek">File.seek</h2><pre><code class="language-kototype">|File, position: Number| -&gt; Null</code></pre><p>Seeks within the file to the specified position in bytes.</p><h2 id="io-file-write">File.write</h2><pre><code class="language-kototype">|File, Any| -&gt; Null</code></pre><p>Writes the formatted value as a string to the file.</p><a class="anchor-alias" id="io-file-write-line"></a><h2 id="io-file-write_line">File.write_line</h2><pre><code class="language-kototype">|File, Any| -&gt; Null</code></pre><p>Writes the formatted value as a string, with a newline, to the file.</p></section><section class="card doc-body" id="core-os"><h2>os</h2><p>A collection of utilities for working with the operating system.</p><h2 id="os-command">command</h2><pre><code class="language-kototype">|program: String| -&gt; Command</code></pre><p>Creates a new <a href="#os-command-1">Command</a>, which supports executing external programs in separate processes.</p><p>Builder methods allow configuration of properties like <a href="#os-command-args">command arguments</a> or <a href="#os-command-env">environment variables</a> before <a href="#os-command-spawn">spawning</a> the program in a new process.</p><h3 id="os-example">Example</h3><pre><code class="language-koto">print os.command(&#39;ls&#39;)
+  .args(&#39;-al&#39;, &#39;/tmp&#39;)
+  .wait_for_output()
+  .stdout()
+# Expected output: ...</code></pre><h2 id="os-name">name</h2><pre><code class="language-kototype">|| -&gt; String</code></pre><p>Returns a string containing the name of the current operating system, e.g. &quot;linux&quot;, &quot;macos&quot;, &quot;windows&quot;, etc.</p><a class="anchor-alias" id="os-process-id"></a><h2 id="os-process_id">process_id</h2><pre><code class="language-kototype">|| -&gt; Number</code></pre><p>Returns the ID associated with the current process.</p><a class="anchor-alias" id="os-start-timer"></a><h2 id="os-start_timer">start_timer</h2><pre><code class="language-kototype">|| -&gt; Timer</code></pre><p>Returns a timer that can be used to measure how much time has passed while a script is running.</p><h3 id="os-example-1">Example</h3><pre><code class="language-koto">t = os.start_timer()
+
+# ...after some time...
+print &quot;Time taken: ${t.elapsed()}s&quot;
+
+t2 = os.start_timer()
+print &quot;Seconds between then and now: ${t2 - t}&quot;</code></pre><h2 id="os-time">time</h2><pre><code class="language-kototype">|| -&gt; DateTime</code></pre><p>Returns a <a href="#os-datetime">DateTime</a> set to the current time, using the local timezone.</p><pre><code class="language-kototype">|timestamp: Number| -&gt; DateTime</code></pre><p>Returns a <a href="#os-datetime">DateTime</a> set to the provided <code>timestamp</code> in seconds, using the local timezone.</p><pre><code class="language-kototype">|timestamp: Number, offset: Number| -&gt; DateTime</code></pre><p>Returns a <a href="#os-datetime">DateTime</a> set to the provided <code>timestamp</code> in seconds, using an <code>offset</code> in seconds.</p><h3 id="os-example-2">Example</h3><pre><code class="language-koto">print now = os.time()
+# e.g. 2021-12-11 21:51:14
+
+print now.year()
+# e.g. 2021
+
+print now.hour()
+# e.g. 21
+
+print now.timestamp()
+# e.g. 1639255874.53419</code></pre><h2 id="os-command-1">Command</h2><p>See <a href="#os-command">KOTOTOKENX0X</a></p><h2 id="os-command-args">Command.args</h2><pre><code class="language-kototype">|Command, args...| -&gt; Command</code></pre><p>Adds the given arguments to the command, and returns the command.</p><h3 id="os-example-3">Example</h3><pre><code class="language-koto">print os.command(&#39;ls&#39;)
+  .args(&#39;-al&#39;, &#39;/tmp&#39;)
+  .wait_for_output()
+  .stdout()
+# Expected output: ...</code></pre><a class="anchor-alias" id="os-command-current-dir"></a><h2 id="os-command-current_dir">Command.current_dir</h2><pre><code class="language-kototype">|Command, path: String| -&gt; Command</code></pre><p>Sets the command&#39;s working directory, and returns the command.</p><h3 id="os-example-4">Example</h3><pre><code class="language-koto">print os.command(&#39;ls&#39;)
+  .current_dir(&#39;/tmp&#39;)
+  .wait_for_output()
+  .stdout()
+# Expected output: ...</code></pre><h2 id="os-command-env">Command.env</h2><pre><code class="language-kototype">|Command, key: String, value: String| -&gt; Command</code></pre><p>Sets an environment variable, and returns the command.</p><h3 id="os-example-5">Example</h3><pre><code class="language-koto">assert os.command(&#39;env&#39;)
+  .env &#39;FOO&#39;, &#39;123&#39;
+  .wait_for_output()
+  .stdout()
+  .contains &#39;FOO=123&#39;</code></pre><a class="anchor-alias" id="os-command-env-clear"></a><h2 id="os-command-env_clear">Command.env_clear</h2><pre><code class="language-kototype">|Command| -&gt; Command</code></pre><p>Clears all environment variables for the command, and returns the command.</p><p>This prevents the command from inheriting any environment variables from the parent process.</p><h3 id="os-example-6">Example</h3><pre><code class="language-koto">assert os.command(&#39;env&#39;)
+  .env_clear()
+  .wait_for_output()
+  .stdout()
+  .is_empty()</code></pre><a class="anchor-alias" id="os-command-env-remove"></a><h2 id="os-command-env_remove">Command.env_remove</h2><pre><code class="language-kototype">|Command, key: String| -&gt; Command</code></pre><p>Removes the environment variable matching the given key, and returns the command.</p><h3 id="os-example-7">Example</h3><pre><code class="language-koto">assert os.command(&#39;env&#39;)
+  .env_clear()
+  .env &#39;FOO&#39;, &#39;123&#39;
+  .env_remove &#39;FOO&#39;
+  .wait_for_output()
+  .stdout()
+  .is_empty()</code></pre><h2 id="os-command-stdin">Command.stdin</h2><pre><code class="language-kototype">|Command, stream_config: String| -&gt; Command</code></pre><p>Configures the command&#39;s <code>stdin</code> stream.</p><p>Valid values of <code>stream_config</code> are:</p><ul><li><code>inherit</code>: the stream will be inherited from the parent process.</li><li><code>piped</code>: a pipe will be created to connect the parent and child processes.</li><li><code>null</code>: the stream will be ignored.</li></ul><p>The default stream behavior is <code>inherit</code> when the command is used with <code>spawn</code> or <code>wait_for_exit</code>, and <code>piped</code> when used with <code>wait_for_output</code>.</p><h2 id="os-command-stdout">Command.stdout</h2><pre><code class="language-kototype">|Command, stream_config: String| -&gt; Command</code></pre><p>Configures the command&#39;s <code>stdout</code> stream.</p><p>See <a href="#os-command-stdin">Command.stdin</a> for valid values of <code>stream_config</code>.</p><h2 id="os-command-stderr">Command.stderr</h2><pre><code class="language-kototype">|Command, stream_config: String| -&gt; Command</code></pre><p>Configures the command&#39;s <code>stderr</code> stream.</p><p>See <a href="#os-command-stdin">Command.stdin</a> for valid values of <code>stream_config</code>.</p><h2 id="os-command-spawn">Command.spawn</h2><pre><code class="language-kototype">|Command| -&gt; Child</code></pre><p>Executes the command, returning the command&#39;s <a href="#os-child">Child</a> process.</p><h3 id="os-example-8">Example</h3><pre><code class="language-koto">spawned = os.command(&#39;ls&#39;)
+  .stdout(&#39;piped&#39;)
+  .spawn()
+
+print spawned
+  .wait_for_output()
+  .stdout()
+# Expected output: ...</code></pre><a class="anchor-alias" id="os-command-wait-for-output"></a><h2 id="os-command-wait_for_output">Command.wait_for_output</h2><pre><code class="language-kototype">|Command| -&gt; CommandOutput</code></pre><p>Executes the command and waits for it to exit, returning its captured <a href="#os-commandoutput">output</a>.</p><h3 id="os-example-9">Example</h3><pre><code class="language-koto">print os.command(&#39;ls&#39;).wait_for_output().stdout()
+# Expected output: ...</code></pre><a class="anchor-alias" id="os-command-wait-for-exit"></a><h2 id="os-command-wait_for_exit">Command.wait_for_exit</h2><pre><code class="language-kototype">|Command| -&gt; Number?</code></pre><p>Executes the command and waits for it to exit, returning its exit code if the command exited normally, or <code>null</code> if it was interrupted.</p><h3 id="os-example-10">Example</h3><pre><code class="language-koto">print os.command(&#39;ls&#39;).wait_for_exit()
+# Expected output: 0</code></pre><h2 id="os-commandoutput">CommandOutput</h2><p>Contains captured output from a command, and information about how the command exited.</p><p>See <a href="#os-command-wait_for_output">Command.wait_for_output</a> and <a href="#os-child-wait-for-output">Child.wait_for_output</a>.</p><a class="anchor-alias" id="os-commandoutput-exit-code"></a><h2 id="os-commandoutput-exit_code">CommandOutput.exit_code</h2><pre><code class="language-kototype">|CommandOutput| -&gt; Number?</code></pre><p>Returns the command&#39;s exit code if available.</p><h2 id="os-commandoutput-success">CommandOutput.success</h2><pre><code class="language-kototype">|CommandOutput| -&gt; Bool</code></pre><p>Returns <code>true</code> if the command exited successfully.</p><h2 id="os-commandoutput-stdout">CommandOutput.stdout</h2><pre><code class="language-kototype">|CommandOutput| -&gt; String?</code></pre><p>Returns the contents of the command&#39;s <code>stdout</code> stream if it contains valid unicode, or <code>null</code> otherwise.</p><h3 id="os-see-also">See also</h3><ul><li><a href="#os-commandoutput-stdout_bytes">CommandOutput.stdout_bytes</a></li></ul><h2 id="os-commandoutput-stderr">CommandOutput.stderr</h2><pre><code class="language-kototype">|CommandOutput| -&gt; String?</code></pre><p>Returns the contents of the command&#39;s <code>stderr</code> stream if it contains valid unicode, or <code>null</code> otherwise.</p><a class="anchor-alias" id="os-commandoutput-stdout-bytes"></a><h2 id="os-commandoutput-stdout_bytes">CommandOutput.stdout_bytes</h2><pre><code class="language-kototype">|CommandOutput| -&gt; Iterator</code></pre><p>Returns an iterator that yields the bytes contained in the command&#39;s <code>stdout</code> stream.</p><a class="anchor-alias" id="os-commandoutput-stderr-bytes"></a><h2 id="os-commandoutput-stderr_bytes">CommandOutput.stderr_bytes</h2><pre><code class="language-kototype">|CommandOutput| -&gt; Iterator</code></pre><p>Returns an iterator that yields the bytes contained in the command&#39;s <code>stderr</code> stream.</p><h2 id="os-child">Child</h2><p>A handle to a child process, see <a href="#os-command-spawn">Command.spawn</a>.</p><h2 id="os-child-stdin">Child.stdin</h2><pre><code class="language-kototype">|Child| -&gt; File</code></pre><p>Returns the child process&#39;s <code>stdin</code> standard input stream as a <a href="core-library.html#io-file">File</a> that supports write operations.</p><h3 id="os-example-11">Example</h3><pre><code class="language-koto">spawned = os.command(&#39;cat&#39;)
+  .stdin &#39;piped&#39;
+  .spawn()
+
+stdin = spawned.stdin()
+stdin.write_line &#39;hello&#39;
+stdin.write_line &#39;one two three&#39;
+
+print spawned.wait_for_output().stdout()
+# Expected output: hello
+# Expected output: one two three</code></pre><h2 id="os-child-stdout">Child.stdout</h2><pre><code class="language-kototype">|Child| -&gt; File</code></pre><p>Returns the child process&#39;s <code>stdout</code> standard output stream as a <a href="core-library.html#io-file">File</a> that supports read operations.</p><p>Calling this function will prevent the stream from being included in <a href="#os-child-wait-for-output">wait_for_output</a>.</p><h2 id="os-child-stderr">Child.stderr</h2><pre><code class="language-kototype">|Child| -&gt; File</code></pre><p>Returns the child process&#39;s <code>stderr</code> standard error stream as a <a href="core-library.html#io-file">File</a> that supports read operations.</p><p>Calling this function will prevent the stream from being included in <a href="#os-child-wait-for-output">wait_for_output</a>.</p><a class="anchor-alias" id="os-child-has-exited"></a><h2 id="os-child-has_exited">Child.has_exited</h2><pre><code class="language-kototype">|Child| -&gt; Bool</code></pre><p>Returns <code>true</code> without blocking if the child process has exited, and <code>false</code> otherwise.</p><a class="anchor-alias" id="os-child-wait-for-output"></a><h2 id="os-child-wait_for_output">Child.wait_for_output</h2><pre><code class="language-kototype">|Child| -&gt; CommandOutput</code></pre><p>Closes all input and output streams, waits for the command to exit, and then returns the captured output.</p><p>Note that if the <code>stdout</code> or <code>stderr</code> streams were manually retrieved via <a href="#os-child-stdout">Child.stdout</a>/<a href="#os-child-stderr">Child.stderr</a> then they won&#39;t be included in the captured output.</p><a class="anchor-alias" id="os-child-wait-for-exit"></a><h2 id="os-child-wait_for_exit">Child.wait_for_exit</h2><pre><code class="language-kototype">|Child| -&gt; Number?</code></pre><p>Closes all input and output streams, waits for the command to exit, and then returns the command&#39;s exit code if available.</p><h2 id="os-datetime">DateTime</h2><p>See <a href="#os-time">KOTOTOKENX0X</a>.</p><h2 id="os-datetime-year">DateTime.year</h2><pre><code class="language-kototype">|DateTime| -&gt; Number</code></pre><p>Returns the year component of the provided DateTime.</p><h2 id="os-datetime-month">DateTime.month</h2><pre><code class="language-kototype">|DateTime| -&gt; Number</code></pre><p>Returns the month component of the provided DateTime.</p><h2 id="os-datetime-day">DateTime.day</h2><pre><code class="language-kototype">|DateTime| -&gt; Number</code></pre><p>Returns the day component of the provided DateTime.</p><h2 id="os-datetime-hour">DateTime.hour</h2><pre><code class="language-kototype">|DateTime| -&gt; Number</code></pre><p>Returns the hour component of the provided DateTime.</p><h2 id="os-datetime-minute">DateTime.minute</h2><pre><code class="language-kototype">|DateTime| -&gt; Number</code></pre><p>Returns the minute component of the provided DateTime.</p><h2 id="os-datetime-nanosecond">DateTime.nanosecond</h2><pre><code class="language-kototype">|DateTime| -&gt; Number</code></pre><p>Returns the nanosecond component of the provided DateTime.</p><h2 id="os-datetime-timestamp">DateTime.timestamp</h2><pre><code class="language-kototype">|DateTime| -&gt; Number</code></pre><p>Returns the number of seconds since 00:00:00 UTC on January 1st 1970.</p><a class="anchor-alias" id="os-datetime-timezone-offset"></a><h2 id="os-datetime-timezone_offset">DateTime.timezone_offset</h2><pre><code class="language-kototype">|DateTime| -&gt; Number</code></pre><p>Returns the DateTime&#39;s timezone offset in seconds.</p><a class="anchor-alias" id="os-datetime-timestamp-string"></a><h2 id="os-datetime-timestamp_string">DateTime.timestamp_string</h2><pre><code class="language-kototype">|DateTime| -&gt; String</code></pre><p>Returns a string representing the DateTime&#39;s timezone offset in seconds.</p><h2 id="os-timer">Timer</h2><p>See <a href="#os-start_timer">KOTOTOKENX0X</a>.</p><h2 id="os-timer-subtract">Timer.@- (subtract)</h2><pre><code class="language-kototype">|Timer, Timer| -&gt; Number</code></pre><p>Returns the time difference in seconds between two timers.</p><h3 id="os-example-12">Example</h3><pre><code class="language-koto">t1 = os.start_timer()
+t2 = os.start_timer()
+# t2 was started later than t1, so the time difference is positive
+assert (t2 - t1) &gt; 0
+# t1 was started earlier than t2, so the time difference is negative
+assert (t1 - t2) &lt; 0</code></pre><h2 id="os-timer-elapsed">Timer.elapsed</h2><pre><code class="language-kototype">|Timer| -&gt; Number</code></pre><p>Returns the number of seconds that have elapsed since the timer was started.</p><h3 id="os-example-13">Example</h3><pre><code class="language-koto">t = os.start_timer()
+
+# ...after some time...
+print &quot;Time taken: ${t.elapsed()}s&quot;</code></pre></section><section class="card doc-body" id="core-test"><h2>test</h2><p>A collection of utilities for writing tests.</p><h2 id="test-assert">assert</h2><pre><code class="language-kototype">|Bool| -&gt; Null</code></pre><p>Throws a runtime error if the argument if false.</p><h3 id="test-example">Example</h3><pre><code class="language-koto"># This assertion will pass, and no error will be thrown
+assert 1 &lt; 2
+
+# This assertion will fail and throw an error
+try 
+  assert 1 &gt; 2
+catch error
+  print error</code></pre><a class="anchor-alias" id="test-assert-eq"></a><h2 id="test-assert_eq">assert_eq</h2><pre><code class="language-kototype">|a: Any, b: Any| -&gt; Null</code></pre><p>Checks the two input values for equality and throws an error if they&#39;re not equal.</p><h3 id="test-example-1">Example</h3><pre><code class="language-koto"># This assertion will pass, and no error will be thrown
+assert_eq 1 + 1, 2
+
+# This assertion will fail and throw an error
+try 
+  assert_eq 2 + 2, 5
+catch error
+  print error</code></pre><a class="anchor-alias" id="test-assert-ne"></a><h2 id="test-assert_ne">assert_ne</h2><pre><code class="language-kototype">|a: Any, b: Any| -&gt; Null</code></pre><p>Checks the two input values for inequality and throws an error if they&#39;re equal.</p><h3 id="test-example-2">Example</h3><pre><code class="language-koto"># This assertion will pass, and no error will be thrown
+assert_ne 1 + 1, 3
+
+# This assertion will fail and throw an error
+try
+  assert_ne 2 + 2, 4
+catch error
+  print error</code></pre><a class="anchor-alias" id="test-assert-near"></a><h2 id="test-assert_near">assert_near</h2><pre><code class="language-kototype">|a: Number, b: Number| -&gt; Null</code></pre><pre><code class="language-kototype">|a: Number, b: Number, error_margin: Number| -&gt; Null</code></pre><p>Checks that the two input numbers are equal, within an allowed margin of error.</p><p>This is useful when testing floating-point operations, where the result can be close to a target with some acceptable imprecision.</p><p>The margin of error is optional, defaulting to <code>1.0e-12</code>.</p><h3 id="test-example-3">Example</h3><pre><code class="language-koto">allowed_error = 0.01
+# This assertion will pass, and no error will be thrown
+assert_near 1.3, 1.301, allowed_error
+
+# This assertion will fail and throw an error
+try
+  assert_near 1.3, 1.32, allowed_error
+catch error
+  print error
+# error: Assertion failed, &#39;1.3&#39; and &#39;1.32&#39; are not within 0.01 of each other
+
+# The allowed margin of error is optional, defaulting to a very small value
+assert_near 1 % 0.2, 0.2</code></pre><a class="anchor-alias" id="test-run-tests"></a><h2 id="test-run_tests">run_tests</h2><pre><code class="language-kototype">|tests: Map| -&gt; Null</code></pre><p>Runs the tests contained in the map.</p><h3 id="test-example-4">Example</h3><pre><code class="language-koto">my_tests =
+  @pre_test: || self.test_data = 1, 2, 3
+  @post_test: || self.test_data = null
+
+  @test data_size: || assert_eq self.test_data.size(), 3
+  @test failure: || assert_eq self.test_data.size(), 0
+
+try
+  test.run_tests my_tests
+catch error
+  print &quot;An error occurred while running my_tests:\n  {error}&quot;</code></pre></section></div><div class="doc-footer">Language syntax and core library pages are adapted from Koto v0.15.1 documentation. Kotoist-specific API and pattern sections follow Dexter-us/kotoist v0.2.9 sources. See included license and third-party notice files.</div></div></div></main></body></html>

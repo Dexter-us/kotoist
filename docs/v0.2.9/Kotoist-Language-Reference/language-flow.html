@@ -1,0 +1,342 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>Control flow &amp; iterators · Kotoist</title><style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151d31;--text:#eef3ff;--muted:#a9b7d2;--line:#31415f;--cyan:#67d9ef;--violet:#bca3ff;--green:#8ef0b3;--gold:#ffd38a;--max:1040px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at top left,#1b3156 0,transparent 45%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}a{color:var(--cyan);text-underline-offset:3px}a:hover{color:#a7f1ff}.wrap{max-width:var(--max);margin:auto;padding:28px 22px 72px}.hero{padding:42px 34px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(125deg,rgba(38,63,108,.88),rgba(25,29,55,.92));box-shadow:0 18px 55px #0005}.eyebrow{text-transform:uppercase;letter-spacing:.16em;color:var(--cyan);font-size:.78rem;font-weight:800}.hero h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;margin:.5rem 0}.hero p{max-width:760px;color:#d2def4;font-size:1.12rem}.pill{display:inline-block;margin-top:8px;border:1px solid #52688d;background:#111a2b;border-radius:999px;padding:6px 12px;color:var(--muted);font-size:.85rem}.nav{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 28px}.nav a{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#111a2b;text-decoration:none;font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card,section{border:1px solid var(--line);border-radius:18px;background:rgba(21,29,49,.92);padding:22px;margin:16px 0}.card h2,section h2{margin:.15rem 0 .8rem;font-size:1.35rem}.muted{color:var(--muted)}.callout{border-left:4px solid var(--gold);padding:12px 15px;background:#332a1c;border-radius:0 12px 12px 0;color:#ffebc8}pre{overflow:auto;padding:16px;border-radius:12px;background:#080c15;border:1px solid #28334a;color:#e4f1ff;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#c9f1ff}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{text-align:left;vertical-align:top;padding:11px 12px;border-bottom:1px solid var(--line)}th{color:var(--cyan);font-size:.9rem}.links{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.button{display:inline-block;padding:10px 15px;border-radius:10px;background:#1a6080;color:#fff;text-decoration:none;font-weight:700}.button.secondary{background:#33335c}.small{font-size:.9rem;color:var(--muted)}footer{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}@media(max-width:700px){.wrap{padding:14px 12px 45px}.hero{padding:28px 20px}.grid{grid-template-columns:1fr}.card,section{padding:18px}table{display:block;overflow-x:auto}}@media print{body{background:#fff;color:#111}.hero,.card,section{background:#fff;color:#111;border-color:#bbb;box-shadow:none}.muted,footer,.small{color:#444}a{color:#0645ad}.nav{display:none}}
+.docs-layout{display:grid;grid-template-columns:225px minmax(0,1fr);gap:18px;align-items:start;margin-top:20px}.docs-side{position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto;padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(21,29,49,.92)}.docs-side strong{display:block;margin:0 0 12px;color:var(--cyan)}.docs-side a{display:block;padding:8px 10px;margin:3px 0;border-radius:9px;color:var(--muted);text-decoration:none}.docs-side a:hover,.docs-side a.active{color:var(--text);background:#233452}.docs-main{min-width:0}.doc-hero{padding:23px 25px;margin-bottom:16px}.doc-hero h1{font-size:clamp(1.8rem,4vw,2.5rem);margin:.35rem 0}.doc-hero p{max-width:800px}.doc-body{padding:25px}.doc-body h1{font-size:1.8rem}.doc-body h2{margin-top:2rem;padding-top:.5rem;border-top:1px solid var(--line)}.doc-body h3{margin-top:1.5rem;color:var(--cyan)}.doc-body h4{color:var(--violet)}.doc-body code{overflow-wrap:anywhere}.doc-body pre{white-space:pre;overflow:auto;padding:14px 16px;background:#070b14;border:1px solid #2b3955;border-radius:12px}.doc-body pre code{white-space:pre}.doc-body table{width:100%;border-collapse:collapse;margin:1rem 0;display:table;overflow:visible}.doc-body th,.doc-body td{padding:9px 10px;border:1px solid var(--line);text-align:left;vertical-align:top}.doc-body th{background:#202d47;color:var(--cyan)}.doc-body blockquote{border-left:3px solid var(--violet);margin:1rem 0;padding:.25rem 1rem;color:var(--muted);background:#111a2a}.doc-body .source-note{padding:13px 15px;border-left:3px solid var(--gold);background:#1a2030;border-radius:8px;color:var(--muted)}.doc-body details{border:1px solid var(--line);border-radius:12px;padding:12px 15px;margin:20px 0;background:#111827}.doc-body summary{cursor:pointer;color:var(--cyan);font-weight:700}.doc-footer{margin-top:18px;padding:14px 8px;color:var(--muted);font-size:.84rem}.doc-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:14px}.doc-cards a{display:block;height:100%;color:var(--text);text-decoration:none}.doc-cards a:hover{border-color:var(--cyan)}.doc-cards h2{font-size:1.1rem;color:var(--cyan);border:0;margin:.1rem 0 .5rem}@media(max-width:800px){.docs-layout{grid-template-columns:1fr}.docs-side{position:static;max-height:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}.docs-side strong{grid-column:1/-1}.docs-side a{font-size:.9rem}.doc-body{padding:18px}.doc-body table{display:block;overflow-x:auto}}</style></head><body><main class="wrap"><div class="docs-layout"><aside class="docs-side"><strong>Kotoist Language Reference<br><small>Kotoist 0.2.9 · Koto 0.15.1</small></strong><a class="" href="index.html">Reference home</a><a class="" href="language-basics.html">Language basics</a><a class="active" href="language-flow.html">Control flow &amp; iterators</a><a class="" href="language-advanced.html">Advanced language</a><a class="" href="core-library.html">Core library</a><a class="" href="kotoist-api.html">Kotoist API</a><a class="" href="patterns.html">Pattern library</a><a class="" href="command-line.html">Command-line MIDI</a><a href="../Kotoist-Getting-Started.html">Kotoist Getting Started</a></aside><div class="docs-main"><header class="hero doc-hero"><div class="eyebrow">Dexter U.S. · Kotoist Language Reference</div><h1>Control flow &amp; iterators</h1><p>Conditionals, loops, iteration, ranges, types, and formatting.</p><span class="pill">Koto 0.15.1 · Kotoist 0.2.9</span></header><article class="card doc-body"><p class="source-note"><strong>Copying examples:</strong> The upstream Koto guide uses <code>print!</code> and <code>check!</code> markers for documentation tests. Here <code>print!</code> is shown as Kotoist’s <code>print</code>; <code>check!</code> lines are comments showing expected output.</p><h2 id="core-library">Core Library</h2><p>The _Core Library_ provides a collection of fundamental functions and values for working with the Koto language, organized within _modules_.</p><pre><code class="language-koto"># Get the size of a string
+print string.to_lowercase &#39;HELLO&#39;
+# Expected output: hello
+
+# Return the first element of the list
+print list.first [99, -1, 3]
+# Expected output: 99</code></pre><p>Values in Koto automatically have access to their corresponding core modules via <code>.</code> access.</p><pre><code class="language-koto">print &#39;xyz&#39;.to_uppercase()
+# Expected output: XYZ
+
+print [&#39;abc&#39;, 123].first()
+# Expected output: abc
+
+print (7 / 2).round()
+# Expected output: 4
+
+print {apples: 42, pears: 99}.contains_key &#39;apples&#39;
+# Expected output: true</code></pre><p>The documentation for the Core library (along with this guide) are available in the <code>help</code> command of the Koto CLI.</p><h3 id="prelude">Prelude</h3><p>Koto&#39;s _prelude_ is a collection of core library items that are automatically made available in a Koto script without the need for first calling <code>import</code>.</p><p>The modules that make up the core library are all included by default in the prelude. The following functions are also added to the prelude by default:</p><ul><li><a href="core-library.html#io-print">KOTOTOKENX0X</a></li><li><a href="core-library.html#koto-copy">KOTOTOKENX0X</a></li><li><a href="core-library.html#koto-size">KOTOTOKENX0X</a></li><li><a href="core-library.html#koto-type">KOTOTOKENX0X</a></li><li><a href="core-library.html#test-assert">KOTOTOKENX0X</a></li><li><a href="core-library.html#test-assert_eq">KOTOTOKENX0X</a></li><li><a href="core-library.html#test-assert_ne">KOTOTOKENX0X</a></li><li><a href="core-library.html#test-assert_near">KOTOTOKENX0X</a></li></ul><pre><code class="language-koto">print &#39;io.print is available without needing to be imported&#39;
+# Expected output: io.print is available without needing to be imported</code></pre>
+<h2 id="conditional-expressions">Conditional Expressions</h2><p>Koto includes several ways of producing values that depend on _conditions_.</p><h3 id="if"><code>if</code></h3><p><code>if</code> expressions come in two flavors; single-line:</p><pre><code class="language-koto">x = 99
+if x % 2 == 0 then print &#39;even&#39; else print &#39;odd&#39;
+# Expected output: odd</code></pre><p>...And multi-line using indented blocks:</p><pre><code class="language-koto">x = 24
+if x &lt; 0
+  print &#39;negative&#39;
+else if x &gt; 24
+  print &#39;no way!&#39;
+else
+  print &#39;ok&#39;
+# Expected output: ok</code></pre><p>The result of an <code>if</code> expression is the final expression in the branch that gets executed.</p><pre><code class="language-koto">x = if 1 + 1 == 2 then 3 else -1
+print x
+# Expected output: 3
+
+# Assign the result of the if expression to foo
+foo = if x &gt; 0
+  y = x * 10
+  y + 3
+else
+  y = x * 100
+  y * y
+
+print foo
+# Expected output: 33</code></pre><h3 id="switch"><code>switch</code></h3><p><code>switch</code> expressions can be used as a cleaner alternative to <code>if</code>/<code>else if</code>/<code>else</code> cascades.</p><pre><code class="language-koto">fib = |n|
+  switch
+    n &lt;= 0 then 0
+    n == 1 then 1
+    else (fib n - 1) + (fib n - 2)
+
+print fib 7
+# Expected output: 13</code></pre><h3 id="match"><code>match</code></h3><p><code>match</code> expressions can be used to match a value against a series of patterns, with the matched pattern causing a specific branch of code to be executed.</p><p>Patterns can be literals or identifiers. An identifier will accept any value, so they&#39;re often used with <code>if</code> conditions to refine the match.</p><pre><code class="language-koto">print match 40 + 2
+  0 then &#39;zero&#39;
+  1 then &#39;one&#39;
+  x if x &lt; 10 then &#39;less than 10: {x}&#39;
+  x if x &lt; 50 then &#39;less than 50: {x}&#39;
+  x then &#39;other: {x}&#39;
+# Expected output: less than 50: 42</code></pre><p>The <code>_</code> wildcard match can be used to match against any value (when the matched value itself can be ignored), and <code>else</code> can be used for fallback branches.</p><pre><code class="language-koto">fizz_buzz = |n|
+  match n % 3, n % 5
+    0, 0 then &quot;Fizz Buzz&quot;
+    0, _ then &quot;Fizz&quot;
+    _, 0 then &quot;Buzz&quot;
+    else n
+
+print (10, 11, 12, 13, 14, 15)
+  .each |n| fizz_buzz n
+  .to_tuple()
+# Expected output: (&#39;Buzz&#39;, 11, &#39;Fizz&#39;, 13, 14, &#39;Fizz Buzz&#39;)</code></pre><p>List and tuple entries can be matched against by using parentheses, with <code>...</code> available for capturing the rest of the sequence.</p><pre><code class="language-koto">print match [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;].extend [1, 2, 3]
+  (&#39;a&#39;, &#39;b&#39;) then &quot;A list containing &#39;a&#39; and &#39;b&#39;&quot;
+  (1, ...) then &quot;Starts with &#39;1&#39;&quot;
+  (..., &#39;y&#39;, last) then &quot;Ends with &#39;y&#39; followed by &#39;{last}&#39;&quot;
+  (&#39;a&#39;, x, others...) then
+    &quot;Starts with &#39;a&#39;, followed by &#39;{x}&#39;, then {size others} others&quot;
+  unmatched then &quot;other: {unmatched}&quot;
+# Expected output: Starts with &#39;a&#39;, followed by &#39;b&#39;, then 4 others</code></pre><h3 id="optional-chaining">Optional Chaining</h3><p>The <code>?</code> operator can be used to short-circuit expression chains where <code>null</code> might be encountered as an intermediate value. The <code>?</code> checks the current value in the expression chain and if <code>null</code> is found then the chain is short-circuited with <code>null</code> given as the expression&#39;s result.</p><p>This makes it easier to check for <code>null</code> when you want to avoid runtime errors.</p><pre><code class="language-koto">info = {town: &#39;Hamburg&#39;, country: &#39;Germany&#39;}
+
+# `info` contains a value for &#39;town&#39;, which is then passed to to_uppercase():
+print info.get(&#39;town&#39;)?.to_uppercase()
+# Expected output: HAMBURG
+
+# `info` doesn&#39;t contain a value for &#39;state&#39;,
+# so the `?` operator short-circuits the expression, resulting in `null`:
+print info.get(&#39;state&#39;)?.to_uppercase()
+# Expected output: null
+
+# Without the `?` operator an intermediate step is necessary:
+country = info.get(&#39;country&#39;)
+print if country then country.to_uppercase()
+# Expected output: GERMANY</code></pre><p>Multiple <code>?</code> checks can be performed in an expression chain:</p><pre><code class="language-koto">get_data = || {nested: {maybe_string: null}}
+print get_data()?
+  .get(&#39;nested&#39;)?
+  .get(&#39;maybe_string&#39;)?
+  .to_uppercase()
+# Expected output: null</code></pre>
+<h2 id="loops">Loops</h2><p>Koto includes several ways of evaluating expressions repeatedly in a loop.</p><h3 id="for"><code>for</code></h3><p><code>for</code> loops are repeated for each element in a sequence, such as a list or tuple.</p><pre><code class="language-koto">for n in [10, 20, 30]
+  print n
+# Expected output: 10
+# Expected output: 20
+# Expected output: 30</code></pre><h3 id="while"><code>while</code></h3><p><code>while</code> loops continue to repeat _while_ a condition is true.</p><pre><code class="language-koto">x = 0
+while x &lt; 5
+  x += 1
+print x
+# Expected output: 5</code></pre><h3 id="until"><code>until</code></h3><p><code>until</code> loops continue to repeat _until_ a condition is true.</p><pre><code class="language-koto">z = [1, 2, 3]
+until z.is_empty()
+  # Remove the last element of the list
+  print z.pop()
+# Expected output: 3
+# Expected output: 2
+# Expected output: 1</code></pre><h3 id="continue"><code>continue</code></h3><p><code>continue</code> skips the remaining part of a loop&#39;s body and proceeds with the next repetition of the loop.</p><pre><code class="language-koto">for n in (-2, -1, 1, 2)
+  # Skip over any values less than 0
+  if n &lt; 0
+    continue
+  print n
+# Expected output: 1
+# Expected output: 2</code></pre><h3 id="break"><code>break</code></h3><p>Loops can be terminated with the <code>break</code> keyword.</p><pre><code class="language-koto">x = 0
+while x &lt; 100000
+  if x &gt;= 3
+    # Break out of the loop when x is greater or equal to 3
+    break
+  x += 1
+print x
+# Expected output: 3</code></pre><p>A value can be provided to <code>break</code>, which is then used as the result of the loop.</p><pre><code class="language-koto">x = 0
+y = while x &lt; 100000
+  if x &gt;= 3
+    # Break out of the loop, providing x + 100 as the loop&#39;s result
+    break x + 100
+  x += 1
+print y
+# Expected output: 103</code></pre><h3 id="loop"><code>loop</code></h3><p><code>loop</code> creates a loop that will repeat indefinitely.</p><pre><code class="language-koto">x = 0
+y = loop
+  x += 1
+  # Stop looping when x is greater than 4
+  if x &gt; 4
+    break x * x
+print y
+# Expected output: 25</code></pre>
+<h2 id="iterators">Iterators</h2><p>The elements of a sequence can be accessed sequentially with an _iterator_, created using the <code>.iter()</code> function.</p><p>An iterator yields values via <code>.next()</code> until the end of the sequence is reached, when <code>null</code> is returned.</p><pre><code class="language-koto">i = [10, 20].iter()
+
+print i.next()
+# Expected output: IteratorOutput(10)
+print i.next()
+# Expected output: IteratorOutput(20)
+print i.next()
+# Expected output: null</code></pre><h3 id="iterator-generators">Iterator Generators</h3><p>The <code>iterator</code> module contains iterator _generators_ like <code>once</code> and <code>repeat</code> that generate output values _lazily_ during iteration.</p><pre><code class="language-koto"># Create an iterator that repeats ! twice
+i = iterator.repeat(&#39;!&#39;, 2)
+print i.next()
+# Expected output: IteratorOutput(!)
+print i.next()
+# Expected output: IteratorOutput(!)
+print i.next()
+# Expected output: null</code></pre><h3 id="iterator-adaptors">Iterator Adaptors</h3><p>The output of an iterator can be modified using _adaptors_ from the <code>iterator</code> module.</p><pre><code class="language-koto"># Create an iterator that keeps any value above 3
+x = [1, 2, 3, 4, 5].keep |n| n &gt; 3
+
+print x.next()
+# Expected output: IteratorOutput(4)
+print x.next()
+# Expected output: IteratorOutput(5)
+print x.next()
+# Expected output: null</code></pre><h3 id="using-iterators-with-for">Using iterators with <code>for</code></h3><p><code>for</code> loops accept any iterable value as input, including adapted iterators.</p><pre><code class="language-koto">for x in &#39;abacad&#39;.keep |c| c != &#39;a&#39;
+  print x
+# Expected output: b
+# Expected output: c
+# Expected output: d</code></pre><h3 id="iterator-chains">Iterator Chains</h3><p>Iterator adaptors can be passed into other adaptors, creating _iterator chains_ that act as data processing pipelines.</p><pre><code class="language-koto">i = (1, 2, 3, 4, 5)
+  .skip 1
+  .each |n| n * 10
+  .keep |n| n &lt;= 40
+  .intersperse &#39;--&#39;
+
+for x in i
+  print x
+# Expected output: 20
+# Expected output: --
+# Expected output: 30
+# Expected output: --
+# Expected output: 40</code></pre><h3 id="iterator-consumers">Iterator Consumers</h3><p>Iterators can also be _consumed_ using functions like <code>.to_list()</code> and <code>.to_tuple()</code>, allowing the output of an iterator to be easily captured in a container.</p><pre><code class="language-koto">print [1, 2, 3]
+  .each |n| n * 2
+  .to_tuple()
+# Expected output: (2, 4, 6)
+
+print (1, 2, 3, 4)
+  .keep |n| n % 2 == 0
+  .each |n| n * 11
+  .to_list()
+# Expected output: [22, 44]</code></pre>
+<h2 id="value-unpacking">Value Unpacking</h2><p>Multiple assignments can be performed in a single expression by separating the variable names with commas.</p><pre><code class="language-koto">a, b = 10, 20
+print a, b
+# Expected output: (10, 20)</code></pre><p>If there&#39;s a single value being assigned, and the value is iterable, then it gets _unpacked_ into the target variables.</p><pre><code class="language-koto">my_tuple = 1, 2
+x, y = my_tuple
+print y, x
+# Expected output: (2, 1)</code></pre><p>Unpacking works with any iterable value, including adapted iterators.</p><pre><code class="language-koto">a, b, c = [1, 2, 3, 4, 5]
+print a, b, c
+# Expected output: (1, 2, 3)
+
+x, y, z = &#39;a-b-c&#39;.split &#39;-&#39;
+print x, y, z
+# Expected output: (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)</code></pre><p>If the value being unpacked doesn&#39;t contain enough values for the assignment, then <code>null</code> is assigned to any remaining variables.</p><pre><code class="language-koto">a, b, c = [-1, -2]
+print a, b, c
+# Expected output: (-1, -2, null)
+
+x, y, z = 42
+print x, y, z
+# Expected output: (42, null, null)</code></pre><p>Unpacking can also be used in <code>for</code> loops, which is particularly useful when looping over the contents of a map.</p><pre><code class="language-koto">my_map = {foo: 42, bar: 99}
+for key, value in my_map
+  print key, value
+# Expected output: (&#39;foo&#39;, 42)
+# Expected output: (&#39;bar&#39;, 99)</code></pre>
+<h2 id="generators">Generators</h2><p>Generators are iterators that are made by calling _generator functions_, which are any functions that contain a <code>yield</code> expression.</p><p>The generator is paused each time <code>yield</code> is encountered, waiting for the caller to continue execution.</p><pre><code class="language-koto">my_first_generator = ||
+  yield 1
+  yield 2
+
+x = my_first_generator()
+print x.next()
+# Expected output: IteratorOutput(1)
+print x.next()
+# Expected output: IteratorOutput(2)
+print x.next()
+# Expected output: null</code></pre><p>Generator functions can accept arguments like any other function, and each time they&#39;re called a new generator is created.</p><p>As with any other iterable value, the <code>iterator</code> module&#39;s functions are made available to generators.</p><pre><code class="language-koto">make_generator = |x|
+  for y in (1, 2, 3)
+    yield x + y
+
+print make_generator(0).to_tuple()
+# Expected output: (1, 2, 3)
+print make_generator(10)
+  .keep |n| n % 2 == 1
+  .to_list()
+# Expected output: [11, 13]</code></pre><h3 id="custom-iterator-adaptors">Custom Iterator Adaptors</h3><p>Generators can also serve as _iterator adaptors_ by modifying the output of another iterator.</p><p>Inserting a generator into the <code>iterator</code> module makes it available in any iterator chain.</p><pre><code class="language-koto"># Make an iterator adaptor that yields every
+# other value from the adapted iterator
+iterator.every_other = ||
+  n = 0
+  # When the generator is created, self is initialized with the previous
+  # iterator in the chain, allowing its output to be adapted.
+  for output in self
+    # If n is even, then yield a value
+    if n % 2 == 0
+      yield output
+    n += 1
+
+print (1, 2, 3, 4, 5)
+  .each |n| n * 10
+  .every_other() # Skip over every other value in the iterator chain
+  .to_list()
+# Expected output: [10, 30, 50]</code></pre>
+<h2 id="ranges">Ranges</h2><p>Ranges of integers can be created with <code>..</code> or <code>..=</code>.</p><p><code>..</code> creates a _non-inclusive_ range, which defines a range up to but _not including_ the end of the range.</p><pre><code class="language-koto"># Create a range from 10 to 20, not including 20
+print r = 10..20
+# Expected output: 10..20
+print r.start()
+# Expected output: 10
+print r.end()
+# Expected output: 20
+print r.contains 20
+# Expected output: false</code></pre><p><code>..=</code> creates an _inclusive_ range, which includes the end of the range.</p><pre><code class="language-koto"># Create a range from 10 to 20, including 20
+print r = 10..=20
+# Expected output: 10..=20
+print r.contains 20
+# Expected output: true</code></pre><p>If a value is missing from either side of the range operator then an _unbounded_ range is created.</p><pre><code class="language-koto"># Create an unbounded range starting from 10
+r = 10..
+print r.start()
+# Expected output: 10
+print r.end()
+# Expected output: null
+
+# Create an unbounded range up to and including 100
+r = ..=100
+print r.start()
+# Expected output: null
+print r.end()
+# Expected output: 100</code></pre><p>_Bounded_ ranges are declared as iterable, so they can be used in for loops and with the <code>iterator</code> module.</p><pre><code class="language-koto">for x in 1..=3
+  print x
+# Expected output: 1
+# Expected output: 2
+# Expected output: 3
+
+print (0..5).to_list()
+# Expected output: [0, 1, 2, 3, 4]</code></pre><h3 id="slices">Slices</h3><p>Ranges can be used to create a _slice_ of a container&#39;s data.</p><pre><code class="language-koto">x = (10, 20, 30, 40, 50)
+print x[1..=3]
+# Expected output: (20, 30, 40)</code></pre><p>For immutable containers like tuples and strings, slices share the original value&#39;s data, with no copies being made.</p><p>For mutable containers like lists, creating a slice makes a copy of the sliced portion of the underlying data.</p><pre><code class="language-koto">x = &#39;abcdef&#39;
+# No copies are made when a string is sliced
+print y = x[3..6]
+# Expected output: def
+
+a = [1, 2, 3]
+# When a list is sliced, the sliced elements get copied into a new list
+print b = a[0..2]
+# Expected output: [1, 2]
+print b[0] = 42
+# Expected output: 42
+print a[0]
+# Expected output: 1</code></pre><p>When creating a slice with an unbounded range, if the start of the range if omitted then the slice starts from the beginning of the container. If the end of the range is omitted, then the slice includes all remaining elements in the container.</p><pre><code class="language-koto">z = &#39;Hëllø&#39;.to_tuple()
+print z[..2]
+# Expected output: (&#39;H&#39;, &#39;ë&#39;)
+print z[2..]
+# Expected output: (&#39;l&#39;, &#39;l&#39;, &#39;ø&#39;)</code></pre>
+<h2 id="type-checks">Type Checks</h2><p>Koto is a primarily a dynamically typed language, however in more complex programs you might find it beneficial to add type checks.</p><p>These checks can help in catching errors earlier, and can also act as documentation for the reader.</p><p>One way to add type checks to your program is to use the <code>type</code> function, which returns a value&#39;s type as a string.</p><pre><code class="language-koto">x = 123
+assert_eq (type x), &#39;Number&#39;</code></pre><p>Checking types this way is rather verbose, so Koto offers _type hints_ as a more ergonomic alternative.</p><h3 id="let"><code>let</code></h3><p>You can declare variables with type hints using a <code>let</code> expression.</p><p>If a value is assigned that doesn&#39;t match the declared type then an error will be thrown.</p><pre><code class="language-koto">let x: String = &#39;hello&#39;
+print x
+# Expected output: hello
+
+let a: Number, _, c: Bool = 123, x, true
+print a, c
+# Expected output: (123, true)</code></pre><h3 id="for-arguments"><code>for</code> arguments</h3><p>Type hints can also be added to <code>for</code> loop arguments. The type will be checked on each iteration of the loop.</p><pre><code class="language-koto">for i: Number, s: String in &#39;abc&#39;.enumerate()
+  print i, s
+# Expected output: (0, &#39;a&#39;)
+# Expected output: (1, &#39;b&#39;)
+# Expected output: (2, &#39;c&#39;)</code></pre><h3 id="functions">Functions</h3><p>Function arguments can also be given type hints, and the type of the return value can be checked with the <code>-&gt;</code> operator.</p><pre><code class="language-koto">f = |s: String| -&gt; Tuple
+  s.to_tuple()
+print f &#39;abc&#39;
+# Expected output: (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)</code></pre><p>For <a href="#generators">generator functions</a>, the <code>-&gt;</code> type hint is used to check the generator&#39;s <code>yield</code> expressions.</p><pre><code class="language-koto">g = || -&gt; Number
+  yield 1
+  yield 2
+  yield 3
+print g().to_tuple()
+# Expected output: (1, 2, 3)</code></pre><h3 id="match-patterns"><code>match</code> patterns</h3><p>Type hints can be used in <code>match</code> patterns to check the type of the a value. Rather than throwing an error, if a type check fails then the next match pattern will be attempted.</p><pre><code class="language-koto">print match &#39;abc&#39;
+  x: Tuple then x
+  x: String then x.to_tuple()
+# Expected output: (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)</code></pre><h3 id="optional-values">Optional Values</h3><p>Sometimes a value can either be of a particular type, or otherwise it should <code>null</code>.</p><p>These kinds of values are referred to as _optional_, and are useful for functions or expressions that return either a valid value, or nothing at all.</p><p>Optional value types are expressed by appending <code>?</code> to the type hint.</p><pre><code class="language-koto">m = {foo: &#39;hi!&#39;}
+
+print let foo: String? = m.get(&#39;foo&#39;)?.to_uppercase()
+# Expected output: HI!
+
+print let bar: String? = m.get(&#39;bar&#39;)?.to_uppercase()
+# Expected output: null</code></pre><h3 id="special-types">Special Types</h3><h4 id="any"><code>Any</code></h4><p>The <code>Any</code> type will result in a successful check with any value.</p><pre><code class="language-koto">print let x: Any = &#39;hello&#39;
+# Expected output: hello</code></pre><h4 id="callable"><code>Callable</code></h4><p>The <code>Callable</code> type hint will accept functions, or any object that can behave like a function.</p><pre><code class="language-koto">let say_hello: Callable = || &#39;hello&#39;
+print say_hello()
+# Expected output: hello</code></pre><h4 id="indexable"><code>Indexable</code></h4><p>The <code>Indexable</code> type hint will accept any value that supports <code>[]</code> indexing.</p><pre><code class="language-koto">add_first_two = |x: Indexable| x[0] + x[1]
+print add_first_two (100, 99, -1)
+# Expected output: 199</code></pre><h4 id="iterable"><code>Iterable</code></h4><p>The <code>Iterable</code> type is useful when any iterable value can be accepted.</p><pre><code class="language-koto">let a: Iterable, b: Iterable = [1, 2], 3..=5
+print a.chain(b).to_tuple()
+# Expected output: (1, 2, 3, 4, 5)</code></pre>
+<h2 id="string-formatting">String Formatting</h2><p>Interpolated string expressions can be formatted using formatting options similar to Rust&#39;s.</p><p>Inside an interpolated expression, options are provided after a <code>:</code> separator.</p><pre><code class="language-koto">print &#39;{number.pi:𝜋^8.2}&#39;
+# Expected output: 𝜋𝜋3.14𝜋𝜋</code></pre><h3 id="minimum-width-and-alignment">Minimum Width and Alignment</h3><p>A minimum width can be specified, ensuring that the formatted value takes up at least that many characters.</p><pre><code class="language-koto">foo = &quot;abcd&quot;
+print &#39;_{foo:8}_&#39;
+# Expected output: _abcd    _</code></pre><p>The minimum width can be prefixed with an alignment modifier:</p><ul><li><code>&lt;</code> - left-aligned</li><li><code>^</code> - centered</li><li><code>&gt;</code> - right-aligned</li></ul><pre><code class="language-koto">foo = &quot;abcd&quot;
+print &#39;_{foo:^8}_&#39;
+# Expected output: _  abcd  _</code></pre><p>All values are left-aligned if an alignment modifier isn&#39;t specified, except for numbers which are right-aligned by default.</p><pre><code class="language-koto">x = 1.2
+print &#39;_{x:8}_&#39;
+# Expected output: _     1.2_</code></pre><p>The alignment modifier can be prefixed with a character which will be used to fill any empty space in the formatted string (the default character being <code> </code>).</p><pre><code class="language-koto">x = 1.2
+print &#39;_{x:~&lt;8}_&#39;
+# Expected output: _1.2~~~~~_</code></pre><p>For numbers, the minimum width can be prefixed with <code>0</code>, which will pad the number to the specified width with zeroes.</p><pre><code class="language-koto">x = 1.2
+print &#39;{x:06}&#39;
+# Expected output: 0001.2</code></pre><h3 id="maximum-width-precision">Maximum Width / Precision</h3><p>A maximum width for the interpolated expression can be specified following a <code>.</code> character.</p><pre><code class="language-koto">foo = &quot;abcd&quot;
+print &#39;{foo:_^8.2}&#39;
+# Expected output: ___ab___</code></pre><p>For numbers, the maximum width acts as a &#39;precision&#39; value, or in other words, the number of decimal places that will be rendered for the number.</p><pre><code class="language-koto">x = 1 / 3
+print &#39;{x:.4}&#39;
+# Expected output: 0.3333</code></pre></article><div class="doc-footer">Language syntax and core library pages are adapted from Koto v0.15.1 documentation. Kotoist-specific API and pattern sections follow Dexter-us/kotoist v0.2.9 sources. See included license and third-party notice files.</div></div></div></main></body></html>
