@@ -259,9 +259,8 @@ fn bottom_panel(
             .last_midi_out_event_at
             .as_ref()
             .is_some_and(|last| last.elapsed() < Duration::from_millis(450));
-        if midi_out_active {
-            ui.ctx().request_repaint_after(Duration::from_millis(50));
-        }
+        // Poll the audio-thread MIDI counter even when the plugin window is idle.
+        ui.ctx().request_repaint_after(Duration::from_millis(50));
         let indicator = if midi_out_active {
             egui::RichText::new("MIDI OUT ●")
                 .small()
