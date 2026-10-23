@@ -148,6 +148,7 @@ impl Plugin for Kotoist {
 
                         match e {
                             PluginNoteEvent::<Self>::NoteOn { channel, note, .. } => {
+                                self.params.record_midi_out_event();
                                 Some(PianoRollEvent {
                                     channel,
                                     pitch: note % 36,

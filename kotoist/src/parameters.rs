@@ -17,6 +17,7 @@ use crate::pipe::PipeIn;
 pub(crate) struct Parameters {
     interpreter_sender: mpsc::Sender<InterpreterMessage>,
     piano_roll_sender: mpsc::Sender<Vec<PianoRollEvent>>,
+    midi_out_activity_count: Arc<AtomicUsize>,
     cursor_in_beats: Arc<AtomicF32>,
     gl_context_valid: Arc<AtomicBool>,
     pub(crate) orchestrator: Arc<Mutex<Orchestrator>>,
@@ -46,6 +47,7 @@ impl Parameters {
             orchestrator: orchestrator.clone(),
             selected_snippet: Default::default(),
             piano_roll_sender,
+            midi_out_activity_count: Arc::new(AtomicUsize::new(0)),
             gl_context_valid: Default::default(),
             snippets,
             editor_state: EguiState::from_size(WINDOW_SIZE.0, WINDOW_SIZE.1),
@@ -136,6 +138,14 @@ impl Parameters {
 
     pub(crate) fn send_piano_roll_events(&self, events: Vec<PianoRollEvent>) {
         let _ = self.piano_roll_sender.send(events);
+    }
+
+    pub(crate) fn record_midi_out_event(&self) {
+        self.midi_out_activity_count.fetch_add(1, Ordering::Relaxed);
+    }
+
+    pub(crate) fn midi_out_activity_count(&self) -> usize {
+        self.midi_out_activity_count.load(Ordering::Relaxed)
     }
 
     pub(crate) fn set_selected_snippet_index(&self, index: usize) {

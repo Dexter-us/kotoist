@@ -1,4 +1,5 @@
 use std::sync::{mpsc, Arc, Mutex};
+use std::time::{Duration, Instant};
 
 use egui;
 use egui::containers::ScrollArea;
@@ -249,6 +250,31 @@ fn bottom_panel(
             state.file_name = "My Script".to_owned();
             state.file_notice.clear();
         }
+        let event_count = params.midi_out_activity_count();
+        if event_count != state.last_midi_out_event_count {
+            state.last_midi_out_event_count = event_count;
+            state.last_midi_out_event_at = Some(Instant::now());
+        }
+        let midi_out_active = state
+            .last_midi_out_event_at
+            .as_ref()
+            .is_some_and(|last| last.elapsed() < Duration::from_millis(450));
+        if midi_out_active {
+            ui.ctx().request_repaint_after(Duration::from_millis(50));
+        }
+        let indicator = if midi_out_active {
+            egui::RichText::new("MIDI OUT ●")
+                .small()
+                .color(egui::Color32::LIGHT_GREEN)
+        } else {
+            egui::RichText::new("MIDI OUT ○")
+                .small()
+                .color(ui.visuals().weak_text_color())
+        };
+        let _ = ui
+            .label(indicator)
+            .on_hover_text("Green means Kotoist recently sent a note-on event to the host.");
+
         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
             if ui.button("🚀 Run").clicked() {
                 params
@@ -445,4 +471,6 @@ struct GuiState {
     file_dialog: Option<ScriptDialog>,
     file_name: String,
     file_notice: String,
+    last_midi_out_event_count: usize,
+    last_midi_out_event_at: Option<Instant>,
 }
